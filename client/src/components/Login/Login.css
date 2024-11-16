@@ -1,0 +1,49 @@
+.log-usuario {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.log-usuario-form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-between;
+  align-items: center;
+  width: 600px;
+  gap: 10px;
+}
+
+.log-usuario-form input {
+  width: 100%;
+  height: 36px;
+  border-radius: 5px;
+  border: 2px solid #215f99;
+}
+
+.log-usuario-form-button {
+  padding: 10px;
+  width: 100%;
+  background-color: #215f99;
+  color: white;
+  cursor: pointer;
+}
+
+.log-usuario-form-button:hover {
+  background-color: #df7802;
+  border-color: #df7802;
+}
+
+.register-usuario-button {
+  padding: 15px 50px;
+  max-width: 100%;
+  background-color: rgb(0, 51, 181);
+  color: white;
+  cursor: pointer;
+}
+
+.nuevo-usuario-form button:hover {
+  background-color: #df7802;
+  border-color: #df7802;
+}

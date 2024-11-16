@@ -1,0 +1,43 @@
+.contenedorFormulario {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  padding: 20px;
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  align-items: flex-start;
+}
+
+.contenedorFormulario input {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  height: 35px;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.contenedorFormulario label {
+  display: flex;
+  text-align: fleft;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.contenedorFormulario form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.botonEnviar {
+  background-color: green;
+  width: 95%;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}

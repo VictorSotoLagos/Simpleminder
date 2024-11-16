@@ -1,0 +1,33 @@
+.detalle-pelicula {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 400px;
+  padding: 20px;
+  margin-top: 20px;
+  border-width: 1px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.informacion-pelicula {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 400px;
+  padding: 20px;
+  margin-top: 20px;
+  border-width: 1px;
+}
+
+.imagen-pelicula {
+  width: 300px;
+}
+
+.boton-editar {
+  color: white;
+  background-color: #0000c3;
+  width: 300px;
+  margin-top: 10px;
+}

@@ -1,0 +1,48 @@
+#root {
+  display: flex;
+  max-width: 1300px;
+  padding: 10px;
+  margin: 0;
+  align-items: left;
+  flex-direction: column;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 20px;
+}
+
+/* Acá está la alineación horizontal row del menu respecto del resto de los contenidos */
+
+.main {
+  display: flex;
+  width: 1200px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 20px;
+  border: 1px solid #215f99;
+  border-width: 3px;
+  border-radius: 5px;
+}
+
+.main-container {
+  width: 50%;
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.logo {
+  width: 400px;
+}

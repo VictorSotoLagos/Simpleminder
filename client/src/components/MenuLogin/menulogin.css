@@ -1,0 +1,71 @@
+.menulogin {
+  display: flex;
+  padding: 10px 15px;
+  width: 500px;
+  height: 600px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+  padding: 15px 25px;
+  color: #262626;
+  background-color: #ffffff;
+
+  border-radius: 5px;
+}
+
+.menulogin ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 0px;
+}
+
+.menulogin ul li {
+  margin: 0 30px; /* Añadir margen a los elementos li */
+}
+
+.menulogin ul a {
+  font-weight: 500;
+  text-decoration: inherit;
+  font-style: normal;
+}
+
+ul li .nav-link:hover {
+  color: #ff950a;
+  transition-duration: 0.3s;
+}
+
+ul li .nav-link-on {
+  color: #ff950a;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+
+.logout {
+  background-color: rgb(255, 104, 10);
+  color: rgb(28, 28, 28);
+  border-color: black;
+  width: 100%;
+}
+
+.logout:hover {
+  background-color: rgb(255, 181, 10);
+  color: rgb(28, 28, 28);
+  border-color: black;
+  transition-duration: 0.3s;
+}
+
+.logout-form {
+  display: flex;
+  font-size: 14px;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px;
+  padding: 0px;
+  gap: 0px;
+  text-align: center;
+}
