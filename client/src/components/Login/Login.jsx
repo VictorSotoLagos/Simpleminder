@@ -8,6 +8,7 @@ import { UsuarioContext } from "../../contexts/UsuarioContext.jsx";
 import { isTokenExpired } from "../../helpers/istokenexpired.js";
 
 const LoginUser = () => {
+  //THIS IS SIMPLEMINDER
   const { setUsuario } = useContext(UsuarioContext);
   const { token, setToken } = useContext(UsuarioContext);
 
