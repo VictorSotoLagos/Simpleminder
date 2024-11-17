@@ -23,7 +23,7 @@ const MenuLogin = () => {
           </li>
           <li>
             <NavLink
-              to="/newuser"
+              to="/nuevopaciente"
               end
               className={({ isActive }) =>
                 isActive ? "nav-link nav-link-on" : "nav-link"

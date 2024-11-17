@@ -8,15 +8,15 @@ const UsuarioContext = createContext(); //Creamos el contexto
 
 const UsuarioContextComponent = ({ children }) => {
   //Creamos un componente.
-  const [usuario, setUsuario] = useState(
-    JSON.parse(localStorage.getItem("usuario"))
+  const [paciente, setPaciente] = useState(
+    JSON.parse(localStorage.getItem("paciente"))
   ); //Estado inicial del contexto.
   const [token, setToken] = useState(localStorage.getItem("token"));
   console.log("token desde context es:", token);
 
   const datosContexto = {
-    usuario,
-    setUsuario,
+    paciente,
+    setPaciente,
     token,
     setToken,
   };

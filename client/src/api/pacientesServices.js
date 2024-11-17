@@ -1,7 +1,7 @@
 import api from "./axiosConfig";
 
-const fetchUsers = async () => {
-    const response = await api.get("/user"); // Con la implementación del profe sacamos el "try" y su correspondiente "catch".
+const fetchPacientes = async () => {
+    const response = await api.get("/pacientes"); // Con la implementación del profe sacamos el "try" y su correspondiente "catch".
     console.log("response.data es:", response.data)
     return response.data;
   };
@@ -13,9 +13,9 @@ return response.data;
   };
 */
 
-  const addUser = async (nuevoUsuario) => {
+  const addPaciente = async (nuevoPaciente) => {
     try {
-      const response = await api.post("/user/add", nuevoUsuario);
+      const response = await api.post("/pacientes/add", nuevoPaciente);
       return response.data;
     } catch (error) {
       
@@ -25,16 +25,16 @@ return response.data;
   };
 
 
-  const deleteUser = async (idUsuarioBorrar) => {
-    const response = await api.delete(`/user/${idUsuarioBorrar}`); // Con la implementación del profe sacamos el "try" y su correspondiente "catch".
+  const deletePaciente = async (idPacienteBorrar) => {
+    const response = await api.delete(`/pacientes/${idPacienteBorrar}`); // Con la implementación del profe sacamos el "try" y su correspondiente "catch".
     console.log("response.data es:", response.data)
     return response.data;
     };
 
-    const putUser = async (id, usuarioParaActualizar) => {
+    const putPaciente = async (id, pacienteParaActualizar) => {
     console.log("usuarioParaActualizar._id es:", id);
-    console.log ("usuarioParaActualizar es:", usuarioParaActualizar);
-    const response = await api.put(`/user/${id}`, usuarioParaActualizar); // Con la implementación del profe sacamos el "try" y su correspondiente "catch".
+    console.log ("usuarioParaActualizar es:", pacienteParaActualizar);
+    const response = await api.put(`/pacientes/${id}`, pacienteParaActualizar); // Con la implementación del profe sacamos el "try" y su correspondiente "catch".
     console.log("usuario actualizado es",  response.data)
     return response.data;
   };
@@ -47,4 +47,4 @@ return response.data;
   };
   */
 
-export { fetchUsers, addUser, deleteUser, putUser }; 
+export { fetchPacientes, addPaciente, deletePaciente, putPaciente }; 

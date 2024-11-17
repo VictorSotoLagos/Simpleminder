@@ -77,7 +77,7 @@ const getPacienteID = async (req, res) => {
             res
             .cookie('authToken', token, { httpOnly: true, secure: true })
             .status(201)
-            .json({ mensaje: 'Usuario creado y logueado', token, usuario: newPaciente });
+            .json({ mensaje: 'Usuario creado y logueado', token, paciente: newPaciente });
     
             // Enviar la respuesta con el token
            //RETURN ORIGINAL: return res.status(201).json({ mensaje: 'Usuario creado', token, cuerpo: newUser, opciones });

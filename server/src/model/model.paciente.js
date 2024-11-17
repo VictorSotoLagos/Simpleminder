@@ -30,7 +30,7 @@ const pacienteSchema = new Schema(
     },
     telefono: {
       type: String,
-      required: [true, "Se debe incluir un whatsapp"],
+      required: [true, "Se debe incluir un teléfono"],
       unique: true,
       minlength: 6, // Limitar a un mínimo de 6 caracteres
       maxlength: 100, // Limitar a un máximo de 100 caracteres

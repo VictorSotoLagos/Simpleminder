@@ -6,7 +6,7 @@ import { validateDato1 } from "../../helpers/dato1validations";
 import { useContext } from "react";
 import { UsuarioContext } from "../../contexts/UsuarioContext";
 import PropTypes from "prop-types";
-import { putUser } from "../../api/userServices";
+import { putUser } from "../../api/pacientesServices";
 
 const FormularioDatos1 = ({ agregarDato1 }) => {
   const valoresIniciales = {
@@ -18,7 +18,7 @@ const FormularioDatos1 = ({ agregarDato1 }) => {
   };
 
   const [nuevoDato1, setNuevoDato1] = useState(valoresIniciales);
-  const { usuario, setUsuario } = useContext(UsuarioContext);
+  const { paciente, set } = useContext(UsuarioContext);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
 
