@@ -2,67 +2,87 @@ import { model, Schema } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
 import bcrypt from "bcrypt";
 
-
-const pacienteSchema = new Schema({
+const pacienteSchema = new Schema(
+  {
     nombre: {
-        type: String,
-        required: [true, 'Se debe incluir un nombre'],
-        minlength: 3, // Limitar a un mínimo de 3 caracteres
-        maxlength: 100, // Limitar a un máximo de 100 caracteres
+      type: String,
+      required: [true, "Se debe incluir un nombre"],
+      minlength: 3, // Limitar a un mínimo de 3 caracteres
+      maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
-    apellido: {
-        type: String,
-        required: [true, 'Se debe incluir un apellido'],
-        minlength: 3, // Limitar a un mínimo de 3 caracteres
-        maxlength: 100, // Limitar a un máximo de 100 caracteres
+    apellidoUno: {
+      type: String,
+      required: [true, "Se debe incluir un apellido"],
+      minlength: 3, // Limitar a un mínimo de 3 caracteres
+      maxlength: 100, // Limitar a un máximo de 100 caracteres
+    },
+    apellidoDos: {
+      type: String,
+      minlength: 3, // Limitar a un mínimo de 3 caracteres
+      maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
     email: {
-        type: String,
-        required: [true, 'Se debe incluir un email'],
-        unique: true,
-        minlength: 8, // Limitar a un mínimo de 6 caracteres
-        maxlength: 100, // Limitar a un máximo de 100 caracteres
+      type: String,
+      required: [true, "Se debe incluir un email"],
+      unique: true,
+      minlength: 8, // Limitar a un mínimo de 6 caracteres
+      maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
-    whatsapp: {
-        type: String,
-        required: [true, 'Se debe incluir un whatsapp'],
-        unique: true,
-        minlength: 6, // Limitar a un mínimo de 6 caracteres
-        maxlength: 100, // Limitar a un máximo de 100 caracteres
+    telefono: {
+      type: String,
+      required: [true, "Se debe incluir un whatsapp"],
+      unique: true,
+      minlength: 6, // Limitar a un mínimo de 6 caracteres
+      maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
-    rut: {
-        type: String,
-        required: [true, 'Se debe incluir un rut'],
-        unique: true,
-        match: [/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}\-[0-9]{1}$/, 'El rut debe tener el formato xx.xxx.xxx-x, donde x son números'],
+    run: {
+      type: String,
+      required: [true, "Se debe incluir un rut"],
+      unique: true,
+      match: [
+        /^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}\-[0-9]{1}$/,
+        "El rut debe tener el formato xx.xxx.xxx-x, con puntos y guión incluidos",
+      ],
     },
     fecha_nacimiento: {
-        type: Date,
-        required: [true, 'Se debe incluir una fecha de nacimiento'],
+      type: Date,
+      required: [true, "Se debe incluir una fecha de nacimiento"],
     },
     genero: {
-        type: String,
-        enum: ['Masculino', 'Femenino', 'Otro'],
-        required: [true, 'Se debe incluir un genero'],
+      type: String,
+      enum: ["Masculino", "Femenino", "Otro"],
+      required: [true, "Se debe incluir un genero"],
     },
     estado_civil: {
-        type: String,
-        enum: ['Soltero', 'Casado', 'Divorciado', 'Viudo'],
-        required: [true, 'Se debe incluir un estado civil'],
+      type: String,
+      enum: [
+        "Soltero(a)",
+        "Casado(a)",
+        "Divorciado(a)",
+        "Viudo(a)",
+        "Separado(a)",
+        "Otro",
+      ],
+      required: [true, "Se debe incluir un estado civil"],
     },
-    isapre: {
-        type: String,
-        required: [true, 'Se debe incluir una isapre o fonasa'],
+    prevision: {
+      type: String,
+      enum: ["Fonasa", "Banmédica", "Colmena", "Consalud", "Cruz Blanca", "Nueva Masvida", "Vida Tres"],
+      required: [true, "Se debe incluir una isapre o fonasa"],
     },
     password: {
-        type: String,
-        required: [true, 'Se debe incluir una contraseña'],
-        minlength: 8, // Limitar a un mínimo de 6 caracteres
-         // Limitar a un máximo de 100 caracteres
-            match: [/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, 'La contraseña debe tener al menos una letra minúscula, una mayúscula, un número y un mínimo de 8 caracteres, sin puntos ni guiones']
+      type: String,
+      required: [true, "Se debe incluir una contraseña"],
+      minlength: 8, // Limitar a un mínimo de 6 caracteres
+      // Limitar a un máximo de 100 caracteres
+      match: [
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+        "La contraseña debe tener al menos una letra minúscula, una mayúscula, un número y un mínimo de 8 caracteres, sin puntos ni guiones",
+      ],
     },
-}, { timestamps: true });
-
+  },
+  { timestamps: true }
+);
 
 // Agregar campo virtual para confirmación de clave secreta
 pacienteSchema.virtual('confirm_password')

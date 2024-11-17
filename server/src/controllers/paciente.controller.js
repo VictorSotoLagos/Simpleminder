@@ -31,7 +31,7 @@ const getPacientes = async (req, res) => {
 
 const getPacienteID = async (req, res) => {
     try {
-        const playlistDB = await Usuario.findOne({ _id: req.params.id });
+        const playlistDB = await Paciente.findOne({ _id: req.params.id });
         return res.status(200).json(playlistDB);
     } catch (error) {
         console.log(error);
@@ -59,7 +59,7 @@ const getPacienteID = async (req, res) => {
             console.log ("req.tipo es", req.tipo_usuario)
             console.log ("--------FBS---------")
 
-            const newPaciente = await Usuario.create(req.body);
+            const newPaciente = await Paciente.create(req.body);
             // Configuración para el token
             const LLAVE_SECRETA = process.env.LLAVE_SECRETA || 'llave';
             const datosToken = {
