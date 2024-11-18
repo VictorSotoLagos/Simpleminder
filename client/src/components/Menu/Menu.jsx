@@ -5,10 +5,11 @@ import { UsuarioContext } from "../../contexts/UsuarioContext.jsx";
 import { logout } from "../../api/authServices.js";
 import { isTokenExpired } from "../../helpers/istokenexpired.js";
 import { useNavigate } from "react-router-dom";
+import { set } from "mongoose";
 const Menu = () => {
-  const { usuario, setUsuario } = useContext(UsuarioContext);
+  const { paciente, setPaciente } = useContext(UsuarioContext);
   const { token } = useContext(UsuarioContext);
-  console.log("usuario es:", usuario);
+  console.log("paciente es:", paciente);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +18,7 @@ const Menu = () => {
       console.log(ObtenerToken);
       console.log("Token expirado");
       handleSalir();
-      setUsuario(null);
+      setPaciente(null);
       navigate("/login");
     }
   }, [navigate]);
@@ -25,50 +26,39 @@ const Menu = () => {
   const handleSalir = async () => {
     try {
       await logout();
-      localStorage.removeItem("usuario");
+      localStorage.removeItem("paciente");
       localStorage.removeItem("token");
-      setUsuario(null);
-      console.log("Usuario deslogeado");
+      setPaciente(null);
+      console.log("Paciente deslogeado");
     } catch (error) {
       console.log("Error en logout:", error);
     }
   };
 
   useEffect(() => {
-    if (!usuario) {
+    if (!paciente) {
       handleSalir();
     }
-  }, [usuario]);
+  }, [paciente]);
 
-  if (!usuario) return null;
+  if (!paciente) return null;
 
   return (
     <nav className="menu">
       <ul>
         <li>
-          <h1>Libros</h1>
+          <h1>Inicio Pacientes</h1>
         </li>
         <li>
           <NavLink
-            to="/"
+            to="/inicio_pacientes"
             end
             className={({ isActive }) =>
               isActive ? "nav-link nav-link-on" : "nav-link"
             }
-          >
-            <h3>Todos Los Libros</h3>
-          </NavLink>
+          ></NavLink>
         </li>
-        <li>
-          <NavLink
-            to="/datos1/agregardato1"
-            className={({ isActive }) =>
-              isActive ? "nav-link nav-link-on" : "nav-link"
-            }
-          >
-            <h3>Agregar Libro</h3>
-          </NavLink>
-        </li>
+
         <li>
           <form className="logout-form">
             <button type="button" className="logout" onClick={handleSalir}>

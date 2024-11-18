@@ -9,7 +9,7 @@ import { isTokenExpired } from "../../helpers/istokenexpired.js";
 
 const LoginUser = () => {
   //THIS IS SIMPLEMINDER
-  const { setUsuario } = useContext(UsuarioContext);
+  const { setPaciente } = useContext(UsuarioContext);
   const { token, setToken } = useContext(UsuarioContext);
 
   const initialValues = {
@@ -38,18 +38,17 @@ const LoginUser = () => {
         const data = await login(logUser);
         localStorage.setItem("token", data.token);
         console.log("data es:", data);
-        setUsuario(data.datosToken);
-
+        setPaciente(data.datosToken);
         setToken(data.token);
-
         console.log("LOGIN: data.datosToken es:", data.datosToken);
         console.log("Token es data.Token es:", data.token);
         console.log("Token de la variable de estado token es:", token);
-        localStorage.setItem("usuario", JSON.stringify(data.datosToken)); //Aquí solo guardamos los datos del usuario en el local storage, deberíamos guardar el token en una segunda variable de contexto por ejemplo?
-
-        navigate("/");
+        localStorage.setItem("paciente", JSON.stringify(data.datosToken)); //Aquí solo guardamos los datos del usuario en el local storage, deberíamos guardar el token en una segunda variable de contexto por ejemplo?
+        navigate("/inicio_pacientes"); //Aquí redirigimos a la página de inicio de paciente.
+        console.log("si se lee esto, no se redirigió a /inicio_pacientes");
       } catch (error) {
         setErrorMessage("Usuario o contraseña incorrectos");
+        console.log("Error en login:", error);
       }
     };
     saveData();
@@ -81,7 +80,7 @@ const LoginUser = () => {
         </button>
       </form>
       <p>¿No tienes una cuenta aún? Crea tu usuario:</p>
-      <Link to="/newuser">
+      <Link to="/nuevopaciente">
         <button className="register-usuario-button" type="submit">
           Crear un Usuario
         </button>

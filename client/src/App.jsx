@@ -1,25 +1,26 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
-import FormularioDatos1 from "./components/FormularioDatos1/FormularioDatos1";
-import ListaDatos1 from "./components/ListaDatos1/ListaDatos1";
-import ActualizarDato1 from "./components/ActualizarDato1/ActualizarDato1";
-import NuevoUsuario from "./components/NuevoUsuario/NuevoUsuario";
+//import FormularioDatos1 from "./components/FormularioDatos1/FormularioDatos1";
+//import ListaDatos1 from "./components/ListaDatos1/ListaDatos1";
+//import ActualizarDato1 from "./components/ActualizarDato1/ActualizarDato1";
+import NuevoPaciente from "./components/NuevoPaciente/NuevoPaciente";
 import LoginUser from "./components/Login/Login";
 import Menu from "./components/Menu/Menu";
 import MenuLogin from "./components/MenuLogin/MenuLogin";
 import PublicRoutes from "./components/PublicRoutes/PublicRoutes";
 import PrivateRoutes from "./components/PrivateRoutes/PrivateRoutes";
 import { fetchDatos1 } from "./api/datos1Services";
-import { fetchUsers } from "./api/userServices";
+import { fetchPacientes } from "./api/pacientesServices";
 import { useContext } from "react";
 import { UsuarioContext } from "./contexts/UsuarioContext";
 import Dato1Detalle from "./components/Dato1Detalle/Dato1Detalle";
+import InicioPacientes from "./components/InicioPacientes/InicioPacientes";
 
 const App = () => {
-  const { usuario } = useContext(UsuarioContext);
+  const { paciente } = useContext(UsuarioContext);
   const [datos1, setDatos1] = useState([]);
-  const [allUsers, setAllUsers] = useState([]);
+  const [allPacientes, setAllPacientes] = useState([]);
 
   /*
    * Obtiene la lista de datos1 de la base de datos y actualiza el estado
@@ -36,17 +37,17 @@ const App = () => {
    * Obtiene la lista de usuarios de la base de datos y actualiza el estado
    * de la aplicación con la lista de usuarios actualizada.
    */
-  const obtenerDatosUsers = async () => {
-    const response = await fetchUsers();
-    console.log("Usuarios desde el servidor:", response);
-    setAllUsers(response); // Actualiza el estado de AllUsers
+  const obtenerDatosPacientes = async () => {
+    const response = await fetchPacientes();
+    console.log("Pacientes desde el servidor:", response);
+    setAllPacientes(response); // Actualiza el estado de AllUsers
   };
 
   //UseEffect para obtener todos los datos: datos1 y usuarios.
 
   useEffect(() => {
     obtenerDatos1();
-    obtenerDatosUsers();
+    obtenerDatosPacientes();
   }, []);
 
   //Funciones actualizadoras de estado
@@ -72,9 +73,9 @@ const App = () => {
     console.log("Datos1 son:", datos1);
   };
 
-  const agregarUsuario = (newUser) => {
-    setAllUsers([...allUsers, newUser]);
-    console.log("New User es:", newUser);
+  const agregarPaciente = (newPaciente) => {
+    setAllPacientes([...allPacientes, newPaciente]);
+    console.log("New Paciente es:", newPaciente);
   };
 
   return (
@@ -90,60 +91,24 @@ const App = () => {
           }
         />
         <Route
-          path="/newuser"
+          path="/nuevopaciente"
           element={
             <PublicRoutes>
               <MenuLogin />
-              <NuevoUsuario agregarUsuario={agregarUsuario} />
+              <NuevoPaciente agregarPaciente={agregarPaciente} />
             </PublicRoutes>
           }
         />
         <Route
-          path="/"
+          path="/inicio_pacientes"
           element={
             <PrivateRoutes>
               <Menu />
               <h2 style={{ textAlign: "left" }}>
-                ¡Bienvenido de vuelta, {usuario ? usuario.nombre : "Invitado"}!
+                ¡Bienvenido de vuelta, {paciente ? paciente.nombre : "Invitado"}
+                !
               </h2>
-              <ListaDatos1
-                datos1={datos1}
-                actualizarDato1Estado={actualizarDato1Estado}
-                agregarDato1={agregarDato1}
-                eliminarDato1={eliminarDato1}
-                obtenerDatos1={obtenerDatos1}
-              />
-            </PrivateRoutes>
-          }
-        />
-        <Route
-          path="/datos1/agregardato1"
-          element={
-            <PrivateRoutes>
-              <Menu />
-              <FormularioDatos1 agregarDato1={agregarDato1} />
-            </PrivateRoutes>
-          }
-        />
-        <Route
-          path="/datos1/:id"
-          element={
-            <PrivateRoutes>
-              <Menu />
-              <Dato1Detalle datos1={datos1} />
-            </PrivateRoutes>
-          }
-        />
-        <Route
-          path="/datos1/detalledato1/:_id"
-          element={
-            <PrivateRoutes>
-              <Menu />
-              <ActualizarDato1
-                datos1={datos1}
-                actualizarDato1Estado={actualizarDato1Estado}
-                eliminarDato1={eliminarDato1}
-              />
+              <InicioPacientes />
             </PrivateRoutes>
           }
         />

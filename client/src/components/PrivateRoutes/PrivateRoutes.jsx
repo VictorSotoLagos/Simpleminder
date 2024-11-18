@@ -4,9 +4,9 @@ import { Navigate } from "react-router-dom";
 import { UsuarioContext } from "../../contexts/UsuarioContext.jsx";
 
 const PrivateRoutes = ({ children }) => {
-  const { usuario } = useContext(UsuarioContext);
+  const { paciente } = useContext(UsuarioContext);
 
-  return <>{usuario ? children : <Navigate to="/login" replace />}</>;
+  return <>{paciente ? children : <Navigate to="/login" replace />}</>;
 };
 
 PrivateRoutes.propTypes = {
