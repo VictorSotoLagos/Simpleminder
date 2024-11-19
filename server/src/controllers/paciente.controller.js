@@ -173,7 +173,7 @@ const loginUser = async (req, res) => {
             nombre: user.nombre,
             apellido: user.apellido,
             email: user.email,
-            tipo: user.tipo_Paciente,    
+            tipo: user.tipo_paciente,    
         }
 
         const token = jwt.sign(datosToken, LLAVE_SECRETA, {expiresIn:'15m'});

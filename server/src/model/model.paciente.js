@@ -31,7 +31,7 @@ const pacienteSchema = new Schema(
     telefono: {
       type: String,
       required: [true, "Se debe incluir un teléfono"],
-      unique: true,
+        unique: true,
       minlength: 6, // Limitar a un mínimo de 6 caracteres
       maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
@@ -79,6 +79,11 @@ const pacienteSchema = new Schema(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
         "La contraseña debe tener al menos una letra minúscula, una mayúscula, un número y un mínimo de 8 caracteres, sin puntos ni guiones",
       ],
+    },
+    tipo_usuario: {
+      type: String,
+      enum: ["Paciente", "Terapeuta", "Administrador"],
+      default: "Paciente",
     },
   },
   { timestamps: true }

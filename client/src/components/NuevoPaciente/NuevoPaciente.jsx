@@ -36,6 +36,32 @@ const NuevoPaciente = ({ agregarPaciente }) => {
     });
   };
 
+  //Función para crear la ficha clínica
+  //FALTA CREAR EN EL BACK EL CONTROLADOR FICHA CLÍNICA Y LA API SERVICES EN EL
+  /* YA no va*, porque la ficha se creerá desde la vista del terapeuta/
+  const crearFichaClinica = async (pacienteData) => {
+    try {
+      const fichaClinicaData = {
+        pacienteId: pacienteData._id, // Siempre incluye el ID del paciente
+        nombre: pacienteData.nombre,
+        apellidoUno: pacienteData.apellidoUno,
+        apellidoDos: pacienteData.apellidoDos,
+        // Agrega más campos si son necesarios para la ficha clínica
+      };
+      const fichaResponse = await createFichaClinica(fichaClinicaData);
+      if (fichaResponse.error) {
+        throw new Error(fichaResponse.error);
+      }
+      console.log("Ficha clínica creada con éxito:", fichaResponse);
+      return fichaResponse;
+    } catch (error) {
+      console.error("Error al crear la ficha clínica:", error);
+      throw new Error("No se pudo crear la ficha clínica.");
+    }
+  };
+
+  */
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
@@ -62,6 +88,17 @@ const NuevoPaciente = ({ agregarPaciente }) => {
       console.log("data en Registro Paciente es:", data);
       console.log("token en Registro Paciente es:", tokenData);
       console.log("response es:", response);
+
+      //YA NO VA Crear Ficha Clínica
+      /*
+      try {
+        await crearFichaClinica(data); // Pasa todo el objeto data a la función crearFichaClinica
+      } catch (error) {
+        setErrorMessage(error.message); // Maneja el error de la ficha clínica
+        return; // No continúa si falla la ficha clínica
+      }
+        */
+      //YA NO VA. Fin Crear Ficha Clínica
 
       const dataToken = {
         nombre: data.nombre,

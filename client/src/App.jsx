@@ -14,8 +14,8 @@ import { fetchDatos1 } from "./api/datos1Services";
 import { fetchPacientes } from "./api/pacientesServices";
 import { useContext } from "react";
 import { UsuarioContext } from "./contexts/UsuarioContext";
-import Dato1Detalle from "./components/Dato1Detalle/Dato1Detalle";
 import InicioPacientes from "./components/InicioPacientes/InicioPacientes";
+import { Navigate } from "react-router-dom";
 
 const App = () => {
   const { paciente } = useContext(UsuarioContext);
@@ -90,6 +90,7 @@ const App = () => {
             </PublicRoutes>
           }
         />
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route
           path="/nuevopaciente"
           element={
