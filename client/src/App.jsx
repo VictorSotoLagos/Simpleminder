@@ -16,6 +16,8 @@ import { useContext } from "react";
 import { UsuarioContext } from "./contexts/UsuarioContext";
 import InicioPacientes from "./components/InicioPacientes/InicioPacientes";
 import { Navigate } from "react-router-dom";
+import ActualizarDatosPaciente from "./components/ActualizarDatosPaciente/ActualizarDatosPaciente";
+import TopBarPacientes from "./components/TopBarPacientes/TopBarPacientes";
 
 const App = () => {
   const { paciente } = useContext(UsuarioContext);
@@ -100,16 +102,28 @@ const App = () => {
             </PublicRoutes>
           }
         />
+
         <Route
           path="/inicio_pacientes"
           element={
             <PrivateRoutes>
               <Menu />
-              <h2 style={{ textAlign: "left" }}>
-                ¡Bienvenido de vuelta, {paciente ? paciente.nombre : "Invitado"}
-                !
-              </h2>
-              <InicioPacientes />
+              <div className="contenido">
+                <TopBarPacientes />
+                <InicioPacientes />
+              </div>
+            </PrivateRoutes>
+          }
+        />
+        <Route
+          path="/actualizar_datos_paciente"
+          element={
+            <PrivateRoutes>
+              <Menu />
+              <div className="contenido">
+                <TopBarPacientes />
+                <ActualizarDatosPaciente />
+              </div>
             </PrivateRoutes>
           }
         />

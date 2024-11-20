@@ -6,6 +6,11 @@ const fetchPacientes = async () => {
     return response.data;
   };
 
+const fetchPacienteID = async (id) => {
+    const response = await api.get(`/pacientes/${id}`); // Con la implementación del profe sacamos el "try" y su correspondiente "catch".
+return response.data;
+}
+
   /*
 const addUser = async (nuevoUsuario) => {
     const response = await api.post("/user/register", nuevoUsuario); // Con la implementación del profe sacamos el "try" y su correspondiente "catch".
@@ -31,13 +36,22 @@ return response.data;
     return response.data;
     };
 
-    const putPaciente = async (id, pacienteParaActualizar) => {
+  const putPaciente = async (id, pacienteParaActualizar) => {
     console.log("usuarioParaActualizar._id es:", id);
     console.log ("usuarioParaActualizar es:", pacienteParaActualizar);
     const response = await api.put(`/pacientes/${id}`, pacienteParaActualizar); // Con la implementación del profe sacamos el "try" y su correspondiente "catch".
     console.log("usuario actualizado es",  response.data)
     return response.data;
   };
+
+  const patchPaciente = async (id, datosPacienteParaActualizar) => {
+    console.log("datosPacienteParaActualizar._id es:", id);
+    console.log ("datosPacienteParaActualizar son:", datosPacienteParaActualizar);
+    const response = await api.patch(`/pacientes/${id}`, datosPacienteParaActualizar); // Con la implementación del profe sacamos el "try" y su correspondiente "catch".
+    console.log("datos paciente actualizados son",  response.data)
+    return response.data;
+  };
+
   /*
   const putCancion = async (CancionParaActualizar) => {
     console.log("CancionParaActualizar es:", CancionParaActualizar);
@@ -47,4 +61,4 @@ return response.data;
   };
   */
 
-export { fetchPacientes, addPaciente, deletePaciente, putPaciente }; 
+export { fetchPacientes, fetchPacienteID, addPaciente, deletePaciente, putPaciente, patchPaciente }; 

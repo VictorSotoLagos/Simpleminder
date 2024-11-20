@@ -52,10 +52,10 @@ const getPacienteID = async (req, res) => {
     
         try {
             console.log ("--------FBS---------")
-            console.log ("req.usuario es:", req.usuario)
-            console.log ("req.nombre es:", req.nombre_usuario)
-            console.log ("req.apelludo es:", req.apellido_usuario)
-            console.log ("req.email es", req.email_usuario)
+            console.log ("req.paciente es:", req.paciente)
+            console.log ("req.nombre es:", req.nombre)
+            console.log ("req.apellido es:", req.apellido)
+            console.log ("req.email es", req.email)
             console.log ("req.tipo es", req.tipo_usuario)
             console.log ("--------FBS---------")
 
@@ -67,6 +67,7 @@ const getPacienteID = async (req, res) => {
                 nombre: newPaciente.nombre,
                 apellido: newPaciente.apellido,
                 email: newPaciente.email,
+                genero: newPacinete.genero,
                 tipo: newPaciente.tipo_usuario,
             };
     
@@ -109,41 +110,112 @@ const updatePaciente = async (req, res) => {
         const updatedPaciente = await Paciente.findByIdAndUpdate(id, cuerpo, opciones);
 
         if (!updatedPaciente) {
-            return res.status(400).json({ error: 'No existe el usuario' });
+            return res.status(400).json({ error: 'No existe el paciente' });
         }
 
         //EXPERIMENTO: Comparamos CLAVES
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
-            res.status(400).json({ error: 'Usuario o contraseña incorrectos' });
+            res.status(400).json({ error: 'Paciente o contraseña incorrectos' });
             return;
         }
 
-        return res.status(200).json({ mensaje: 'Usuario actualizado', cuerpo: updatedUser });
+        return res.status(200).json({ mensaje: 'Paciente actualizado', cuerpo: updatedUser });
 
     } catch (error) {
         return res.status(500).json({
-            message: 'Error al actualizar el usuario',
+            message: 'Error al actualizar el paciente',
             error: error.message,
         });
     }   
 }
+
+//PATCH PACIENTE (sin password ni id):
+
+const patchPaciente = async (req, res) => {
+    const id = req.params.id;
+    let camposAActualizar = { ...req.body }; // Hacemos una copia de los datos enviados
+
+    // Verifica y elimina los campos _id y password si están presentes
+    if (camposAActualizar._id) {
+        delete camposAActualizar._id;
+    }
+    if (camposAActualizar.password) {
+        delete camposAActualizar.password;
+    }
+
+    const opciones = {
+        new: true, // Devuelve el documento actualizado
+        runValidators: true, // Valida los campos proporcionados
+    };
+
+    try {
+        // Actualización parcial
+        const pacienteActualizado = await Paciente.findByIdAndUpdate(
+            id,
+            camposAActualizar,
+            opciones
+        );
+
+        if (!pacienteActualizado) {
+            return res.status(404).json({ error: 'Error: Paciente no encontrado' });
+        }
+
+        return res.status(200).json({
+            mensaje: 'Datos del paciente actualizados',
+            datos: pacienteActualizado,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            mensaje: 'Error al actualizar datos del paciente',
+            error: error.message,
+        });
+    }
+};
+
+/*
+const patchPaciente = async (req, res) => {
+    const id = req.params.id;
+    const camposAActualizar = req.body; // Solo los campos proporcionados
+
+    const opciones = {
+        new: true, // Devuelve el documento actualizado
+        runValidators: true, // Valida los campos proporcionados
+    };
+
+    try {
+        // Actualización parcial
+        const pacienteActualizado = await Paciente.findByIdAndUpdate(id, camposAActualizar, opciones);
+
+        if (!pacienteActualizado) {
+            return res.status(400).json({ error: 'Error: No existe el paciente' });
+        }
+
+        return res.status(200).json({ mensaje: 'Datos del paciente actualizados', datos: pacienteActualizado });
+    } catch (error) {
+        return res.status(500).json({
+            mensaje: 'Error al actualizar datos del paciente',
+            error: error.message,
+        });
+    }
+};
+*/
 
 const deletePaciente = async (req, res) => {
     try {
         const id = req.params.id;
         const result = await Paciente.findByIdAndDelete(id);
         if (!result) {
-            return res.status(400).json({ error: 'No existe el usuario' });
+            return res.status(400).json({ error: 'No existe el paciente' });
         }
 
         res.json({
-            mensaje: 'Usuario eliminado',
+            mensaje: 'Paciente eliminado',
             cuerpo: result,
         });
     } catch (error) {
         return res.status(500).json({
-            message: 'Error al eliminar el usuario',
+            message: 'Error al eliminar el paciente',
             error: error.message,
         });
     }
@@ -173,6 +245,7 @@ const loginUser = async (req, res) => {
             nombre: user.nombre,
             apellido: user.apellido,
             email: user.email,
+            genero: user.genero,
             tipo: user.tipo_paciente,    
         }
 
@@ -195,4 +268,4 @@ const logoutUser = async (req, res) => {
     res.clearCookie('authToken').json({ mensaje: 'Sesión de Paciente cerrada' });
 }
 
-export { getPacientes, getPacienteID, createPaciente, updatePaciente, deletePaciente, loginUser, logoutUser };
+export { getPacientes, getPacienteID, createPaciente, updatePaciente, patchPaciente, deletePaciente, loginUser, logoutUser };

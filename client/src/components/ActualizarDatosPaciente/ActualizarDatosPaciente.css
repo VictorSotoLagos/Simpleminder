@@ -1,0 +1,37 @@
+.actualizar-paciente {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.actualizar-paciente-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+  gap: 10px;
+}
+
+.actualizar-paciente-form input {
+  display: flex;
+  width: 500px;
+  height: 36px;
+  border-radius: 5px;
+  border: 2px solid #215f99;
+}
+
+.boton-actualizar {
+  padding: 10px;
+  width: 100%;
+  background-color: #215f99;
+  color: white;
+  cursor: pointer;
+  transform-origin: center;
+}
+
+.boton-actualizar:hover {
+  transform: scale(1.02);
+  transition-property: transform;
+  transition-duration: 0.3s;
+}

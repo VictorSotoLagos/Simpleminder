@@ -22,10 +22,11 @@
   display: flex;
   width: 1200px;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   text-align: center;
   margin: 20px;
+  padding: 30px;
   border: 1px solid #215f99;
   border-width: 3px;
   border-radius: 5px;
@@ -45,4 +46,10 @@
 
 .logo {
   width: 400px;
+}
+
+.contenido {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
 }

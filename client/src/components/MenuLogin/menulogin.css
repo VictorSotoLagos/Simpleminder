@@ -5,6 +5,7 @@
   height: 600px;
   flex-direction: column;
   justify-content: flex-start;
+  vertical-align: top;
   align-items: left;
   padding: 15px 25px;
   color: #262626;

@@ -1,14 +1,19 @@
 import { useContext } from "react";
 import { UsuarioContext } from "../../contexts/UsuarioContext";
+import VideoSimpleMinder from "../VideoSimpleMinder/VideoSimpleMinder";
+import "./InicioPacientes.css";
 
 const InicioPacientes = () => {
   const { paciente } = useContext(UsuarioContext);
 
   return (
-    <>
-      <h1>Inicio de Pacientes</h1>
-      <h3>Bienvenido {paciente.nombre}</h3>
-    </>
+    <main className="inicio-container">
+      <h3>
+        {paciente.genero === "Femenino" ? "Bienvenida " : "Bienvenido "}{" "}
+        {paciente?.nombre} al módulo de pacientes:
+      </h3>
+      <VideoSimpleMinder />
+    </main>
   );
 };
 
