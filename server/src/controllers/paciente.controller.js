@@ -67,7 +67,7 @@ const getPacienteID = async (req, res) => {
                 nombre: newPaciente.nombre,
                 apellido: newPaciente.apellido,
                 email: newPaciente.email,
-                genero: newPacinete.genero,
+                genero: newPaciente.genero,
                 tipo: newPaciente.tipo_usuario,
             };
     
