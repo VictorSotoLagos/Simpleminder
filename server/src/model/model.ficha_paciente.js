@@ -1,7 +1,6 @@
 import { model, Schema } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
 import bcrypt from "bcrypt";
-import { Paciente } from "./model.paciente.js";
 
 const fichaPacienteSchema = new Schema(
   {
@@ -41,7 +40,7 @@ const fichaPacienteSchema = new Schema(
     telefono: {
       type: String,
       required: [true, "Se debe incluir un teléfono"],
-        unique: true,
+      unique: true,
       minlength: 6, // Limitar a un mínimo de 6 caracteres
       maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
@@ -77,7 +76,15 @@ const fichaPacienteSchema = new Schema(
     },
     prevision: {
       type: String,
-      enum: ["Fonasa", "Banmédica", "Colmena", "Consalud", "Cruz Blanca", "Nueva Masvida", "Vida Tres"],
+      enum: [
+        "Fonasa",
+        "Banmédica",
+        "Colmena",
+        "Consalud",
+        "Cruz Blanca",
+        "Nueva Masvida",
+        "Vida Tres",
+      ],
       required: [true, "Se debe incluir una isapre o fonasa"],
     },
     discapacidad: {
