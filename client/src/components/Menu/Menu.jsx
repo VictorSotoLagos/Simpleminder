@@ -50,39 +50,44 @@ const Menu = () => {
           <li>
             <img className="logo" src={logo} alt="Logo Simple Minder" />
           </li>
-          <li>
-            <h2>Portal Pacientes</h2>
-          </li>
-          <li>
-            <NavLink
-              to="/inicio_pacientes"
-              end
-              className={({ isActive }) =>
-                isActive ? "nav-link nav-link-on" : "nav-link"
-              }
-            >
-              <h3>Inicio</h3>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/actualizar_datos_paciente"
-              end
-              className={({ isActive }) =>
-                isActive ? "nav-link nav-link-on" : "nav-link"
-              }
-            >
-              <h3>Actualizar Mis Datos</h3>
-            </NavLink>
-          </li>
+          <div className="botones-menu">
+            <li>
+              <NavLink to="/inicio_pacientes" end>
+                {({ isActive }) => (
+                  <button
+                    type="button"
+                    className={
+                      isActive ? "btn-menu btn-menu-active" : "btn-menu"
+                    }
+                  >
+                    Inicio
+                  </button>
+                )}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/actualizar_datos_paciente" end>
+                {({ isActive }) => (
+                  <button
+                    type="button"
+                    className={
+                      isActive ? "btn-menu btn-menu-active" : "btn-menu"
+                    }
+                  >
+                    Actualizar Mis Datos
+                  </button>
+                )}
+              </NavLink>
+            </li>
 
-          <li>
-            <form className="logout-form">
-              <button type="button" className="logout" onClick={handleSalir}>
-                Salir del Sistema
-              </button>
-            </form>
-          </li>
+            <li>
+              <form className="logout-form">
+                <button type="button" className="logout" onClick={handleSalir}>
+                  Salir de SimpleMinder
+                </button>
+              </form>
+            </li>
+          </div>
         </ul>
       </nav>
     </main>

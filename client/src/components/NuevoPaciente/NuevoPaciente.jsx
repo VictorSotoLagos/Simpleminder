@@ -36,32 +36,6 @@ const NuevoPaciente = ({ agregarPaciente }) => {
     });
   };
 
-  //Función para crear la ficha clínica
-  //FALTA CREAR EN EL BACK EL CONTROLADOR FICHA CLÍNICA Y LA API SERVICES EN EL
-  /* YA no va*, porque la ficha se creerá desde la vista del terapeuta/
-  const crearFichaClinica = async (pacienteData) => {
-    try {
-      const fichaClinicaData = {
-        pacienteId: pacienteData._id, // Siempre incluye el ID del paciente
-        nombre: pacienteData.nombre,
-        apellidoUno: pacienteData.apellidoUno,
-        apellidoDos: pacienteData.apellidoDos,
-        // Agrega más campos si son necesarios para la ficha clínica
-      };
-      const fichaResponse = await createFichaClinica(fichaClinicaData);
-      if (fichaResponse.error) {
-        throw new Error(fichaResponse.error);
-      }
-      console.log("Ficha clínica creada con éxito:", fichaResponse);
-      return fichaResponse;
-    } catch (error) {
-      console.error("Error al crear la ficha clínica:", error);
-      throw new Error("No se pudo crear la ficha clínica.");
-    }
-  };
-
-  */
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
@@ -177,14 +151,19 @@ const NuevoPaciente = ({ agregarPaciente }) => {
           value={newPaciente.fecha_nacimiento}
           onChange={handleInputChange}
         />
+
         <label htmlFor="genero">Género:</label>
-        <input
-          type="text"
+        <select
           name="genero"
-          placeholder="Género"
           value={newPaciente.genero}
           onChange={handleInputChange}
-        />
+        >
+          <option value="Selecciona genero"> Seleccione un género</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
+          <option value="Otro">Otro</option>
+        </select>
+
         <label htmlFor="estado_civil">Estado Civil:</label>
         <select
           name="estado_civil"

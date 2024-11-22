@@ -10,28 +10,36 @@ const MenuLogin = () => {
           <li>
             <img className="logo" src={logo} alt="Logo Simple Minder" />
           </li>
-          <li>
-            <NavLink
-              to="/login"
-              end
-              className={({ isActive }) =>
-                isActive ? "nav-link nav-link-on" : "nav-link"
-              }
-            >
-              <h3>Login Pacientes</h3>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/nuevopaciente"
-              end
-              className={({ isActive }) =>
-                isActive ? "nav-link nav-link-on" : "nav-link"
-              }
-            >
-              <h3>Registro Nuevos Pacientes</h3>
-            </NavLink>
-          </li>
+          <div className="botones-menu">
+            <li>
+              <NavLink to="/login" end>
+                {({ isActive }) => (
+                  <button
+                    type="button"
+                    className={
+                      isActive ? "btn-menu btn-menu-active" : "btn-menu"
+                    }
+                  >
+                    Login Pacientes
+                  </button>
+                )}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/nuevopaciente" end>
+                {({ isActive }) => (
+                  <button
+                    type="button"
+                    className={
+                      isActive ? "btn-menu btn-menu-active" : "btn-menu"
+                    }
+                  >
+                    Crear Nuevo Paciente
+                  </button>
+                )}
+              </NavLink>
+            </li>
+          </div>
         </ul>
       </nav>
     </div>

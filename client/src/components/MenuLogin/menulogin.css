@@ -5,12 +5,10 @@
   height: 600px;
   flex-direction: column;
   justify-content: flex-start;
-  vertical-align: top;
   align-items: left;
   padding: 15px 25px;
   color: #262626;
   background-color: #ffffff;
-
   border-radius: 5px;
 }
 
@@ -18,7 +16,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -54,7 +52,7 @@ ul li .nav-link-on {
 }
 
 .logout:hover {
-  background-color: rgb(255, 181, 10);
+  background-color: #ffb50a;
   color: rgb(28, 28, 28);
   border-color: black;
   transition-duration: 0.3s;
@@ -69,4 +67,42 @@ ul li .nav-link-on {
   padding: 0px;
   gap: 0px;
   text-align: center;
+}
+
+.botones-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0px;
+  gap: 0px;
+  text-align: center;
+}
+
+.botones-menu ul {
+  display: flex;
+  align-items: center;
+}
+
+.btn-menu {
+  display: flex;
+  font-size: 17px;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin: 0px;
+  padding: 15px 45px;
+  border-color: #215f99;
+  color: #215f99;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 1px #215f99;
+  margin-bottom: 20px;
+}
+
+.btn-menu-active {
+  background-color: #215f99;
+  color: #ffffff;
+  box-shadow: 2px 2px 1px #3b3b3b;
+  border-width: 0px;
 }

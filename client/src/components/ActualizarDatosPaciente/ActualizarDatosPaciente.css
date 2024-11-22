@@ -34,4 +34,5 @@
   transform: scale(1.02);
   transition-property: transform;
   transition-duration: 0.3s;
+  background-color: #df7802;
 }

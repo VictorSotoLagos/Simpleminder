@@ -10,7 +10,7 @@ const emojis = [emoji1, emoji2, emoji3, emoji4, emoji5];
 const TopBarEmoticonTest = () => {
   return (
     <div className="emoticon-test">
-      <h3>¿Cómo te sientes hoy</h3>
+      <h3>¿Cómo te sientes hoy?</h3>
       {emojis.map((src, index) => (
         <button
           key={index}
