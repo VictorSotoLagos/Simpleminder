@@ -3,6 +3,7 @@ import pacientesRoutes from "./src/routes/pacientes.routes.js";
 import terapeutasRoutes from "./src/routes/terapeutas.routes.js";
 import fichaPacienteRoutes from "./src/routes/ficha_paciente.routes.js";
 import routerAuth from "./src/routes/auth.routes.js";
+import atencionRoutes from "./src/routes/atencion.routes.js";
 import { config } from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -35,6 +36,7 @@ app.use("/api/auth", routerAuth);
 app.use("/api/datos1", pacientesRoutes);
 app.use("/api/terapeutas", terapeutasRoutes);
 app.use("/api/fichapaciente", fichaPacienteRoutes);
+app.use("/api/atencion", atencionRoutes);
 
 const server = app.listen(port, () => {
   console.log(`El servidor está activo en el puerto: ${port}`);
