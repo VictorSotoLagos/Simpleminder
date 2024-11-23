@@ -1,28 +1,23 @@
-import { model, Schema } from "mongoose";
-import { fichaPaciente } from "./model.ficha_paciente.js";
+import mongoose, { model, Schema } from "mongoose";
 
 const atencionSchema = new Schema({
   id_paciente: {
-    type: Schema.Types.ObjectId,
-    ref: "fichaPaciente",
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "FichaPaciente",
     required: [true, "Se debe incluir el ID del paciente"],
   },
   nombre: {
-    type: Schema.Types.ObjectId,
-    ref: "fichaPaciente",
-    required: [true, "Se debe incluir el ID del paciente"],
+    type: String,
+    required: [true, "Se debe incluir el nombre del paciente"],
   },
   apellidoUno: {
-    type: Schema.Types.ObjectId,
-    ref: "fichaPaciente",
-    required: [true, "Se debe incluir el ID del paciente"],
+    type: String,
+    required: [true, "Se debe incluir el primer apellido del paciente"],
   },
   apellidoDos: {
-    type: Schema.Types.ObjectId,
-    ref: "fichaPaciente",
-    required: [true, "Se debe incluir el ID del paciente"],
+    type: String,
+    required: [true, "Se debe incluir el segundo apellido del paciente"],
   },
-
   fecha: {
     type: Date,
     required: [true, "Se debe incluir una fecha"],
@@ -31,7 +26,6 @@ const atencionSchema = new Schema({
     type: String,
     required: [true, "Se debe incluir una hora"],
   },
-
   introduccion: {
     type: String,
   },
@@ -40,7 +34,7 @@ const atencionSchema = new Schema({
   },
   diagnosticoHipotesis: {
     type: String,
-    Selection: ["Confirmado", "Hipotesis", "De alta", "Cierre de caso"],
+    enum: ["Confirmado", "Hipotesis", "De alta", "Cierre de caso"],
   },
   estadoDiagnostico: {
     type: String,
@@ -50,4 +44,6 @@ const atencionSchema = new Schema({
   },
 });
 
-export const Atencion = model("Atencion", atencionSchema);
+const Atencion = model("Atencion", atencionSchema);
+
+export { Atencion };

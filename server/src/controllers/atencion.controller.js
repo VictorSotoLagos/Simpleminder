@@ -1,5 +1,6 @@
-import { Atencion } from "../model/model.atencion";
+import { Atencion } from "../model/model.atencion.js";
 import { config } from "dotenv";
+import { FichaPaciente } from "../model/model.ficha_paciente.js";
 
 config();
 
@@ -15,27 +16,58 @@ const getAtenciones = async (req, res) => {
   }
 };
 
-const getAtencionID = async (req, res) => {
+const getAtencionesByPaciente = async (req, res) => {
+  const { id_paciente } = req.params;
+
   try {
-    const atencionDB = await Atencion.findOne({ _id: req.params.id });
-    return res.status(200).json(atencionDB);
+    const atenciones = await Atencion.find({ id_paciente });
+    if (!atenciones) {
+      return res
+        .status(404)
+        .json({ message: "No se encontraron atenciones para este paciente" });
+    }
+    return res.status(200).json(atenciones);
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
-      message: "Id incorrecto o no existe",
+      message: "Error al obtener las atenciones",
       error: error.message,
     });
   }
 };
 
 const createAtencion = async (req, res) => {
-  const opciones = {
-    new: true,
-    runValidators: true,
-  };
+  const {
+    id_paciente,
+    fecha,
+    hora,
+    introduccion,
+    datosAtencion,
+    diagnosticoHipotesis,
+    estadoDiagnostico,
+    indicaciones,
+  } = req.body;
 
   try {
-    const atencionDB = await Atencion.create(req.body);
+    const paciente = await FichaPaciente.findById(id_paciente);
+    if (!paciente) {
+      return res.status(404).json({ message: "Paciente no encontrado" });
+    }
+
+    const nuevaAtencion = new Atencion({
+      id_paciente: paciente._id,
+      nombre: paciente.nombre,
+      apellidoUno: paciente.apellidoUno,
+      apellidoDos: paciente.apellidoDos,
+      fecha,
+      hora,
+      introduccion,
+      datosAtencion,
+      diagnosticoHipotesis,
+      estadoDiagnostico,
+      indicaciones,
+    });
+
+    const atencionDB = await nuevaAtencion.save();
     return res.status(200).json(atencionDB);
   } catch (error) {
     return res.status(500).json({
@@ -44,7 +76,6 @@ const createAtencion = async (req, res) => {
     });
   }
 };
-
 const updateAtencion = async (req, res) => {
   try {
     const atencionDB = await Atencion.findByIdAndUpdate(
@@ -77,8 +108,8 @@ const deleteAtencion = async (req, res) => {
 
 export {
   getAtenciones,
-  getAtencionID,
   createAtencion,
   updateAtencion,
   deleteAtencion,
+  getAtencionesByPaciente,
 };
