@@ -5,34 +5,38 @@ import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 //import ListaDatos1 from "./components/ListaDatos1/ListaDatos1";
 //import ActualizarDato1 from "./components/ActualizarDato1/ActualizarDato1";
 import NuevoPaciente from "./components/NuevoPaciente/NuevoPaciente";
+import NuevoTerapeuta from "./components/NuevoTerapeuta/NuevoTerapeuta";
 import LoginUser from "./components/Login/Login";
 import Menu from "./components/Menu/Menu";
 import MenuLogin from "./components/MenuLogin/MenuLogin";
 import PublicRoutes from "./components/PublicRoutes/PublicRoutes";
-import PrivateRoutes from "./components/PrivateRoutes/PrivateRoutes";
-import { fetchDatos1 } from "./api/datos1Services";
+import {
+  PrivatePacienteRoutes,
+  PrivateTerapeutaRoutes,
+} from "./components/PrivateRoutes/PrivateRoutes";
 import { fetchPacientes } from "./api/pacientesServices";
+import { fetchTerapeutas } from "./api/terapeutaServices";
 import { useContext } from "react";
 import { UsuarioContext } from "./contexts/UsuarioContext";
-import Dato1Detalle from "./components/Dato1Detalle/Dato1Detalle";
 import InicioPacientes from "./components/InicioPacientes/InicioPacientes";
+import InicioTerapeutas from "./components/InicioTerapeutas/InicioTerapeutas";
+import { Navigate } from "react-router-dom";
+import ActualizarDatosPaciente from "./components/ActualizarDatosPaciente/ActualizarDatosPaciente";
+import TopBar from "./components/TopBar/TopBar";
 
 const App = () => {
-  const { paciente } = useContext(UsuarioContext);
+  const { paciente, terapeuta } = useContext(UsuarioContext);
   const [datos1, setDatos1] = useState([]);
   const [allPacientes, setAllPacientes] = useState([]);
+  const [allTerapeutas, setAllTerapeutas] = useState([]);
+
+  //UseEffect para obtener todos los datos: datos1 y usuarios.
 
   /*
    * Obtiene la lista de datos1 de la base de datos y actualiza el estado
    * de la aplicaci n con la lista de datos1 actualizada.
    * DATOS1 PUEDE SER LO QUE SEA ()
    */
-  const obtenerDatos1 = async () => {
-    const response = await fetchDatos1();
-    console.log("response.ok es:", response);
-    console.log("peliculas son:", response);
-    setDatos1(response);
-  };
   /**
    * Obtiene la lista de usuarios de la base de datos y actualiza el estado
    * de la aplicación con la lista de usuarios actualizada.
@@ -40,42 +44,30 @@ const App = () => {
   const obtenerDatosPacientes = async () => {
     const response = await fetchPacientes();
     console.log("Pacientes desde el servidor:", response);
-    setAllPacientes(response); // Actualiza el estado de AllUsers
+    setAllPacientes(response); // Actualiza el estado de AllPacientes
   };
 
-  //UseEffect para obtener todos los datos: datos1 y usuarios.
+  const obtenerDatosTerapeutas = async () => {
+    const response = await fetchTerapeutas();
+    console.log("Terapeutas desde el servidor:", response);
+    setAllTerapeutas(response); // Actualiza el estado de AllTerapeutas
+  };
 
   useEffect(() => {
-    obtenerDatos1();
     obtenerDatosPacientes();
+    obtenerDatosTerapeutas();
   }, []);
 
   //Funciones actualizadoras de estado
-  const agregarDato1 = (nuevoDato1) => {
-    setDatos1([...datos1, nuevoDato1]);
-    console.log("Datos1 son:", datos1);
-  };
-
-  const eliminarDato1 = (id) => {
-    const indice = datos1.findIndex((dato1) => dato1._id === id);
-    const nuevaListadeDatos1 = [...datos1];
-    nuevaListadeDatos1.splice(indice, 1);
-    setDatos1(nuevaListadeDatos1);
-  };
-
-  const actualizarDato1Estado = (dato1Actualizado) => {
-    const indice = datos1.findIndex(
-      (dato1) => dato1._id === dato1Actualizado._id
-    );
-    const nuevaListadeDatos1 = [...datos1];
-    nuevaListadeDatos1[indice] = dato1Actualizado;
-    setDatos1(nuevaListadeDatos1);
-    console.log("Datos1 son:", datos1);
-  };
 
   const agregarPaciente = (newPaciente) => {
     setAllPacientes([...allPacientes, newPaciente]);
     console.log("New Paciente es:", newPaciente);
+  };
+
+  const agregarTerapeuta = (newTerapeuta) => {
+    setAllPacientes([...allTerapeutas, newTerapeuta]);
+    console.log("New Terapeuta es:", newTerapeuta);
   };
 
   return (
@@ -90,6 +82,7 @@ const App = () => {
             </PublicRoutes>
           }
         />
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route
           path="/nuevopaciente"
           element={
@@ -100,16 +93,66 @@ const App = () => {
           }
         />
         <Route
+          path="/nuevoterapeuta"
+          element={
+            <PublicRoutes>
+              <MenuLogin />
+              <NuevoTerapeuta agregarTerapeuta={agregarTerapeuta} />
+            </PublicRoutes>
+          }
+        />
+        <Route
           path="/inicio_pacientes"
           element={
-            <PrivateRoutes>
-              <Menu />
-              <h2 style={{ textAlign: "left" }}>
-                ¡Bienvenido de vuelta, {paciente ? paciente.nombre : "Invitado"}
-                !
-              </h2>
-              <InicioPacientes />
-            </PrivateRoutes>
+            <PrivatePacienteRoutes>
+              {paciente ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <InicioPacientes />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivatePacienteRoutes>
+          }
+        />
+        <Route
+          path="/actualizar_datos_paciente"
+          element={
+            <PrivatePacienteRoutes>
+              {paciente ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <ActualizarDatosPaciente />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivatePacienteRoutes>
+          }
+        />
+        <Route
+          path="/inicio_terapeutas"
+          element={
+            <PrivateTerapeutaRoutes>
+              {terapeuta ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <InicioTerapeutas />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivateTerapeutaRoutes>
           }
         />
       </Routes>

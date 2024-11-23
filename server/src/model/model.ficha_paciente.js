@@ -1,58 +1,52 @@
 import { model, Schema } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
 import bcrypt from "bcrypt";
-import { Paciente } from "./model.paciente.js";
 
-const pacienteSchema = new Schema(
+const fichaPacienteSchema = new Schema(
   {
     id_paciente: {
-      type: Schema.Types.ObjectId,
-      ref: "Paciente",
+      type: String,
       required: [true, "Se debe incluir el ID del paciente"],
     },
     nombre: {
-      type: Schema.Types.ObjectId,
-      ref: "Paciente",
-      required: [true, "Se debe incluir el ID del paciente"],
+      type: String,
+      required: [true, "Se debe incluir un nombre"],
+      minlength: 3, // Limitar a un mínimo de 3 caracteres
+      maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
-
     nombreSocial: {
       type: String,
       minlength: 3, // Limitar a un mínimo de 3 caracteres
       maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
     apellidoUno: {
-      type: Schema.Types.ObjectId,
-      ref: "Paciente",
-      required: [true, "se debe incluir el apellido"],
+      type: String,
+      required: [true, "Se debe incluir un apellido"],
+      minlength: 3, // Limitar a un mínimo de 3 caracteres
+      maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
-
     apellidoDos: {
-      type: Schema.Types.ObjectId,
-      ref: "Paciente",
-      required: [true, "Se debe incluir el apellido"],
+      type: String,
+      minlength: 3, // Limitar a un mínimo de 3 caracteres
+      maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
-
     email: {
-      type: Schema.Types.ObjectId,
-      ref: "Paciente",
-      required: [true, "Se debe incluir el email"],
+      type: String,
+      required: [true, "Se debe incluir un email"],
       unique: true,
       minlength: 8, // Limitar a un mínimo de 6 caracteres
       maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
     telefono: {
-      type: Schema.Types.ObjectId,
-      ref: "Paciente",
-      required: [true, "Se debe incluir el telefono"],
+      type: String,
+      required: [true, "Se debe incluir un teléfono"],
       unique: true,
       minlength: 6, // Limitar a un mínimo de 6 caracteres
       maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
     run: {
-      type: Schema.Types.ObjectId,
-      ref: "Paciente",
-
+      type: String,
+      required: [true, "Se debe incluir un rut"],
       unique: true,
       match: [
         /^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}\-[0-9]{1}$/,
@@ -60,24 +54,38 @@ const pacienteSchema = new Schema(
       ],
     },
     fecha_nacimiento: {
-      type: Schema.Types.ObjectId,
-      ref: "Paciente",
-      required: [true, "Se debe incluir la fecha"],
+      type: Date,
+      required: [true, "Se debe incluir una fecha de nacimiento"],
     },
     genero: {
-      type: Schema.Types.ObjectId,
-      ref: "Paciente",
-      required: [true, "se debe incluir un genero"],
+      type: String,
+      enum: ["Masculino", "Femenino", "Otro"],
+      required: [true, "Se debe incluir un genero"],
     },
     estado_civil: {
-      type: Schema.Types.ObjectId,
-      ref: "Paciente",
-      required: [true, "se debe incluir un estado civil"],
+      type: String,
+      enum: [
+        "Soltero(a)",
+        "Casado(a)",
+        "Divorciado(a)",
+        "Viudo(a)",
+        "Separado(a)",
+        "Otro",
+      ],
+      required: [true, "Se debe incluir un estado civil"],
     },
     prevision: {
-      type: Schema.Types.ObjectId,
-      ref: "Paciente",
-      required: [true, "se debe incluir una prevision"],
+      type: String,
+      enum: [
+        "Fonasa",
+        "Banmédica",
+        "Colmena",
+        "Consalud",
+        "Cruz Blanca",
+        "Nueva Masvida",
+        "Vida Tres",
+      ],
+      required: [true, "Se debe incluir una isapre o fonasa"],
     },
     discapacidad: {
       type: Boolean,
@@ -139,7 +147,7 @@ const pacienteSchema = new Schema(
     diagnosticoHipotesis: {
       type: String,
     },
-    motidoConsulta: {
+    motivoConsulta: {
       type: String,
     },
     derivadoPor: {
@@ -148,7 +156,6 @@ const pacienteSchema = new Schema(
     derivadoHacia: {
       type: String,
     },
-
     password: {
       type: String,
       required: [true, "Se debe incluir una contraseña"],
@@ -168,7 +175,7 @@ const pacienteSchema = new Schema(
 );
 
 // Agregar campo virtual para confirmación de clave secreta
-pacienteSchema
+fichaPacienteSchema
   .virtual("confirm_password")
   .get(function () {
     return this._confirmacionClaveSecreta;
@@ -178,7 +185,7 @@ pacienteSchema
   });
 
 // Gancho de pre-validación para verificar si las claves secretas coinciden
-pacienteSchema.pre("validate", function (next) {
+fichaPacienteSchema.pre("validate", function (next) {
   if (this.password !== this.confirm_password) {
     this.invalidate("confirm_password", "Las claves secretas deben coincidir");
   }
@@ -186,7 +193,7 @@ pacienteSchema.pre("validate", function (next) {
 });
 
 // Gancho de pre-guardado para hashear la clave secreta
-pacienteSchema.pre("save", async function (next) {
+fichaPacienteSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     try {
       const salt = await bcrypt.genSalt(10);
@@ -201,9 +208,10 @@ pacienteSchema.pre("save", async function (next) {
 });
 
 // Exportar el esquema
-//export default mongoose.model('PerfilPaciente', pacienteSchema);
-pacienteSchema.plugin(uniqueValidator, {
+//export default mongoose.model('PerfilPaciente', fichaPacienteSchema);
+fichaPacienteSchema.plugin(uniqueValidator, {
   message: "El {PATH} {VALUE} ya existe, por favor elija otro",
 });
-const Paciente = model("Paciente", pacienteSchema);
-export { Paciente };
+const FichaPaciente = model("FichaPaciente", fichaPacienteSchema);
+
+export { FichaPaciente };

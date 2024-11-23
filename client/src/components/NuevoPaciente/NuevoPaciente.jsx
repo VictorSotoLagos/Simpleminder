@@ -63,6 +63,17 @@ const NuevoPaciente = ({ agregarPaciente }) => {
       console.log("token en Registro Paciente es:", tokenData);
       console.log("response es:", response);
 
+      //YA NO VA Crear Ficha Clínica
+      /*
+      try {
+        await crearFichaClinica(data); // Pasa todo el objeto data a la función crearFichaClinica
+      } catch (error) {
+        setErrorMessage(error.message); // Maneja el error de la ficha clínica
+        return; // No continúa si falla la ficha clínica
+      }
+        */
+      //YA NO VA. Fin Crear Ficha Clínica
+
       const dataToken = {
         nombre: data.nombre,
         apellido: data.apellido,
@@ -140,14 +151,19 @@ const NuevoPaciente = ({ agregarPaciente }) => {
           value={newPaciente.fecha_nacimiento}
           onChange={handleInputChange}
         />
+
         <label htmlFor="genero">Género:</label>
-        <input
-          type="text"
+        <select
           name="genero"
-          placeholder="Género"
           value={newPaciente.genero}
           onChange={handleInputChange}
-        />
+        >
+          <option value="Selecciona genero"> Seleccione un género</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
+          <option value="Otro">Otro</option>
+        </select>
+
         <label htmlFor="estado_civil">Estado Civil:</label>
         <select
           name="estado_civil"

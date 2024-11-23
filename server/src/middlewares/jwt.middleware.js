@@ -9,6 +9,8 @@ const LLAVE_SECRETA = process.env.LLAVE_SECRETA || 'clave_secreta_super_secreta'
 const autenticarJWT = (req, res, next) => {
   const token = req.cookies.authToken;
 
+  console.log("Token desde autenticarJWT es:", token);
+
   if (!token) {
     return res.status(403).json({ mensaje: 'Acceso denegado: No se proporcionó un token' });
   }

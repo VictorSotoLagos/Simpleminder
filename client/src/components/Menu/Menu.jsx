@@ -1,73 +1,126 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./menu.css";
 import { useContext, useEffect } from "react";
 import { UsuarioContext } from "../../contexts/UsuarioContext.jsx";
 import { logout } from "../../api/authServices.js";
 import { isTokenExpired } from "../../helpers/istokenexpired.js";
-import { useNavigate } from "react-router-dom";
-import { set } from "mongoose";
+import logo from "../../assets/simpleminder-logo-01.png";
+
 const Menu = () => {
-  const { paciente, setPaciente } = useContext(UsuarioContext);
-  const { token } = useContext(UsuarioContext);
-  console.log("paciente es:", paciente);
+  const { paciente, terapeuta, setPaciente, setTerapeuta } =
+    useContext(UsuarioContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const ObtenerToken = localStorage.getItem("token");
-    if (isTokenExpired(ObtenerToken)) {
-      console.log(ObtenerToken);
-      console.log("Token expirado");
+    const token = localStorage.getItem("token");
+    if (isTokenExpired(token)) {
+      console.log("Token expirado:", token);
       handleSalir();
-      setPaciente(null);
-      navigate("/login");
     }
   }, [navigate]);
 
   const handleSalir = async () => {
     try {
       await logout();
-      localStorage.removeItem("paciente");
       localStorage.removeItem("token");
+      localStorage.removeItem("paciente");
+      localStorage.removeItem("terapeuta");
       setPaciente(null);
-      console.log("Paciente deslogeado");
+      setTerapeuta(null);
+      console.log("Sesión cerrada");
+      navigate("/login");
     } catch (error) {
-      console.log("Error en logout:", error);
+      console.log("Error al cerrar sesión:", error);
     }
   };
 
-  useEffect(() => {
-    if (!paciente) {
-      handleSalir();
-    }
-  }, [paciente]);
-
-  if (!paciente) return null;
-
-  return (
+  const renderMenuPaciente = () => (
     <nav className="menu">
       <ul>
         <li>
-          <h1>Inicio Pacientes</h1>
+          <img className="logo" src={logo} alt="Logo Simple Minder" />
         </li>
-        <li>
-          <NavLink
-            to="/inicio_pacientes"
-            end
-            className={({ isActive }) =>
-              isActive ? "nav-link nav-link-on" : "nav-link"
-            }
-          ></NavLink>
-        </li>
-
-        <li>
-          <form className="logout-form">
+        <div className="botones-menu">
+          <li>
+            <NavLink to="/inicio_pacientes" end>
+              {({ isActive }) => (
+                <button
+                  type="button"
+                  className={isActive ? "btn-menu btn-menu-active" : "btn-menu"}
+                >
+                  Inicio
+                </button>
+              )}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/actualizar_datos_paciente" end>
+              {({ isActive }) => (
+                <button
+                  type="button"
+                  className={isActive ? "btn-menu btn-menu-active" : "btn-menu"}
+                >
+                  Actualizar Mis Datos
+                </button>
+              )}
+            </NavLink>
+          </li>
+          <li>
             <button type="button" className="logout" onClick={handleSalir}>
-              Logout
+              Salir de SimpleMinder
             </button>
-          </form>
-        </li>
+          </li>
+        </div>
       </ul>
     </nav>
+  );
+
+  const renderMenuTerapeuta = () => (
+    <nav className="menu">
+      <ul>
+        <li>
+          <img className="logo" src={logo} alt="Logo Simple Minder" />
+        </li>
+        <div className="botones-menu">
+          <li>
+            <NavLink to="/inicio_terapeutas" end>
+              {({ isActive }) => (
+                <button
+                  type="button"
+                  className={isActive ? "btn-menu btn-menu-active" : "btn-menu"}
+                >
+                  Inicio
+                </button>
+              )}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/actualizar_datos_terapeuta" end>
+              {({ isActive }) => (
+                <button
+                  type="button"
+                  className={isActive ? "btn-menu btn-menu-active" : "btn-menu"}
+                >
+                  Actualizar Mis Datos
+                </button>
+              )}
+            </NavLink>
+          </li>
+          <li>
+            <button type="button" className="logout" onClick={handleSalir}>
+              Salir de SimpleMinder
+            </button>
+          </li>
+        </div>
+      </ul>
+    </nav>
+  );
+
+  return (
+    <main className="menu-container">
+      {paciente ? renderMenuPaciente() : null}
+      {terapeuta ? renderMenuTerapeuta() : null}
+    </main>
   );
 };
 

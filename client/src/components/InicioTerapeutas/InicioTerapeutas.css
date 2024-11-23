@@ -1,0 +1,9 @@
+.inicio-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+  margin-right: 30px;
+}
