@@ -18,6 +18,7 @@ const ActualizarDatosPaciente = () => {
   //paciente actualizado tiene que ir a buscar al paciente en función del ID, no del token.
 
   useEffect(() => {
+    console.log("paciente loggeado es:", paciente);
     encontrarPaciente();
   }, []);
 
@@ -53,6 +54,7 @@ const ActualizarDatosPaciente = () => {
       pacienteActualizado._id,
       pacienteActualizado
     );
+    const datosPacienteFinales = response.datos;
     console.log("respuesta data + body es:", response);
     if (response.error) {
       setErrorMessage(response.error);
@@ -60,12 +62,17 @@ const ActualizarDatosPaciente = () => {
       return;
     } else {
       setErrorMessage("Paciente actualizado exitosamente");
-      setPaciente({
+      const pacienteActualizadoContext = {
         ...paciente,
-        nombre: pacienteActualizado.nombre,
-        apellido: pacienteActualizado.apellidoUno,
-      });
-      console.log("Paciente actualizado es:", paciente);
+        nombre: datosPacienteFinales.nombre,
+        apellido: datosPacienteFinales.apellidoUno,
+      };
+      setPaciente(pacienteActualizadoContext);
+      localStorage.setItem(
+        "paciente",
+        JSON.stringify(pacienteActualizadoContext)
+      );
+      console.log("Paciente actualizado es:", pacienteActualizadoContext);
     }
   };
 

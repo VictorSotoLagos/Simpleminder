@@ -22,6 +22,7 @@ import InicioPacientes from "./components/InicioPacientes/InicioPacientes";
 import InicioTerapeutas from "./components/InicioTerapeutas/InicioTerapeutas";
 import { Navigate } from "react-router-dom";
 import ActualizarDatosPaciente from "./components/ActualizarDatosPaciente/ActualizarDatosPaciente";
+import ActualizarDatosTerapeuta from "./components/ActualizarDatosTerapeuta/ActualizarDatosTerapeuta";
 import TopBar from "./components/TopBar/TopBar";
 
 const App = () => {
@@ -147,6 +148,24 @@ const App = () => {
                   <div className="contenido">
                     <TopBar />
                     <InicioTerapeutas />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivateTerapeutaRoutes>
+          }
+        />
+        <Route
+          path="/actualizar_datos_terapeuta"
+          element={
+            <PrivateTerapeutaRoutes>
+              {terapeuta ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <ActualizarDatosTerapeuta />
                   </div>
                 </>
               ) : (

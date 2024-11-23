@@ -1,25 +1,28 @@
-.actualizar-paciente {
+.actualizar-terapeuta {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-top: -30px;
 }
 
-.actualizar-paciente-form {
+.actualizar-terapeuta-form {
   display: flex;
+  box-sizing: border-box;
   flex-direction: column;
   align-items: center;
   width: 500px;
   gap: 10px;
 }
 
-.actualizar-paciente-form input {
+.actualizar-terapeuta-form input {
   display: flex;
   padding: 0px 10px 0px 10px;
   width: 500px;
   height: 36px;
   border-radius: 5px;
   border: 2px solid #215f99;
+  box-sizing: border-box;
 }
 
 .boton-actualizar {
@@ -36,4 +39,14 @@
   transition-property: transform;
   transition-duration: 0.3s;
   background-color: #df7802;
+}
+
+.inicio-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+  margin-top: -30px;
 }

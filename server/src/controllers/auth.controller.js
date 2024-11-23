@@ -47,18 +47,20 @@ const loginUser = async (req, res) => {
         tipo_usuario: userType, // Agregamos el tipo de usuario
       };
   
-      const token = jwt.sign(datosToken, LLAVE_SECRETA, { expiresIn: "45m" });
-  
-      // Enviamos la respuesta con el token
-      return res.json({
-        token,
-        datosToken,
-      });
-    } catch (error) {
-      console.error("Error en loginUser:", error);
-      return res.status(500).json({ error: "Error interno del servidor" });
-    }
-  };
+      const token = jwt.sign(datosToken, LLAVE_SECRETA, {expiresIn:'45m'});
+
+      res.cookie('authToken', token, { httpOnly: true, secure: true }).json(
+          {
+          token, 
+          datosToken,
+          });
+
+  } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+
+  }
+}
   
   
   //Logout

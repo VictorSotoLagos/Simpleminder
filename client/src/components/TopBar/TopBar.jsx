@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UsuarioContext } from "../../contexts/UsuarioContext";
 import TopBarEmoticonTest from "../TopBarEmoticonTest/TopBarEmoticonTest";
 import "./TopBar.css";
