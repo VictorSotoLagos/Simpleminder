@@ -68,6 +68,11 @@ const createAtencion = async (req, res) => {
     });
 
     const atencionDB = await nuevaAtencion.save();
+
+    // Agregar la referencia de la nueva atención a la ficha del paciente
+    paciente.atenciones.push(atencionDB._id);
+    await paciente.save();
+
     return res.status(200).json(atencionDB);
   } catch (error) {
     return res.status(500).json({
@@ -76,17 +81,18 @@ const createAtencion = async (req, res) => {
     });
   }
 };
+
 const updateAtencion = async (req, res) => {
   try {
     const atencionDB = await Atencion.findByIdAndUpdate(
-      { _id: req.params.id },
+      req.params.id,
       req.body,
       { new: true }
     );
     return res.status(200).json(atencionDB);
   } catch (error) {
     return res.status(500).json({
-      message: "Error al actualizar Atencion",
+      message: "Error al actualizar la Atencion",
       error: error.message,
     });
   }
@@ -94,10 +100,8 @@ const updateAtencion = async (req, res) => {
 
 const deleteAtencion = async (req, res) => {
   try {
-    await Atencion.findByIdAndDelete({ _id: req.params.id });
-    return res.status(200).json({
-      message: "Atencion eliminada",
-    });
+    await Atencion.findByIdAndDelete(req.params.id);
+    return res.status(200).json({ message: "Atencion eliminada" });
   } catch (error) {
     return res.status(500).json({
       message: "Error al eliminar Atencion",

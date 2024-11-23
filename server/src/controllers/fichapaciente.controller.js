@@ -17,7 +17,9 @@ const getFichaPacientes = async (req, res) => {
 
 const getFichaPacienteID = async (req, res) => {
   try {
-    const fichapacienteBD = await FichaPaciente.findOne({ _id: req.params.id });
+    const fichapacienteBD = await FichaPaciente.findOne({
+      _id: req.params.id,
+    }).populate("terapeutaAsignado", "nombre apellidoUno apellidoDos");
     return res.status(200).json(fichapacienteBD);
   } catch (error) {
     console.log(error);
@@ -35,7 +37,18 @@ const createFichaPaciente = async (req, res) => {
   };
 
   try {
-    const fichaClinicaPaciente = new FichaPaciente(req.body);
+    const { terapeutaAsignado, ...fichaData } = req.body;
+
+    const fichaClinicaPaciente = new FichaPaciente(fichaData);
+
+    if (terapeutaAsignado) {
+      const terapeuta = await Terapeuta.findById(terapeutaAsignado);
+      if (!terapeuta) {
+        return res.status(404).json({ message: "Terapeuta no encontrado" });
+      }
+      fichaClinicaPaciente.terapeutaAsignado = terapeuta._id;
+    }
+
     const fichaPacienteDB = await fichaClinicaPaciente.save();
     return res.status(201).json(fichaPacienteDB);
   } catch (error) {
@@ -45,7 +58,6 @@ const createFichaPaciente = async (req, res) => {
     });
   }
 };
-
 const updateFichaPaciente = async (req, res) => {
   try {
     const fichaPacienteDB = await FichaPaciente.findByIdAndUpdate(

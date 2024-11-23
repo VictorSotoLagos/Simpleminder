@@ -4,10 +4,6 @@ import bcrypt from "bcrypt";
 
 const fichaPacienteSchema = new Schema(
   {
-    id_paciente: {
-      type: String,
-      required: [true, "Se debe incluir el ID del paciente"],
-    },
     nombre: {
       type: String,
       required: [true, "Se debe incluir un nombre"],
@@ -156,20 +152,16 @@ const fichaPacienteSchema = new Schema(
     derivadoHacia: {
       type: String,
     },
-    password: {
-      type: String,
-      required: [true, "Se debe incluir una contraseña"],
-      minlength: 8, // Limitar a un mínimo de 6 caracteres
-      // Limitar a un máximo de 100 caracteres
-      match: [
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-        "La contraseña debe tener al menos una letra minúscula, una mayúscula, un número y un mínimo de 8 caracteres, sin puntos ni guiones",
-      ],
-    },
     terapeutaAsignado: {
       type: Schema.Types.ObjectId,
       ref: "Terapeuta",
     },
+    atenciones: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Atencion",
+      },
+    ],
   },
   { timestamps: true }
 );
