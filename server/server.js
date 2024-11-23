@@ -31,9 +31,8 @@ if (!mongoUri) {
 conectarDB();
 
 app.use("/api/pacientes", pacientesRoutes); // Usar las nuevas rutas
-app.use("/api/auth", routerAuth);
-app.use("/api/datos1", pacientesRoutes);
 app.use("/api/terapeutas", terapeutasRoutes);
+app.use("/api/auth", routerAuth);
 app.use("/api/fichapaciente", fichaPacienteRoutes);
 
 const server = app.listen(port, () => {
@@ -41,5 +40,3 @@ const server = app.listen(port, () => {
 });
 
 export { app, server };
-
-//holaaaaaaaaaa

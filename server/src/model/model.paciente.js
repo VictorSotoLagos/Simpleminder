@@ -82,7 +82,7 @@ const pacienteSchema = new Schema(
     },
     tipo_usuario: {
       type: String,
-      enum: ["Paciente", "Terapeuta", "Administrador"],
+      enum: ["Paciente", "Otro"],
       default: "Paciente",
     },
   },

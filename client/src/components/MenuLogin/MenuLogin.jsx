@@ -20,7 +20,7 @@ const MenuLogin = () => {
                       isActive ? "btn-menu btn-menu-active" : "btn-menu"
                     }
                   >
-                    Login Pacientes
+                    Login
                   </button>
                 )}
               </NavLink>
@@ -34,7 +34,21 @@ const MenuLogin = () => {
                       isActive ? "btn-menu btn-menu-active" : "btn-menu"
                     }
                   >
-                    Crear Nuevo Paciente
+                    Registro Nuevos Pacientes
+                  </button>
+                )}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/nuevoterapeuta" end>
+                {({ isActive }) => (
+                  <button
+                    type="button"
+                    className={
+                      isActive ? "btn-menu btn-menu-active" : "btn-menu"
+                    }
+                  >
+                    Registro Terapeutas
                   </button>
                 )}
               </NavLink>

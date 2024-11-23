@@ -1,4 +1,4 @@
-import { Paciente } from '../model/model.paciente.js';
+import { Terapeuta } from '../model/model.terapeuta.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
@@ -7,7 +7,7 @@ config();
 
 
 
-const getPacientes = async (req, res) => {
+const getTerapeutas = async (req, res) => {
     try {
 
        // console.log ("--------FBS---------")
@@ -18,22 +18,21 @@ const getPacientes = async (req, res) => {
        // console.log ("req.tipo es", req.tipo_paciente)
        // console.log ("--------FBS---------")
        
-       const pacienteDB = await Paciente.find();
-        return res.status(200).json(pacienteDB);
+       const terapeutaDB = await Terapeuta.find();
+        return res.status(200).json(terapeutaDB);
     } catch (error) {
         return res.status(500).json({
-            message: 'Error al obtener lista de Pacientes',
+            message: 'Error al obtener lista de terapeutas',
             error: error.message,
         });
     }
 }
 
 
-const getPacienteID = async (req, res) => {
+const getTerapeutaID = async (req, res) => {
     try {
-        const token = localStorage.getItem('token');
-        const pacienteDB = await Paciente.findOne({ _id: req.params.id });
-        return res.status(200).json(pacienteDB);
+        const terapeutaDB = await Terapeuta.findOne({ _id: req.params.id });
+        return res.status(200).json(terapeutaDB);
     } catch (error) {
         console.log(error);
         return res.status(500).json({
@@ -45,7 +44,7 @@ const getPacienteID = async (req, res) => {
 
 
 
-    const createPaciente = async (req, res) => {
+    const createTerapeuta = async (req, res) => {
         const opciones = {
             new: true, // devuelve el documento actualizado
             runValidators: true, // Ejecutar validaciones de esquema en la actualización
@@ -53,39 +52,41 @@ const getPacienteID = async (req, res) => {
     
         try {
             console.log ("--------FBS---------")
-            console.log ("req.paciente es:", req.paciente)
+            console.log ("req.paciente es:", req.terapeuta)
             console.log ("req.nombre es:", req.nombre)
-            console.log ("req.apellido es:", req.apellido)
+            console.log ("req.apellido es:", req.apellidoUno)
+            console.log ("req.apellido es:", req.apellidoDos)
             console.log ("req.email es", req.email)
             console.log ("req.tipo es", req.tipo_usuario)
             console.log ("--------FBS---------")
 
-            const newPaciente = await Paciente.create(req.body);
+            const newTerapeuta = await Terapeuta.create(req.body);
             // Configuración para el token
             const LLAVE_SECRETA = process.env.LLAVE_SECRETA || 'llave';
             const datosToken = {
-                id: newPaciente._id,
-                nombre: newPaciente.nombre,
-                apellido: newPaciente.apellido,
-                email: newPaciente.email,
-                genero: newPaciente.genero,
-                tipo_usuario: newPaciente.tipo_usuario,
+                id: newTerapeuta._id,
+                nombre: newTerapeuta.nombre,
+                apellidoUno: newTerapeuta.apellidoUno,
+                apellidoDos: newTerapeuta.apellidoDos,
+                email: newTerapeuta.email,
+                genero: newTerapeuta.genero,
+                tipo_usuario: newTerapeuta.tipo_usuario,
             };
     
             // Crear el token
-            const token = jwt.sign({ user: datosToken }, LLAVE_SECRETA, { expiresIn: '15m' });
+            const token = jwt.sign({ user: datosToken }, LLAVE_SECRETA, { expiresIn: '45m' });
 
 
             res
             .cookie('authToken', token, { httpOnly: true, secure: true })
             .status(201)
-            .json({ mensaje: 'Usuario creado y logueado', token, paciente: newPaciente });
+            .json({ mensaje: 'Terapeuta creado y logueado', token, terapeuta: newTerapeuta });
     
             // Enviar la respuesta con el token
            //RETURN ORIGINAL: return res.status(201).json({ mensaje: 'Usuario creado', token, cuerpo: newUser, opciones });
         } catch (error) {
             return res.status(500).json({
-                message: "Error al crear usuario",
+                message: "Error al crear terapeuta",
                 error: error.message,
             });
         }
@@ -94,7 +95,7 @@ const getPacienteID = async (req, res) => {
 
 
 
-const updatePaciente = async (req, res) => {
+const updateTerapeuta = async (req, res) => {
     const id = req.params.id;
     const cuerpo = req.body;
     const { password } = req.body;
@@ -108,24 +109,24 @@ const updatePaciente = async (req, res) => {
     try {
         
         console.log(id);
-        const updatedPaciente = await Paciente.findByIdAndUpdate(id, cuerpo, opciones);
+        const updatedTerapeuta = await Terapeuta.findByIdAndUpdate(id, cuerpo, opciones);
 
-        if (!updatedPaciente) {
+        if (!updatedTerapeuta) {
             return res.status(400).json({ error: 'No existe el paciente' });
         }
 
         //EXPERIMENTO: Comparamos CLAVES
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
-            res.status(400).json({ error: 'Paciente o contraseña incorrectos' });
+            res.status(400).json({ error: 'Terapeuta o contraseña incorrectos' });
             return;
         }
 
-        return res.status(200).json({ mensaje: 'Paciente actualizado', cuerpo: updatedUser });
+        return res.status(200).json({ mensaje: 'Terapeuta actualizado', cuerpo: updatedUser });
 
     } catch (error) {
         return res.status(500).json({
-            message: 'Error al actualizar el paciente',
+            message: 'Error al actualizar el terapeuta',
             error: error.message,
         });
     }   
@@ -133,10 +134,10 @@ const updatePaciente = async (req, res) => {
 
 //PATCH PACIENTE (sin password ni id):
 
-const patchPaciente = async (req, res) => {
+const patchTerapeuta = async (req, res) => {
     const id = req.params.id;
     let camposAActualizar = { ...req.body }; // Hacemos una copia de los datos enviados
-    const token = localStorage.getItem('token');
+
     // Verifica y elimina los campos _id y password si están presentes
     if (camposAActualizar._id) {
         delete camposAActualizar._id;
@@ -152,19 +153,19 @@ const patchPaciente = async (req, res) => {
 
     try {
         // Actualización parcial
-        const pacienteActualizado = await Paciente.findByIdAndUpdate(
+        const terapeutaActualizado = await Terapeuta.findByIdAndUpdate(
             id,
             camposAActualizar,
             opciones
         );
 
-        if (!pacienteActualizado) {
-            return res.status(404).json({ error: 'Error: Paciente no encontrado' });
+        if (!terapeutaActualizado) {
+            return res.status(404).json({ error: 'Error: Terapeuta no encontrado' });
         }
 
         return res.status(200).json({
-            mensaje: 'Datos del paciente actualizados',
-            datos: pacienteActualizado,
+            mensaje: 'Datos del terapeuta actualizados',
+            datos: terapeutaActualizado,
         });
     } catch (error) {
         return res.status(500).json({
@@ -202,58 +203,57 @@ const patchPaciente = async (req, res) => {
 };
 */
 
-const deletePaciente = async (req, res) => {
+const deleteTerapeuta = async (req, res) => {
     try {
         const id = req.params.id;
-        const result = await Paciente.findByIdAndDelete(id);
+        const result = await Terapeuta.findByIdAndDelete(id);
         if (!result) {
-            return res.status(400).json({ error: 'No existe el paciente' });
+            return res.status(400).json({ error: 'No existe el terapeuta' });
         }
 
         res.json({
-            mensaje: 'Paciente eliminado',
+            mensaje: 'Terapeuta eliminado',
             cuerpo: result,
         });
     } catch (error) {
         return res.status(500).json({
-            message: 'Error al eliminar el paciente',
+            message: 'Error al eliminar al terapeuta',
             error: error.message,
         });
     }
 };
-
-/*
 
 const loginUser = async (req, res) => {
 
     try { 
         const LLAVE_SECRETA = process.env.LLAVE_SECRETA || 'llave';
         const { email, password } = req.body;
-        //const user = await Usuario.findOne({email});
-        const user = await Paciente.findOne({ email });
+     
+        const user = await Terapeuta.findOne({ email });
         console.log(user); 
         if (!user) {
-             res.status(400).json({ error: 'Paciente o contraseña incorrectos' });
+             res.status(400).json({ error: 'Terapeuta o contraseña incorrectos' });
              return;
         }
 
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
-            res.status(400).json({ error: 'Paciente o contraseña incorrectos' });
+            res.status(400).json({ error: 'Contraseña incorrectos' });
             return;
         }
 
         const datosToken = {
             id: user._id,
             nombre: user.nombre,
-            apellido: user.apellido,
+            apellidoUno: user.apellidoUno,
+            apellidoDos: user.apellidoDos,
             email: user.email,
             genero: user.genero,
-            tipo_usuario: user.tipo_usuario,    
+            tipo_usuario: user.tipo_usuario,
         }
 
-
-        const token = jwt.sign(datosToken, LLAVE_SECRETA, {expiresIn:'15m'});
+        
+        const token = jwt.sign(datosToken, LLAVE_SECRETA, {expiresIn:'45m'});
 
         res.cookie('authToken', token, { httpOnly: true, secure: true }).json(
             {
@@ -269,8 +269,7 @@ const loginUser = async (req, res) => {
 }
 
 const logoutUser = async (req, res) => {
-    res.clearCookie('authToken').json({ mensaje: 'Sesión de Paciente cerrada' });
+    res.clearCookie('authToken').json({ mensaje: 'Sesión de terapeuta cerrada' });
 }
-*/
 
-export { getPacientes, getPacienteID, createPaciente, updatePaciente, patchPaciente, deletePaciente };
+export { getTerapeutas, getTerapeutaID, createTerapeuta, updateTerapeuta, patchTerapeuta, deleteTerapeuta, loginUser, logoutUser };

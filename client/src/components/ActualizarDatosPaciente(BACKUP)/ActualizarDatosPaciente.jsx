@@ -2,18 +2,14 @@ import { fetchPacienteID, patchPaciente } from "../../api/pacientesServices";
 import { useContext, useEffect, useState } from "react";
 import { UsuarioContext } from "../../contexts/UsuarioContext";
 import "./ActualizarDatosPaciente.css";
+import { set } from "mongoose";
 
 const ActualizarDatosPaciente = () => {
-  const initialValues = {
-    nombre: "",
-    apellidoUno: "",
-    apellidoDos: "",
-    email: "",
-    telefono: "",
-  };
-  const { paciente, setPaciente } = useContext(UsuarioContext);
+  const { paciente, setPaciente, terapeuta, setTerapeuta } =
+    useContext(UsuarioContext);
+  const [pacienteActualizado, setPacienteActualizado] = useState({});
+  const [terapeutaActualizado, setTerapeutaActualizado] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
-  const [pacienteActualizado, setPacienteActualizado] = useState(initialValues);
 
   //paciente actualizado tiene que ir a buscar al paciente en función del ID, no del token.
 
@@ -23,7 +19,7 @@ const ActualizarDatosPaciente = () => {
 
   useEffect(() => {
     console.log("paciente actualizado es:", pacienteActualizado);
-  }, [pacienteActualizado]);
+  }, [pacienteActualizado, terapeutaActualizado]);
   const encontrarPaciente = async () => {
     try {
       const encontrarPaciente = await fetchPacienteID(paciente.id);
@@ -72,7 +68,7 @@ const ActualizarDatosPaciente = () => {
   return (
     <div className="actualizar-paciente">
       <h2>Actualizar Datos del Paciente</h2>
-      {errorMessage && <p style={{ color: "red" }}>{String(errorMessage)}</p>}
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <form className="actualizar-paciente-form" onSubmit={handleSubmit}>
         <label htmlFor="nombre">
           Nombre:

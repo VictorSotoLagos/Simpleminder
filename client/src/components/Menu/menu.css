@@ -17,6 +17,7 @@
   color: #262626;
   background-color: #ffffff;
   border-radius: 5px;
+  /*border-right: 1px solid #aeaeae;*/
 }
 .menu ul {
   display: flex;
