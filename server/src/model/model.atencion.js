@@ -37,6 +37,9 @@ const atencionSchema = new Schema({
   indicaciones: {
     type: String,
   },
+  imagenes: {
+    type: [String],
+  },
 });
 
 const Atencion = model("Atencion", atencionSchema);

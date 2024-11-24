@@ -11,18 +11,37 @@ const AtencionForm = () => {
     diagnosticoHipotesis: "",
     estadoDiagnostico: "",
     indicaciones: "",
+    imagenes: [],
   });
 
   const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value, files } = e.target;
+    if (name === "imagenes") {
+      setFormData({
+        ...formData,
+        [name]: files,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await addAtencion(formData);
+    const formDataToSubmit = new FormData();
+    for (const key in formData) {
+      if (key === "imagenes") {
+        for (let i = 0; i < formData.imagenes.length; i++) {
+          formDataToSubmit.append("imagenes", formData.imagenes[i]);
+        }
+      } else {
+        formDataToSubmit.append(key, formData[key]);
+      }
+    }
+    await addAtencion(formDataToSubmit);
     // Reset form
     setFormData({
       fecha: "",
@@ -32,13 +51,18 @@ const AtencionForm = () => {
       diagnosticoHipotesis: "",
       estadoDiagnostico: "",
       indicaciones: "",
+      imagenes: [],
     });
   };
 
   return (
     <div className="nueva-atencion">
       <h2>Crear Atención</h2>
-      <form className="nueva-atencion-form" onSubmit={handleSubmit}>
+      <form
+        className="nueva-atencion-form"
+        onSubmit={handleSubmit}
+        encType="multipart/form-data"
+      >
         <label htmlFor="fecha">Fecha:</label>
         <input
           type="date"
@@ -98,6 +122,13 @@ const AtencionForm = () => {
           onChange={handleInputChange}
           placeholder="Indicaciones"
         ></textarea>
+        <label htmlFor="imagenes">Subir Imágenes:</label>
+        <input
+          type="file"
+          name="imagenes"
+          multiple
+          onChange={handleInputChange}
+        />
         <button type="submit">Crear Atención</button>
       </form>
     </div>
