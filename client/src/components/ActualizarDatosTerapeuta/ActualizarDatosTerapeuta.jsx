@@ -62,7 +62,7 @@ const ActualizarDatosTerapeuta = () => {
       console.log("error es:", response.error);
       return;
     } else {
-      setErrorMessage("terapeuta actualizado exitosamente");
+      setErrorMessage("Datos del terapeuta actualizados exitosamente");
       const terapeutaActualizadoContext = {
         ...terapeuta,
         nombre: datosterapeutaFinales.nombre,

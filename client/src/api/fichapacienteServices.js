@@ -6,6 +6,13 @@ const fetchFichasPacientes = async () => {
     return response.data;
   };
 
+  const fetchFichasPacientesID = async (id) => {
+    const response = await api.get(`/fichapaciente/${id}`); // Con la implementación del profe sacamos el "try" y su correspondiente "catch".
+    console.log("response.data es:", response.data)
+    return response.data;
+  };
+
+
   const addFichaPaciente = async (nuevaFichaPaciente) => {
     try {
       const response = await api.post("/fichapaciente/add", nuevaFichaPaciente);
@@ -33,4 +40,4 @@ const fetchFichasPacientes = async () => {
   };
 
 
-export { fetchFichasPacientes, addFichaPaciente, deleteFichaPaciente, putFichaPaciente }; 
+export { fetchFichasPacientes, fetchFichasPacientesID, addFichaPaciente, deleteFichaPaciente, putFichaPaciente }; 

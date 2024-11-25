@@ -79,6 +79,7 @@ const NuevoPaciente = ({ agregarPaciente }) => {
         apellido: data.apellido,
         email: data.email,
         id: data._id,
+        tipo_usuario: data.tipo_usuario,
       };
       //FALTA cambiar la validación de usuario en MENU
       setPaciente(dataToken);

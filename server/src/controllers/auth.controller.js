@@ -15,7 +15,7 @@ const loginUser = async (req, res) => {
       console.log("email recibido:", email);
   
       // Intentamos buscar al Terapeuta primero
-      user = await Terapeuta.findOne({ email });
+      user = await Terapeuta.findOne({ email }).populate("pacientes");
       if (user) {
         userType = "Terapeuta";
       } else {
@@ -45,8 +45,13 @@ const loginUser = async (req, res) => {
         nombre: user.nombre,
         email: user.email,
         tipo_usuario: userType, // Agregamos el tipo de usuario
+      
       };
-  
+      if (userType === "Terapeuta") {
+        datosToken.pacientes = user.pacientes; // Incluimos los pacientes populados
+      }
+      
+
       const token = jwt.sign(datosToken, LLAVE_SECRETA, {expiresIn:'45m'});
 
       res.cookie('authToken', token, { httpOnly: true, secure: true }).json(

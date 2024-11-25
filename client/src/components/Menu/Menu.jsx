@@ -53,18 +53,7 @@ const Menu = () => {
               )}
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/actualizar_datos_paciente" end>
-              {({ isActive }) => (
-                <button
-                  type="button"
-                  className={isActive ? "btn-menu btn-menu-active" : "btn-menu"}
-                >
-                  Actualizar Mis Datos
-                </button>
-              )}
-            </NavLink>
-          </li>
+
           <li>
             <button type="button" className="logout" onClick={handleSalir}>
               Salir de SimpleMinder
@@ -102,6 +91,18 @@ const Menu = () => {
                   className={isActive ? "btn-menu btn-menu-active" : "btn-menu"}
                 >
                   Actualizar Mis Datos
+                </button>
+              )}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/buscar_pacientes" end>
+              {({ isActive }) => (
+                <button
+                  type="button"
+                  className={isActive ? "btn-menu btn-menu-active" : "btn-menu"}
+                >
+                  Buscar Pacientes
                 </button>
               )}
             </NavLink>

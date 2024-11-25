@@ -29,7 +29,6 @@ const LoginUser = () => {
     console.log("logUser es:", logUser);
     try {
       const data = await login(logUser);
-
       // Guardar el token y datos del usuario en el contexto y localStorage
       localStorage.setItem("token", data.token);
       setToken(data.token);

@@ -4,6 +4,10 @@ import bcrypt from "bcrypt";
 
 const fichaPacienteSchema = new Schema(
   {
+    id_paciente: {
+      type: String,
+      required: false,
+    },
     nombre: {
       type: String,
       required: [true, "Se debe incluir un nombre"],
@@ -81,7 +85,7 @@ const fichaPacienteSchema = new Schema(
         "Nueva Masvida",
         "Vida Tres",
       ],
-      required: [true, "Se debe incluir una isapre o fonasa"],
+      required: [false, "Se debe incluir una isapre o fonasa"],
     },
     discapacidad: {
       type: Boolean,

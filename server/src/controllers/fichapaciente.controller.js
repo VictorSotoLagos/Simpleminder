@@ -1,4 +1,5 @@
 import { FichaPaciente } from "../model/model.ficha_paciente.js";
+import {Terapeuta} from "../model/model.terapeuta.js"
 import { config } from "dotenv";
 
 config();
@@ -31,33 +32,39 @@ const getFichaPacienteID = async (req, res) => {
 };
 
 const createFichaPaciente = async (req, res) => {
-  const opciones = {
-    new: true,
-    runValidators: true,
-  };
-
   try {
     const { terapeutaAsignado, ...fichaData } = req.body;
 
+    // Crear nueva ficha con los datos restantes
     const fichaClinicaPaciente = new FichaPaciente(fichaData);
 
+    // Validar y asignar terapeuta si se proporciona
     if (terapeutaAsignado) {
       const terapeuta = await Terapeuta.findById(terapeutaAsignado);
       if (!terapeuta) {
-        return res.status(404).json({ message: "Terapeuta no encontrado" });
+        return res.status(404).json({
+          message: "El terapeuta asignado no existe.",
+        });
       }
       fichaClinicaPaciente.terapeutaAsignado = terapeuta._id;
     }
 
+    // Guardar la ficha en la base de datos
     const fichaPacienteDB = await fichaClinicaPaciente.save();
-    return res.status(201).json(fichaPacienteDB);
+    return res.status(201).json({
+      message: "Ficha creada exitosamente.",
+      ficha: fichaPacienteDB,
+    });
   } catch (error) {
+    // Manejo de errores
+    console.error("Error al crear ficha de paciente:", error.message);
     return res.status(500).json({
-      message: "Error al crear ficha de paciente",
+      message: "Error al crear ficha de paciente.",
       error: error.message,
     });
   }
 };
+
 const updateFichaPaciente = async (req, res) => {
   try {
     const fichaPacienteDB = await FichaPaciente.findByIdAndUpdate(

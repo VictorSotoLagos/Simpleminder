@@ -71,12 +71,20 @@ const terapeutaSchema = new Schema({
     type: String,
     default: "Sin Promocion",
   },
+
+  /*
   pacientes: [
     {
       type: Schema.Types.ObjectId,
       ref: "Paciente", // Asegúrate de que el nombre coincida con el modelo de pacientes
     }
   ],
+  */
+ pacientes: [
+  {
+    type: String,
+  }
+ ],
   password: {
     type: String,
     required: [true, "Se debe incluir una contraseña"],
