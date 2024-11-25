@@ -1,0 +1,51 @@
+.ficha-paciente {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.ficha-paciente-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.ficha-paciente-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.ficha-paciente-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: black;
+}
+
+.ficha-paciente-form input,
+.ficha-paciente-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.ficha-paciente-form button {
+  grid-column: span 2;
+  padding: 10px;
+  background-color: #215f99;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.ficha-paciente-form button:hover {
+  background-color: #df7802;
+}

@@ -1,8 +1,32 @@
 import { Atencion } from "../model/model.atencion.js";
 import { config } from "dotenv";
 import { FichaPaciente } from "../model/model.ficha_paciente.js";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
 
 config();
+
+// Definir __dirname usando import.meta.url
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Configuración de multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadsDir = path.join(__dirname, "../../uploads");
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir);
+    }
+    cb(null, uploadsDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
 
 const getAtenciones = async (req, res) => {
   try {
@@ -53,6 +77,8 @@ const createAtencion = async (req, res) => {
       return res.status(404).json({ message: "Paciente no encontrado" });
     }
 
+    const imagenes = req.files ? req.files.map((file) => file.path) : [];
+
     const nuevaAtencion = new Atencion({
       id_paciente: paciente._id,
       nombre: paciente.nombre,
@@ -65,6 +91,7 @@ const createAtencion = async (req, res) => {
       diagnosticoHipotesis,
       estadoDiagnostico,
       indicaciones,
+      imagenes, // Add this line
     });
 
     const atencionDB = await nuevaAtencion.save();
@@ -116,4 +143,5 @@ export {
   updateAtencion,
   deleteAtencion,
   getAtencionesByPaciente,
+  upload, // Add this line
 };

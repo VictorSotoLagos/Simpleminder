@@ -88,7 +88,7 @@ const fichaPacienteSchema = new Schema(
       required: [false, "Se debe incluir una isapre o fonasa"],
     },
     discapacidad: {
-      type: Boolean,
+      type: String,
     },
     accidenteRelevante: {
       type: String,
@@ -109,10 +109,12 @@ const fichaPacienteSchema = new Schema(
       Selection: ["Presencial", "Online", "Mixta"],
     },
     trabajando: {
-      type: Boolean,
+      type: String,
+      Selection: ["Sin información", "Si", "No"],
     },
     legalizado: {
-      type: Boolean,
+      type: String,
+      Selection: ["Sin información", "Si", "No"],
     },
     tipoDeTrabajo: {
       type: String,
@@ -122,7 +124,8 @@ const fichaPacienteSchema = new Schema(
       type: Number,
     },
     comparteCama: {
-      type: Boolean,
+      type: String,
+      Selection: ["Sin información", "Si", "No"],
     },
     nivelEducacionPadre: {
       type: String,

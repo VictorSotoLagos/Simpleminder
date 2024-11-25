@@ -26,6 +26,10 @@ import ActualizarDatosTerapeuta from "./components/ActualizarDatosTerapeuta/Actu
 import BuscarPacientes from "./components/BuscarPacientes/BuscarPacientes";
 
 import TopBar from "./components/TopBar/TopBar";
+import FichaPacienteList from "./components/FichaPaciente/FichaPacienteList";
+import FichaPacienteForm from "./components/FichaPaciente/FichaPacienteForm";
+import AtencionList from "./components/Atencion/AtencionList";
+import AtencionForm from "./components/Atencion/AtencionForm";
 
 const App = () => {
   const { paciente, terapeuta } = useContext(UsuarioContext);
@@ -197,6 +201,14 @@ const App = () => {
             </PrivateTerapeutaRoutes>
           }
         />
+
+        <Route path="/ficha_paciente" element={<FichaPacienteList />} />
+
+        <Route path="/ficha_form" element={<FichaPacienteForm />} />
+
+        <Route path="/atencion_lista" element={<AtencionList />} />
+
+        <Route path="/atencion_form" element={<AtencionForm />} />
       </Routes>
     </main>
   );

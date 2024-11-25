@@ -5,11 +5,12 @@ import {
   updateAtencion,
   deleteAtencion,
   getAtencionesByPaciente,
+  upload, // Add this line
 } from "../controllers/atencion.controller.js";
 
 const router = Router();
 
-router.post("/add", createAtencion); // Ruta para registrar una atencion
+router.post("/add", upload.array("imagenes", 10), createAtencion); // Permitir hasta 10 imágenes
 router.get("/", getAtenciones); // Ruta para obtener todas las atenciones
 router.put("/:id", updateAtencion); // Ruta para actualizar una atencion por ID
 router.delete("/:id", deleteAtencion);

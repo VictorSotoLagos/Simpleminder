@@ -10,9 +10,18 @@ import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import conectarDB from "./src/config/config.mongo.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Configuración de dotenv
 config();
 
-// Creamos una instancia de la aplicación express
+// Definir __dirname usando import.meta.url
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Crear una instancia de la aplicación express
 const app = express();
 app.use(cookieParser());
 app.use(helmet());
@@ -20,12 +29,18 @@ app.use(morgan("tiny"));
 app.use(express.json());
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 
-// Definimos el puerto en el que el servidor escuchará las solicitudes
+// Crear el directorio 'uploads' si no existe
+const uploadsDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
+
+// Definir el puerto en el que el servidor escuchará las solicitudes
 const port = process.env.PORT || 8080;
 const mongoUri = process.env.MONGODB_URI;
 
 if (!mongoUri) {
-  console.error("MONGODB_URI no está definida en el archivo.env");
+  console.error("MONGODB_URI no está definida en el archivo .env");
   process.exit(1);
 }
 
