@@ -95,6 +95,7 @@ const Menu = () => {
               )}
             </NavLink>
           </li>
+
           <li>
             <NavLink to="/buscar_pacientes" end>
               {({ isActive }) => (
@@ -103,6 +104,30 @@ const Menu = () => {
                   className={isActive ? "btn-menu btn-menu-active" : "btn-menu"}
                 >
                   Buscar Pacientes
+                </button>
+              )}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/crear_ficha_paciente" end>
+              {({ isActive }) => (
+                <button
+                  type="button"
+                  className={isActive ? "btn-menu btn-menu-active" : "btn-menu"}
+                >
+                  Crear Ficha Paciente
+                </button>
+              )}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/crear_atencion" end>
+              {({ isActive }) => (
+                <button
+                  type="button"
+                  className={isActive ? "btn-menu btn-menu-active" : "btn-menu"}
+                >
+                  Crear Atención
                 </button>
               )}
             </NavLink>

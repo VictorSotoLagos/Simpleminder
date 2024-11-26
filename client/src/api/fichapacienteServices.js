@@ -5,7 +5,6 @@ const fetchFichasPacientes = async () => {
   return response.data;
 };
 
-<<<<<<< HEAD
   const fetchFichasPacientesID = async (id) => {
     const response = await api.get(`/fichapaciente/${id}`); // Con la implementación del profe sacamos el "try" y su correspondiente "catch".
     console.log("response.data es:", response.data)
@@ -23,12 +22,6 @@ const fetchFichasPacientes = async () => {
       return { error: error.response?.data?.error || "Hubo un error al crear la ficha del paciente." };
     }
   };
-=======
-const addFichaPaciente = async (nuevaFichaPaciente) => {
-  const response = await api.post("/fichapaciente/add", nuevaFichaPaciente);
-  return response.data;
-};
->>>>>>> 6991953eed24075b1d86e3d01c74d175a829eb95
 
 const deleteFichaPaciente = async (idFichaPacienteBorrar) => {
   const response = await api.delete(`/pacientes/${idFichaPacienteBorrar}`); // Con la implementación del profe sacamos el "try" y su correspondiente "catch".
@@ -47,22 +40,9 @@ const putFichaPaciente = async (id, fichaPacienteParaActualizar) => {
   return response.data;
 };
 
-<<<<<<< HEAD
-    const putFichaPaciente = async (id, fichaPacienteParaActualizar) => {
-    console.log("fichaPacienteParaActualizar._id es:", id);
-    console.log ("fichaPacienteParaActualizar es:", fichaPacienteParaActualizar);
-    const response = await api.put(`/pacientes/${id}`, fichaPacienteParaActualizar); // Con la implementación del profe sacamos el "try" y su correspondiente "catch".
-    console.log("Ficha paciente actualizada es",  response.data)
-    return response.data;
-  };
-
-
-export { fetchFichasPacientes, fetchFichasPacientesID, addFichaPaciente, deleteFichaPaciente, putFichaPaciente }; 
-=======
 export {
-  fetchFichasPacientes,
+  fetchFichasPacientes, fetchFichasPacientesID,
   addFichaPaciente,
   deleteFichaPaciente,
   putFichaPaciente,
 };
->>>>>>> 6991953eed24075b1d86e3d01c74d175a829eb95

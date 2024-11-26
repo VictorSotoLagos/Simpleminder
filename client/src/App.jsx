@@ -187,6 +187,7 @@ const App = () => {
               {terapeuta ? (
                 <>
                   <Menu />
+
                   <div className="contenido">
                     <TopBar />
                     <BuscarPacientes
@@ -201,14 +202,46 @@ const App = () => {
             </PrivateTerapeutaRoutes>
           }
         />
+        <Route
+          path="/crear_ficha_paciente"
+          element={
+            <PrivateTerapeutaRoutes>
+              {terapeuta ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <FichaPacienteForm />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivateTerapeutaRoutes>
+          }
+        />
+        <Route
+          path="/crear_atencion"
+          element={
+            <PrivateTerapeutaRoutes>
+              {terapeuta ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <AtencionForm />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivateTerapeutaRoutes>
+          }
+        />
 
         <Route path="/ficha_paciente" element={<FichaPacienteList />} />
 
-        <Route path="/ficha_form" element={<FichaPacienteForm />} />
-
         <Route path="/atencion_lista" element={<AtencionList />} />
-
-        <Route path="/atencion_form" element={<AtencionForm />} />
       </Routes>
     </main>
   );
