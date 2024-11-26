@@ -1,0 +1,46 @@
+.table-container {
+  border: 1px solid #dbdbdb; /* Borde del contenedor */
+  border-radius: 2px; /* Bordes redondeados */
+  overflow: hidden; /* Asegura que el contenido no sobresalga */
+}
+
+.table {
+  width: 100%; /* Ocupa todo el ancho del contenedor */
+  border-collapse: collapse; /* Colapsa los bordes internos */
+  margin: 0; /* Elimina márgenes adicionales */
+  font-size: 16px; /* Tamaño de fuente */
+  text-align: left; /* Alineación del texto */
+}
+
+.table th,
+.table td {
+  padding: 12px 15px; /* Espaciado dentro de las celdas */
+  border: 1px solid #ddd; /* Borde de las celdas */
+}
+
+.table thead {
+  background-color: #007bff; /* Color de fondo de la cabecera */
+  color: white;
+  font-weight: bold; /* Texto en negrita */
+}
+
+.table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Fondo de las filas pares */
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1; /* Fondo al pasar el mouse */
+}
+
+.table button {
+  background-color: #007bff; /* Color del botón */
+  color: white; /* Color del texto */
+  border: none; /* Sin bordes */
+  padding: 8px 12px; /* Espaciado interno */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  border-radius: 4px; /* Bordes redondeados */
+}
+
+.table button:hover {
+  background-color: #0056b3; /* Color del botón al pasar el mouse */
+}

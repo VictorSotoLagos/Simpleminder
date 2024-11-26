@@ -79,7 +79,7 @@ const ActualizarDatosTerapeuta = () => {
 
   return (
     <div className="actualizar-terapeuta">
-      <h2>Actualizar Datos del terapeuta</h2>
+      <h2>Actualizar Datos del Terapeuta</h2>
       {errorMessage && <p style={{ color: "red" }}>{String(errorMessage)}</p>}
       <form className="actualizar-terapeuta-form" onSubmit={handleSubmit}>
         <label htmlFor="nombre">

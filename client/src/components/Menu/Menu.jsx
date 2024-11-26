@@ -12,12 +12,34 @@ const Menu = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const checkToken = () => {
+      const token = localStorage.getItem("token");
+      if (isTokenExpired(token)) {
+        console.log("Token expirado:", token);
+        handleSalir();
+      }
+    };
+
+    // Llamada inicial al cargar el componente
+    checkToken();
+
+    // Temporizador para verificar el token cada 5 minutos (300,000 ms)
+    const interval = setInterval(checkToken, 300000); // 5 minutos
+
+    // Limpieza al desmontar el componente
+    return () => clearInterval(interval);
+  }, [navigate]);
+
+  /*
+
+  useEffect(() => {
     const token = localStorage.getItem("token");
     if (isTokenExpired(token)) {
       console.log("Token expirado:", token);
       handleSalir();
     }
   }, [navigate]);
+  */
 
   const handleSalir = async () => {
     try {
@@ -97,13 +119,13 @@ const Menu = () => {
           </li>
 
           <li>
-            <NavLink to="/buscar_pacientes" end>
+            <NavLink to="/ver_pacientes" end>
               {({ isActive }) => (
                 <button
                   type="button"
                   className={isActive ? "btn-menu btn-menu-active" : "btn-menu"}
                 >
-                  Buscar Pacientes
+                  Ver Pacientes
                 </button>
               )}
             </NavLink>

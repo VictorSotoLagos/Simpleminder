@@ -2,58 +2,18 @@ import { addFichaPaciente } from "../../api/fichapacienteServices.js";
 import { useContext, useState } from "react";
 import { UsuarioContext } from "../../contexts/UsuarioContext.jsx";
 import { patchTerapeuta } from "../../api/terapeutaServices.js";
+import { useParams } from "react-router-dom";
 import "./FichaPacienteFormStyle.css";
 import React from "react";
 
-const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
+const FichaPacienteForm = (id) => {
   const { terapeuta, setTerapeuta } = useContext(UsuarioContext);
   const [returnMessage, setReturnMessage] = useState("");
-  const initialValues = {
-    nombre: "",
-    nombreSocial: "",
-    apellidoUno: "",
-    apellidoDos: "",
-    email: "",
-    telefono: "",
-    run: "",
-    fecha_nacimiento: "",
-    genero: "",
-    estado_civil: "",
-    prevision: "",
-    discapacidad: "",
-    accidenteRelevante: "",
-    medicamentos: "",
-    educacion: "",
-    modalidad: "",
-    trabajando: "",
-    legalizado: "",
-    tipoDeTrabajo: "",
-    cantidadFamiliares: "",
-    comparteCama: "",
-    nivelEducacionPadre: "",
-    nivelEducacionMadre: "",
-    ocupacionPadre: "",
-    ocupacionMadre: "",
-    ocupacionPareja: "",
-    comorbilidades: "",
-    diagnosticoHipotesis: "",
-    motivoConsulta: "",
-    derivadoPor: "",
-    derivadoHacia: "",
-    otrosPersonal: "",
-  };
-  const [formData, setFormData] = useState(initialValues);
+  const idFicha = useParams();
 
-  const buscarTerapeuta = allTerapeutas.find(
-    (person) => person._id === terapeuta.id
-  );
-  console.log("allTerapeutas es", allTerapeutas);
-  console.log("terapeuta ficha completa", buscarTerapeuta);
+  console.log("idFicha es:", idFicha.id);
 
-  if (!buscarTerapeuta) {
-    console.error("Terapeuta no encontrado");
-    return;
-  }
+  const [formData, setFormData] = useState();
 
   const handleInputChange = (e) => {
     setFormData({

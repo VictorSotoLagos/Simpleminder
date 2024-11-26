@@ -6,7 +6,6 @@ const fichaPacienteSchema = new Schema(
   {
     id_paciente: {
       type: String,
-      required: false,
     },
     nombre: {
       type: String,
@@ -16,7 +15,7 @@ const fichaPacienteSchema = new Schema(
     },
     nombreSocial: {
       type: String,
-      minlength: 3, // Limitar a un mínimo de 3 caracteres
+      minlength: 3,  //Limitar a un mínimo de 3 caracteres
       maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
     apellidoUno: {
@@ -60,6 +59,7 @@ const fichaPacienteSchema = new Schema(
     genero: {
       type: String,
       enum: ["Masculino", "Femenino", "Otro"],
+      default: "Otro",
       required: [true, "Se debe incluir un genero"],
     },
     estado_civil: {
@@ -73,6 +73,7 @@ const fichaPacienteSchema = new Schema(
         "Otro",
       ],
       required: [true, "Se debe incluir un estado civil"],
+      default: "Otro",
     },
     prevision: {
       type: String,
@@ -85,7 +86,8 @@ const fichaPacienteSchema = new Schema(
         "Nueva Masvida",
         "Vida Tres",
       ],
-      required: [false, "Se debe incluir una isapre o fonasa"],
+      required: [true, "Se debe incluir una isapre o fonasa"],
+      default: "Fonasa",
     },
     discapacidad: {
       type: String,

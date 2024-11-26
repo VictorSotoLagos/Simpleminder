@@ -23,13 +23,13 @@ import InicioTerapeutas from "./components/InicioTerapeutas/InicioTerapeutas";
 import { Navigate } from "react-router-dom";
 import ActualizarDatosPaciente from "./components/ActualizarDatosPaciente/ActualizarDatosPaciente";
 import ActualizarDatosTerapeuta from "./components/ActualizarDatosTerapeuta/ActualizarDatosTerapeuta";
-import BuscarPacientes from "./components/BuscarPacientes/BuscarPacientes";
-
+import VerPacientes from "./components/VerPacientes/VerPacientes";
 import TopBar from "./components/TopBar/TopBar";
 import FichaPacienteList from "./components/FichaPaciente/FichaPacienteList";
 import FichaPacienteForm from "./components/FichaPaciente/FichaPacienteForm";
 import AtencionList from "./components/Atencion/AtencionList";
 import AtencionForm from "./components/Atencion/AtencionForm";
+import ActualizarFichaPaciente from "./components/FichaPaciente/ActualizarFichaPaciente";
 
 const App = () => {
   const { paciente, terapeuta } = useContext(UsuarioContext);
@@ -73,7 +73,7 @@ const App = () => {
   };
 
   const agregarTerapeuta = (newTerapeuta) => {
-    setAllPacientes([...allTerapeutas, newTerapeuta]);
+    setAllTerapeutas([...allTerapeutas, newTerapeuta]);
     console.log("New Terapeuta es:", newTerapeuta);
   };
 
@@ -181,7 +181,7 @@ const App = () => {
           }
         />
         <Route
-          path="/buscar_pacientes"
+          path="/ver_pacientes"
           element={
             <PrivateTerapeutaRoutes>
               {terapeuta ? (
@@ -190,7 +190,7 @@ const App = () => {
 
                   <div className="contenido">
                     <TopBar />
-                    <BuscarPacientes
+                    <VerPacientes
                       allPacientes={allPacientes}
                       allTerapeutas={allTerapeutas}
                     />
@@ -211,7 +211,28 @@ const App = () => {
                   <Menu />
                   <div className="contenido">
                     <TopBar />
-                    <FichaPacienteForm />
+                    <FichaPacienteForm
+                      allTerapeutas={allTerapeutas}
+                      setAllTerapeutas={setAllTerapeutas}
+                    />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivateTerapeutaRoutes>
+          }
+        />
+        <Route
+          path="/actualizar_ficha_paciente/:id"
+          element={
+            <PrivateTerapeutaRoutes>
+              {terapeuta ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <ActualizarFichaPaciente />
                   </div>
                 </>
               ) : (
