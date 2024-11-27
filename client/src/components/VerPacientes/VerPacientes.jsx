@@ -40,7 +40,8 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
               <th>Nombre</th>
               <th>Apellido Paterno</th>
               <th>Rut</th>
-              <th>Acción</th>
+              <th>Ficha</th>
+              <th>Atenciones</th>
             </tr>
           </thead>
           <tbody>
@@ -57,6 +58,16 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
                     }}
                   >
                     Ver ficha
+                  </button>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigate(`/actualizar_ficha_paciente/${ficha._id}`);
+                    }}
+                  >
+                    Atenciones
                   </button>
                 </td>
               </tr>

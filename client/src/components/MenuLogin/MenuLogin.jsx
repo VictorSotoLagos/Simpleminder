@@ -26,20 +26,6 @@ const MenuLogin = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/nuevopaciente" end>
-                {({ isActive }) => (
-                  <button
-                    type="button"
-                    className={
-                      isActive ? "btn-menu btn-menu-active" : "btn-menu"
-                    }
-                  >
-                    Registro Nuevos Pacientes
-                  </button>
-                )}
-              </NavLink>
-            </li>
-            <li>
               <NavLink to="/nuevoterapeuta" end>
                 {({ isActive }) => (
                   <button

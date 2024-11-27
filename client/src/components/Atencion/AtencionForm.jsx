@@ -57,7 +57,7 @@ const AtencionForm = () => {
 
   return (
     <div className="nueva-atencion">
-      <h2>Crear Atención</h2>
+      <h3>Crear Atención</h3>
       <form
         className="nueva-atencion-form"
         onSubmit={handleSubmit}

@@ -1,7 +1,7 @@
 .menulogin {
   display: flex;
   padding: 10px 15px;
-  width: 500px;
+  width: 600px;
   height: 600px;
   flex-direction: column;
   justify-content: flex-start;
@@ -105,4 +105,9 @@ ul li .nav-link-on {
   color: #ffffff;
   box-shadow: 2px 2px 1px #3b3b3b;
   border-width: 0px;
+}
+
+.logo {
+  margin-bottom: 20px;
+  width: 350px;
 }

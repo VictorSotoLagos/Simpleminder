@@ -40,9 +40,16 @@ const putFichaPaciente = async (id, fichaPacienteParaActualizar) => {
   return response.data;
 };
 
+const patchFichaPaciente = async (id, fichaPacienteParaActualizar) => {
+  console.log("fichaPacienteParaActualizar._id es:", id);
+  console.log("fichaPacienteParaActualizar es:", fichaPacienteParaActualizar);
+  const response = await api.patch(`/fichapaciente/${id}`, fichaPacienteParaActualizar);
+  console.log("Ficha paciente actualizada es", response.data);
+  return response.data;
+};
+
 export {
   fetchFichasPacientes, fetchFichasPacientesID,
   addFichaPaciente,
   deleteFichaPaciente,
-  putFichaPaciente,
-};
+  putFichaPaciente, patchFichaPaciente };

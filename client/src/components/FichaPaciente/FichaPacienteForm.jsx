@@ -119,7 +119,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
 
   return (
     <div className="ficha-paciente">
-      <h2>Crear Ficha de Paciente</h2>
+      <h3>Crear Ficha de Paciente</h3>
       <form className="ficha-paciente-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="nombre">

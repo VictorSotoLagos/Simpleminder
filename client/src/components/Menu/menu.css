@@ -1,6 +1,6 @@
 .menu-container {
   display: flex;
-  width: 500px;
+  width: 600px;
   flex-direction: row;
   justify-content: flex-start;
 }
@@ -93,8 +93,8 @@ ul li .nav-link-on {
 
 .btn-menu {
   display: flex;
+  flex-direction: row;
   font-size: 17px;
-  flex-direction: column;
   width: 100%;
   align-items: center;
   justify-content: center;
@@ -112,4 +112,9 @@ ul li .nav-link-on {
   color: #ffffff;
   box-shadow: 2px 2px 1px #3b3b3b;
   border-width: 0px;
+}
+
+.logo {
+  margin-bottom: 20px;
+  width: 100%;
 }

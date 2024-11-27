@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import "@fontsource/poppins";
+import "@fontsource/poppins/400.css"; // Peso Regular
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/600.css"; // Peso Semi-Bold
+import "@fontsource/poppins/700.css";
+import "@fontsource/poppins/800.css";
 import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 //import FormularioDatos1 from "./components/FormularioDatos1/FormularioDatos1";
 //import ListaDatos1 from "./components/ListaDatos1/ListaDatos1";

@@ -81,6 +81,23 @@ const updateFichaPaciente = async (req, res) => {
   }
 };
 
+const patchFichaPaciente = async (req, res) => {
+  try {
+    const fichaPacienteDB = await FichaPaciente.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body }, // Solo actualiza los campos enviados
+      { new: true }
+    );
+    return res.status(200).json(fichaPacienteDB);
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error al actualizar la Ficha Paciente",
+      error: error.message,
+    });
+  }
+};
+
+
 const deleteFichaPaciente = async (req, res) => {
   try {
     await FichaPaciente.findByIdAndDelete(req.params.id);
@@ -101,4 +118,5 @@ export {
   createFichaPaciente,
   updateFichaPaciente,
   deleteFichaPaciente,
+  patchFichaPaciente
 };

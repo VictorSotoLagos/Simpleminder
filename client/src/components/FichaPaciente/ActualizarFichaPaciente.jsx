@@ -1,19 +1,40 @@
 import { addFichaPaciente } from "../../api/fichapacienteServices.js";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { UsuarioContext } from "../../contexts/UsuarioContext.jsx";
 import { patchTerapeuta } from "../../api/terapeutaServices.js";
+import { patchFichaPaciente } from "../../api/fichapacienteServices.js";
+import useFichaPaciente from "../../hooks/usefichapaciente";
+import { fetchFichasPacientesID } from "../../api/fichapacienteServices.js";
 import { useParams } from "react-router-dom";
 import "./FichaPacienteFormStyle.css";
 import React from "react";
 
-const FichaPacienteForm = (id) => {
+const ActualizarFichaPaciente = () => {
   const { terapeuta, setTerapeuta } = useContext(UsuarioContext);
   const [returnMessage, setReturnMessage] = useState("");
-  const idFicha = useParams();
+  const [formData, setFormData] = useState({});
+  const { id } = useParams(); // Desestructuración del objeto que te devuelve useParams
+  console.log("id es:", id); // Aquí accedes directamente al valor del parámetro
 
-  console.log("idFicha es:", idFicha.id);
+  const obtenerFichaPaciente = async () => {
+    const fichaEncontrada = await fetchFichasPacientesID(id);
+    setFormData(fichaEncontrada);
+    return fichaEncontrada;
+  };
 
-  const [formData, setFormData] = useState();
+  function formatDateToHTMLDate(mongoDate) {
+    if (!mongoDate) return ""; // Manejo de casos nulos o indefinidos
+    const date = new Date(mongoDate); // Convierte la cadena en un objeto Date
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Añade el 0 si es necesario
+    const day = String(date.getDate()).padStart(2, "0"); // Añade el 0 si es necesario
+    return `${year}-${month}-${day}`; // Devuelve la fecha en formato YYYY-MM-DD
+  }
+
+  useEffect(() => {
+    obtenerFichaPaciente();
+    console.log(formData);
+  }, []);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -26,60 +47,25 @@ const FichaPacienteForm = (id) => {
     e.preventDefault();
 
     try {
-      // 1. Buscar al terapeuta en la base de datos
-      /*
-      const registroTerapeutaDB = await fetchTerapeutaID(terapeuta.id);
+      const fichaActualizada = await patchFichaPaciente(id, formData);
+      console.log("ficha actualizada es: ", fichaActualizada);
 
-      if (!registroTerapeutaDB) {
-        console.error("El terapeuta no fue encontrado en la base de datos.");
-        return;
-        */
-
-      const nuevaFicha = await addFichaPaciente({
-        ...formData,
-        terapeutaAsignado: buscarTerapeuta._id, // Si es necesario
-      });
-
-      console.log("nueva ficha es: ", nuevaFicha);
-
-      if (!nuevaFicha) {
-        console.error("Error al crear la ficha del paciente.");
+      if (!fichaActualizada) {
+        console.error("Error al actualizar la ficha del paciente.");
         return;
       }
 
-      console.log("Ficha creada exitosamente:", nuevaFicha);
-
-      // 4. Agregar el ID del paciente al terapeuta en la base de datos
-      buscarTerapeuta.pacientes.push(nuevaFicha.ficha._id);
-      console.log("nuevaficha _id es", nuevaFicha._id);
-      console.log("buscarTerapeuta es", buscarTerapeuta);
-
-      await patchTerapeuta(buscarTerapeuta._id, {
-        pacientes: buscarTerapeuta.pacientes,
-      });
-
-      // 5. Actualizar el estado local del terapeuta
-      setTerapeuta((prevTerapeuta) => ({
-        ...prevTerapeuta,
-        pacientes: [...prevTerapeuta.pacientes, nuevaFicha._id],
-      }));
-      setAllTerapeutas((prevTerapeutas) => [
-        ...prevTerapeutas,
-        buscarTerapeuta,
-      ]);
-
-      console.log("Paciente asignado exitosamente.");
-      setReturnMessage("Paciente asignado exitosamente");
+      setReturnMessage("Ficha de paciente actualizada exitosamente");
     } catch (error) {
-      console.error("Error al asignar el paciente:", error);
+      console.error("Error al asignar la ficha del paciente:", error);
+      setReturnMessage("Error al asignar la ficha del paciente");
     }
-
-    setFormData(initialValues);
   };
 
   return (
     <div className="ficha-paciente">
-      <h2>Crear Ficha de Paciente</h2>
+      <h2>Ver / Actualizar Ficha de Paciente</h2>
+      {returnMessage && <p style={{ color: "red" }}>{returnMessage}</p>}
       <form className="ficha-paciente-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="nombre">
@@ -88,7 +74,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="nombre"
-            value={formData.nombre}
+            value={formData.nombre || ""}
             onChange={handleInputChange}
             placeholder="Nombre"
           />
@@ -98,7 +84,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="nombreSocial"
-            value={formData.nombreSocial}
+            value={formData.nombreSocial || ""}
             onChange={handleInputChange}
             placeholder="Nombre Social"
           />
@@ -110,7 +96,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="apellidoUno"
-            value={formData.apellidoUno}
+            value={formData.apellidoUno || ""}
             onChange={handleInputChange}
             placeholder="Apellido Paterno"
           />
@@ -122,7 +108,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="apellidoDos"
-            value={formData.apellidoDos}
+            value={formData.apellidoDos || ""}
             onChange={handleInputChange}
             placeholder="Apellido Materno"
           />
@@ -134,7 +120,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="email"
             name="email"
-            value={formData.email}
+            value={formData.email || ""}
             onChange={handleInputChange}
             placeholder="Email"
           />
@@ -146,7 +132,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="telefono"
-            value={formData.telefono}
+            value={formData.telefono || ""}
             onChange={handleInputChange}
             placeholder="Teléfono"
           />
@@ -158,7 +144,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="run"
-            value={formData.run}
+            value={formData.run || ""}
             onChange={handleInputChange}
             placeholder="RUN"
           />
@@ -170,7 +156,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="date"
             name="fecha_nacimiento"
-            value={formData.fecha_nacimiento}
+            value={formatDateToHTMLDate(formData.fecha_nacimiento) || ""}
             onChange={handleInputChange}
             placeholder="Fecha de Nacimiento"
           />
@@ -181,7 +167,7 @@ const FichaPacienteForm = (id) => {
           </label>
           <select
             name="genero"
-            value={formData.genero}
+            value={formData.genero || ""}
             onChange={handleInputChange}
           >
             <option value="">Seleccione un género</option>
@@ -196,7 +182,7 @@ const FichaPacienteForm = (id) => {
           </label>
           <select
             name="estado_civil"
-            value={formData.estado_civil}
+            value={formData.estado_civil || ""}
             onChange={handleInputChange}
           >
             <option value="">Seleccione un estado civil</option>
@@ -214,7 +200,7 @@ const FichaPacienteForm = (id) => {
           </label>
           <select
             name="prevision"
-            value={formData.prevision}
+            value={formData.prevision || ""}
             onChange={handleInputChange}
           >
             <option value="">Seleccione una previsión</option>
@@ -232,7 +218,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="discapacidad"
-            value={formData.discapacidad}
+            value={formData.discapacidad || ""}
             onChange={handleInputChange}
             placeholder="Discapacidad"
           />
@@ -242,7 +228,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="accidenteRelevante"
-            value={formData.accidenteRelevante}
+            value={formData.accidenteRelevante || ""}
             onChange={handleInputChange}
             placeholder="Accidente Relevante"
           />
@@ -252,7 +238,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="medicamentos"
-            value={formData.medicamentos}
+            value={formData.medicamentos || ""}
             onChange={handleInputChange}
             placeholder="Medicamentos"
           />
@@ -262,7 +248,7 @@ const FichaPacienteForm = (id) => {
           <label htmlFor="educacion">Nivel de estudios:</label>
           <select
             name="educacion"
-            value={formData.educacion}
+            value={formData.educacion || ""}
             onChange={handleInputChange}
           >
             <option value="">Seleccione un nivel de educación</option>
@@ -277,7 +263,7 @@ const FichaPacienteForm = (id) => {
           <label htmlFor="modalidad">Modalidad:</label>
           <select
             name="modalidad"
-            value={formData.modalidad}
+            value={formData.modalidad || ""}
             onChange={handleInputChange}
           >
             <option value="">Seleccione una modalidad</option>
@@ -290,7 +276,7 @@ const FichaPacienteForm = (id) => {
           <label htmlFor="trabajando">Trabajando:</label>
           <select
             name="trabajando"
-            value={formData.trabajando}
+            value={formData.trabajando || ""}
             onChange={handleInputChange}
           >
             <option value="Sin información">Sin información</option>
@@ -302,7 +288,7 @@ const FichaPacienteForm = (id) => {
           <label htmlFor="legalizado"> Trabajo Legalizado:</label>
           <select
             name="legalizado"
-            value={formData.legalizado}
+            value={formData.legalizado || ""}
             onChange={handleInputChange}
           >
             <option value="Sin información">Sin información</option>
@@ -314,7 +300,7 @@ const FichaPacienteForm = (id) => {
           <label htmlFor="tipoDeTrabajo">Tipo de Trabajo:</label>
           <select
             name="tipoDeTrabajo"
-            value={formData.tipoDeTrabajo}
+            value={formData.tipoDeTrabajo || ""}
             onChange={handleInputChange}
           >
             <option value="">Seleccione un tipo de trabajo</option>
@@ -331,7 +317,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="number"
             name="cantidadFamiliares"
-            value={formData.cantidadFamiliares}
+            value={formData.cantidadFamiliares || ""}
             onChange={handleInputChange}
             placeholder="Cantidad de Familiares que vive"
           />
@@ -340,7 +326,7 @@ const FichaPacienteForm = (id) => {
           <label htmlFor="comparteCama">Comparte Cama:</label>
           <select
             name="comparteCama"
-            value={formData.comparteCama}
+            value={formData.comparteCama || ""}
             onChange={handleInputChange}
           >
             <option value="Sin información">Sin información</option>
@@ -354,7 +340,7 @@ const FichaPacienteForm = (id) => {
           </label>
           <select
             name="nivelEducacionPadre"
-            value={formData.nivelEducacionPadre}
+            value={formData.nivelEducacionPadre || ""}
             onChange={handleInputChange}
           >
             <option value="">Seleccione un nivel de educación</option>
@@ -371,7 +357,7 @@ const FichaPacienteForm = (id) => {
           </label>
           <select
             name="nivelEducacionMadre"
-            value={formData.nivelEducacionMadre}
+            value={formData.nivelEducacionMadre || ""}
             onChange={handleInputChange}
           >
             <option value="">Seleccione un nivel de educación</option>
@@ -387,7 +373,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="ocupacionPadre"
-            value={formData.ocupacionPadre}
+            value={formData.ocupacionPadre || ""}
             onChange={handleInputChange}
             placeholder="Ocupación del Padre"
           />
@@ -397,7 +383,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="ocupacionMadre"
-            value={formData.ocupacionMadre}
+            value={formData.ocupacionMadre || ""}
             onChange={handleInputChange}
             placeholder="Ocupación de la Madre"
           />
@@ -407,7 +393,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="ocupacionPareja"
-            value={formData.ocupacionPareja}
+            value={formData.ocupacionPareja || ""}
             onChange={handleInputChange}
             placeholder="Ocupación de la Pareja"
           />
@@ -417,7 +403,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="comorbilidades"
-            value={formData.comorbilidades}
+            value={formData.comorbilidades || ""}
             onChange={handleInputChange}
             placeholder="Comorbilidades"
           />
@@ -427,7 +413,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="diagnosticoHipotesis"
-            value={formData.diagnosticoHipotesis}
+            value={formData.diagnosticoHipotesis || ""}
             onChange={handleInputChange}
             placeholder="Diagnóstico/Hipótesis"
           />
@@ -437,7 +423,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="motivoConsulta"
-            value={formData.motivoConsulta}
+            value={formData.motivoConsulta || ""}
             onChange={handleInputChange}
             placeholder="Motivo de Consulta"
           />
@@ -447,7 +433,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="derivadoPor"
-            value={formData.derivadoPor}
+            value={formData.derivadoPor || ""}
             onChange={handleInputChange}
             placeholder="Derivado Por"
           />
@@ -457,7 +443,7 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="derivadoHacia"
-            value={formData.derivadoHacia}
+            value={formData.derivadoHacia || ""}
             onChange={handleInputChange}
             placeholder="Derivado Hacia"
           />
@@ -468,15 +454,15 @@ const FichaPacienteForm = (id) => {
           <input
             type="text"
             name="otrosPersonal"
-            value={formData.otrosPersonal}
+            value={formData.otrosPersonal || ""}
             onChange={handleInputChange}
             placeholder="Otros (Personal)"
           />
         </div>
-        <button type="submit">Crear Ficha</button>
+        <button type="submit">Actualizar Ficha Paciente</button>
       </form>
     </div>
   );
 };
 
-export default FichaPacienteForm;
+export default ActualizarFichaPaciente;
