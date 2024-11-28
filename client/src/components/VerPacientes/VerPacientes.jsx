@@ -10,6 +10,8 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
   const { data: fichasData, error, isLoading } = useFichaPaciente(); // Hook para fichas
   const [returnMessage, setReturnMessage] = useState({});
   const [fichasDelTerapeuta, setfichasDelTerapeuta] = useState([]);
+  const [searchFilter, setSearchFilter] = useState([]);
+  const [input, setInput] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,10 +31,36 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
   if (error) {
     return <p>Error: {error.message}</p>;
   }
+  useEffect(() => {
+    const filteredFichas = fichasDelTerapeuta.filter(
+      (ficha) =>
+        ficha.nombre.toLowerCase().includes(input.toLowerCase()) ||
+        ficha.apellidoUno.toLowerCase().includes(input.toLowerCase()) ||
+        (ficha.nombre.toLowerCase().includes(input.toLowerCase()) &&
+          ficha.apellidoUno.toLowerCase().includes(input.toLowerCase())) ||
+        ficha.diagnosticoHipotesis
+          .toLowerCase()
+          .includes(input.toLowerCase()) ||
+        ficha.comorbilidades.toLowerCase().includes(input.toLowerCase()) ||
+        ficha.run.toLowerCase().includes(input.toLowerCase())
+    );
+    setSearchFilter(filteredFichas);
+  }, [input, fichasDelTerapeuta]);
 
   return (
     <>
-      <h3>Lista de Pacientes</h3>
+      <h3>Tu Lista de Pacientes</h3>
+      <p className="text">Buscador de Pacientes:</p>
+      <label for="input"> </label>
+      <label htmlFor="input"></label>
+      <input
+        className="input-search"
+        type="text"
+        id="input"
+        name="input"
+        placeholder="Buscar paciente por Nombre, Apellido, Diagnóstico o Comorbilidad"
+        onChange={(e) => setInput(e.target.value)} // Actualiza el estado de input
+      />
       <div class="table-container">
         <table className="table">
           <thead>
@@ -40,16 +68,18 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
               <th>Nombre</th>
               <th>Apellido Paterno</th>
               <th>Rut</th>
+              <th>Diagnóstico</th>
               <th>Ficha</th>
               <th>Atenciones</th>
             </tr>
           </thead>
           <tbody>
-            {fichasDelTerapeuta.map((ficha) => (
+            {searchFilter.map((ficha) => (
               <tr key={ficha._id}>
                 <td>{ficha.nombre}</td>
                 <td>{ficha.apellidoUno}</td>
                 <td>{ficha.run}</td>
+                <td>{ficha.diagnosticoHipotesis} </td>
                 <td>
                   <button
                     type="button"
