@@ -26,7 +26,7 @@
 .ficha-paciente-form label {
   margin-bottom: 5px;
   font-weight: bold;
-  color: black;
+  color: #215f99;
 }
 
 .ficha-paciente-form input,
@@ -48,4 +48,60 @@
 
 .ficha-paciente-form button:hover {
   background-color: #df7802;
+}
+
+/* En FichaPacienteFormStyle.css */
+.form-container {
+  position: relative;
+  padding: 20px;
+}
+
+.print-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.print-button:hover {
+  background-color: #45a049;
+}
+
+@media print {
+  /* Ocultar todos los elementos excepto el formulario */
+  body * {
+    visibility: hidden;
+  }
+
+  .form-container,
+  .form-container * {
+    visibility: visible;
+  }
+
+  .form-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .print-button {
+    display: none;
+  }
+
+  /* Ocultar específicamente el menú, el texto "Vite + React", el título de la página y otros elementos de navegación */
+  nav,
+  header,
+  footer,
+  #menu,
+  .sidebar,
+  .vite-react-text,
+  .page-title {
+    display: none !important;
+  }
 }

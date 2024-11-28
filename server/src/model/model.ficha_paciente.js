@@ -15,7 +15,7 @@ const fichaPacienteSchema = new Schema(
     },
     nombreSocial: {
       type: String,
-      minlength: 3,  //Limitar a un mínimo de 3 caracteres
+      minlength: 3, //Limitar a un mínimo de 3 caracteres
       maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
     apellidoUno: {
@@ -62,6 +62,10 @@ const fichaPacienteSchema = new Schema(
       default: "Otro",
       required: [true, "Se debe incluir un genero"],
     },
+    generoOtro: {
+      type: String,
+    },
+
     estado_civil: {
       type: String,
       enum: [
@@ -171,6 +175,9 @@ const fichaPacienteSchema = new Schema(
         ref: "Atencion",
       },
     ],
+    objetivos: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
