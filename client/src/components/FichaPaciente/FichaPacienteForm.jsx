@@ -145,6 +145,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
         🖨️ Imprimir
       </button>
       <div className="ficha-paciente">
+        {returnMessage && <p>{returnMessage}</p>}
         <h3>Crear Ficha de Paciente</h3>
         <form className="ficha-paciente-form" onSubmit={handleSubmit}>
           <div className="form-group">

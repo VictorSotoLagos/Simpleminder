@@ -12,28 +12,48 @@
   gap: 20px;
   width: 100%;
   max-width: 800px;
-  padding: 20px;
-  border: 1px solid #ccc;
+  max-height: 450px;
+  padding: 10px 10px;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: white;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+}
+
+.ficha-paciente-form::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ficha-paciente-form::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.ficha-paciente-form::-webkit-scrollbar-thumb {
+  background: #215f99;
+  border-radius: 10px;
+}
+
+.ficha-paciente-form::-webkit-scrollbar-thumb:hover {
+  background: #df7802;
 }
 
 .ficha-paciente-form .form-group {
   display: flex;
   flex-direction: column;
+  margin: 0px 20px 15px 0px;
 }
 
 .ficha-paciente-form label {
   margin-bottom: 5px;
-  font-weight: bold;
-  color: #215f99;
+  font-weight: 500;
+  color: #213547;
 }
 
 .ficha-paciente-form input,
 .ficha-paciente-form select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  padding: 12px;
+  border: 2px solid #215f99;
+  border-radius: 5px;
 }
 
 .ficha-paciente-form button {

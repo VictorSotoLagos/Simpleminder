@@ -19,7 +19,9 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
       const fichasFilter = fichasData.filter(
         (ficha) => ficha.terapeutaAsignado === terapeuta.id
       );
-      setfichasDelTerapeuta(fichasFilter);
+      setfichasDelTerapeuta(
+        fichasFilter.sort((a, b) => a.nombre.localeCompare(b.nombre))
+      );
       console.log("fichasDelTerapeuta", fichasDelTerapeuta);
     }
   }, [fichasData, terapeuta.id]);
@@ -32,18 +34,21 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
     return <p>Error: {error.message}</p>;
   }
   useEffect(() => {
-    const filteredFichas = fichasDelTerapeuta.filter(
-      (ficha) =>
-        ficha.nombre.toLowerCase().includes(input.toLowerCase()) ||
-        ficha.apellidoUno.toLowerCase().includes(input.toLowerCase()) ||
-        (ficha.nombre.toLowerCase().includes(input.toLowerCase()) &&
-          ficha.apellidoUno.toLowerCase().includes(input.toLowerCase())) ||
-        ficha.diagnosticoHipotesis
-          .toLowerCase()
-          .includes(input.toLowerCase()) ||
-        ficha.comorbilidades.toLowerCase().includes(input.toLowerCase()) ||
-        ficha.run.toLowerCase().includes(input.toLowerCase())
-    );
+    const filteredFichas = fichasDelTerapeuta.filter((ficha) => {
+      const nombreCompleto =
+        `${ficha.nombre} ${ficha.apellidoUno}`.toLowerCase();
+      const inputLower = input.toLowerCase();
+
+      return (
+        nombreCompleto.includes(inputLower) || // Búsqueda por nombre completo
+        ficha.nombre.toLowerCase().includes(inputLower) || // Búsqueda individual por nombre
+        ficha.apellidoUno.toLowerCase().includes(inputLower) || // Búsqueda individual por apellido
+        ficha.diagnosticoHipotesis.toLowerCase().includes(inputLower) || // Búsqueda en diagnóstico
+        ficha.comorbilidades.toLowerCase().includes(inputLower) || // Búsqueda en comorbilidades
+        ficha.run.toLowerCase().includes(inputLower) // Búsqueda en RUN
+      );
+    });
+
     setSearchFilter(filteredFichas);
   }, [input, fichasDelTerapeuta]);
 
@@ -58,7 +63,7 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
         type="text"
         id="input"
         name="input"
-        placeholder="Buscar paciente por Nombre, Apellido, Diagnóstico o Comorbilidad"
+        placeholder="Ingresa Nombre, Apellido, Rut, Diagnóstico o Comorbilidad"
         onChange={(e) => setInput(e.target.value)} // Actualiza el estado de input
       />
       <div class="table-container">
@@ -78,8 +83,18 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
               <tr key={ficha._id}>
                 <td>{ficha.nombre}</td>
                 <td>{ficha.apellidoUno}</td>
-                <td>{ficha.run}</td>
-                <td>{ficha.diagnosticoHipotesis} </td>
+                <td style={{ fontSize: "13px" }}>{ficha.run}</td>
+                <td
+                  style={{
+                    fontSize: "13px",
+                    maxWidth: "25ch",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {ficha.diagnosticoHipotesis}{" "}
+                </td>
                 <td>
                   <button
                     type="button"
@@ -87,7 +102,7 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
                       navigate(`/actualizar_ficha_paciente/${ficha._id}`);
                     }}
                   >
-                    Ver ficha
+                    Editar
                   </button>
                 </td>
                 <td>

@@ -1,21 +1,27 @@
 .table-container {
-  border: 1px solid #dbdbdb; /* Borde del contenedor */
-  border-radius: 2px; /* Bordes redondeados */
+  border: 1px solid #215f99; /* Borde del contenedor */
+  border-radius: 5px; /* Bordes redondeados */
   overflow: hidden; /* Asegura que el contenido no sobresalga */
 }
 
 .table {
   width: 100%; /* Ocupa todo el ancho del contenedor */
-  border-collapse: collapse; /* Colapsa los bordes internos */
+  border-collapse: collapse;
   margin: 0; /* Elimina márgenes adicionales */
   font-size: 16px; /* Tamaño de fuente */
   text-align: left; /* Alineación del texto */
 }
 
-.table th,
+.table th {
+  text-align: center;
+  padding: 12px 15px;
+}
+
 .table td {
-  padding: 12px 15px; /* Espaciado dentro de las celdas */
-  border: 1px solid #ddd; /* Borde de las celdas */
+  font-size: 15px;
+  padding: 10px 10px;
+  text-align: center;
+  border-bottom: 1px solid #215f99;
 }
 
 .table thead {
@@ -25,11 +31,11 @@
 }
 
 .table tr:nth-child(even) {
-  background-color: #f9f9f9; /* Fondo de las filas pares */
+  background-color: white; /* Fondo de las filas pares */
 }
 
 .table tbody tr:hover {
-  background-color: #f1f1f1; /* Fondo al pasar el mouse */
+  background-color: #dbeeff; /* Fondo al pasar el mouse */
 }
 
 .table button {
@@ -47,10 +53,16 @@
 
 .input-search {
   border: 2px solid #215f99;
-  padding: 10px;
+  padding: 13px 10px;
   border-radius: 5px;
-  margin: 0px 0px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  box-shadow: 2px 2px 5px #969696;
+  transition-duration: 0.3s;
+}
+
+.input-search:hover {
+  transform: scale(1.02);
+  transition-duration: 0.3s;
 }
 
 .text {
