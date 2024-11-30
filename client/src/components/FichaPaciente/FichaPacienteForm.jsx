@@ -68,18 +68,11 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
     e.preventDefault();
 
     try {
-      // 1. Buscar al terapeuta en la base de datos
-      /*
-      const registroTerapeutaDB = await fetchTerapeutaID(terapeuta.id);
-
-      if (!registroTerapeutaDB) {
-        console.error("El terapeuta no fue encontrado en la base de datos.");
-        return;
-        */
+      // 1. Buscar al terapeuta en BBDD
 
       const nuevaFicha = await addFichaPaciente({
         ...formData,
-        terapeutaAsignado: buscarTerapeuta._id, // Si es necesario
+        terapeutaAsignado: buscarTerapeuta._id,
       });
 
       console.log("nueva ficha es: ", nuevaFicha);
@@ -91,7 +84,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
 
       console.log("Ficha creada exitosamente:", nuevaFicha);
 
-      // 4. Agregar el ID del paciente al terapeuta en la base de datos
+      // 2. Agregar ID Paciente al Terapeuta
       buscarTerapeuta.pacientes.push(nuevaFicha.ficha._id);
       console.log("nuevaficha _id es", nuevaFicha._id);
       console.log("buscarTerapeuta es", buscarTerapeuta);
@@ -100,7 +93,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
         pacientes: buscarTerapeuta.pacientes,
       });
 
-      // 5. Actualizar el estado local del terapeuta
+      // 3. Actualizar el estado local del registro del Terapeuta y del User
       setTerapeuta((prevTerapeuta) => ({
         ...prevTerapeuta,
         pacientes: [...prevTerapeuta.pacientes, nuevaFicha._id],

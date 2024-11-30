@@ -79,54 +79,49 @@ const ActualizarDatosTerapeuta = () => {
 
   return (
     <div className="actualizar-terapeuta">
-      <h2>Ver / Actualizar Datos del Terapeuta</h2>
+      <h3>Ver / Actualizar Datos del Terapeuta</h3>
       {errorMessage && <p style={{ color: "red" }}>{String(errorMessage)}</p>}
       <form className="actualizar-terapeuta-form" onSubmit={handleSubmit}>
-        <label htmlFor="nombre">
-          Nombre:
-          <input
-            type="text"
-            name="nombre"
-            value={terapeutaActualizado.nombre}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Apellido Uno:
-          <input
-            type="text"
-            name="apellidoUno"
-            value={terapeutaActualizado.apellidoUno}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Apellido Dos:
-          <input
-            type="text"
-            name="apellidoDos"
-            value={terapeutaActualizado.apellidoDos}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Correo electrónico:
-          <input
-            type="email"
-            name="email"
-            value={terapeutaActualizado.email}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Teléfono de Contacto:
-          <input
-            type="string"
-            name="telefono"
-            value={terapeutaActualizado.telefono}
-            onChange={handleChange}
-          />
-        </label>
+        <label htmlFor="nombre">Nombre:</label>
+        <input
+          type="text"
+          name="nombre"
+          value={terapeutaActualizado.nombre}
+          onChange={handleChange}
+        />
+
+        <label htmlFor="apellidoUno">Apellido Uno:</label>
+        <input
+          type="text"
+          name="apellidoUno"
+          value={terapeutaActualizado.apellidoUno}
+          onChange={handleChange}
+        />
+
+        <label htmlFor="apellidoDos">Apellido Dos:</label>
+        <input
+          type="text"
+          name="apellidoDos"
+          value={terapeutaActualizado.apellidoDos}
+          onChange={handleChange}
+        />
+
+        <label htmlFor="email">Correo electrónico: </label>
+        <input
+          type="email"
+          name="email"
+          value={terapeutaActualizado.email}
+          onChange={handleChange}
+        />
+
+        <label htmlFor="telefono">Teléfono de Contacto: </label>
+        <input
+          type="string"
+          name="telefono"
+          value={terapeutaActualizado.telefono}
+          onChange={handleChange}
+        />
+
         <button className="boton-actualizar" type="submit">
           Actualizar Mis Datos
         </button>

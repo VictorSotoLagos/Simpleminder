@@ -1,6 +1,14 @@
 import mongoose, { model, Schema } from "mongoose";
 
 const atencionSchema = new Schema({
+  id_paciente: {
+    type: Schema.Types.ObjectId,
+    ref: "Paciente",
+  },
+  id_terapeuta: {
+    type: Schema.Types.ObjectId,
+    ref: "Terapeuta",
+  },
   nombre: {
     type: String,
     required: [true, "Se debe incluir el nombre del paciente"],

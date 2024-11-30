@@ -132,7 +132,6 @@ const Menu = () => {
                     style={{
                       display: "flex",
                       alignItems: "center",
-
                       gap: "10px",
                     }}
                   >
@@ -185,6 +184,26 @@ const Menu = () => {
             </NavLink>
           </li>
           <li>
+            <NavLink to="/ver_atenciones" end>
+              {({ isActive }) => (
+                <button
+                  type="button"
+                  className={isActive ? "btn-menu btn-menu-active" : "btn-menu"}
+                >
+                  <span
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                    }}
+                  >
+                    <RiPsychotherapyFill size={"20px"} /> Ver Atenciones
+                  </span>
+                </button>
+              )}
+            </NavLink>
+          </li>
+          <li>
             <NavLink to="/actualizar_datos_terapeuta" end>
               {({ isActive }) => (
                 <button
@@ -204,6 +223,7 @@ const Menu = () => {
               )}
             </NavLink>
           </li>
+
           <li>
             <button type="button" className="logout" onClick={handleSalir}>
               <span

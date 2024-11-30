@@ -7,27 +7,62 @@
   margin: 0 auto;
 }
 
+.nueva-atencion-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.actualizar-atencion-back-button {
+  display: flex;
+  align-items: center;
+  color: #215f99;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  transition-duration: 0.3;
+}
+
+.actualizar-atencion-back-button:hover {
+  transform: scale(1.2);
+  transition-property: transform;
+  transition-duration: 0.3s;
+}
+
+.nueva-atencion-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-height: 450px;
+  overflow: auto;
+  padding: 10px 20px;
+}
 .nueva-atencion-form {
   display: flex;
   flex-direction: column;
   width: 100%;
   gap: 10px;
+  font-size: 17px;
 }
 
 .nueva-atencion-form input,
 .nueva-atencion-form textarea,
 .nueva-atencion-form select {
-  padding: 0px 10px;
+  padding: 0px 15px;
   width: 100%;
-  height: 36px;
+  min-height: 36px;
   border-radius: 5px;
   border: 2px solid #215f99;
   box-sizing: border-box;
+  margin-bottom: 20px;
 }
 
 .nueva-atencion-form textarea {
   height: 170px;
   resize: vertical;
+  margin-bottom: 15px;
 }
 
 .nueva-atencion-form button {
@@ -46,13 +81,13 @@
 }
 
 .nueva-atencion-form label {
-  margin-bottom: 5px;
-  font-weight: bold;
+  font-weight: 400;
   color: black;
 }
 
 .nueva-atencion-form select {
   background-color: white;
+  font-family: inherit;
   color: #000;
   appearance: none;
   -moz-appearance: none;
@@ -84,4 +119,21 @@
 .nueva-atencion-form select,
 .nueva-atencion-form button {
   font-size: 17px;
+}
+
+.nueva-atencion-form-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.nueva-atencion-form-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.nueva-atencion-form-container::-webkit-scrollbar-thumb {
+  background: #215f99;
+  border-radius: 10px;
+}
+
+.nueva-atencion-form-container::-webkit-scrollbar-thumb:hover {
+  background: #df7802;
 }

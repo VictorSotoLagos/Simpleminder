@@ -6,6 +6,28 @@
   width: 100%;
 }
 
+.ficha-paciente-header-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.ficha-paciente-back-btn {
+  display: flex;
+  align-items: center;
+  color: #215f99;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  transition-duration: 0.3;
+}
+
+.ficha-paciente-back-btn:hover {
+  transform: scale(1.2);
+  transition-property: transform;
+  transition-duration: 0.3s;
+}
+
 .ficha-paciente-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -45,7 +67,7 @@
 
 .ficha-paciente-form label {
   margin-bottom: 5px;
-  font-weight: 500;
+  font-weight: 400;
   color: #213547;
 }
 
@@ -62,7 +84,7 @@
   background-color: #215f99;
   color: white;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   cursor: pointer;
 }
 

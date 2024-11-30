@@ -2,8 +2,10 @@ import "./VerPacientes.css";
 import { useContext, useState, useEffect } from "react";
 import useFichaPaciente from "../../hooks/usefichapaciente.js";
 import { UsuarioContext } from "../../contexts/UsuarioContext.jsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React from "react";
+import { FaEdit } from "react-icons/fa";
+import { FaEye } from "react-icons/fa6";
 
 const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
   const { terapeuta, setTerapeuta } = useContext(UsuarioContext); // Contexto del terapeuta loggeado
@@ -13,6 +15,8 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
   const [searchFilter, setSearchFilter] = useState([]);
   const [input, setInput] = useState("");
   const navigate = useNavigate();
+  const { nombre } = useParams();
+  console.log("nombre en params es: ", nombre);
 
   useEffect(() => {
     if (fichasData) {
@@ -52,17 +56,35 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
     setSearchFilter(filteredFichas);
   }, [input, fichasDelTerapeuta]);
 
+  useEffect(() => {
+    const savedInput = localStorage.getItem("lastSearchInput");
+    if (nombre) {
+      setInput(nombre);
+    } else if (savedInput) {
+      console.log("savedInput es:", savedInput);
+      setInput(savedInput);
+    }
+  }, []);
+
+  // Guardar la búsqueda cada vez que cambie el input o el filtro
+  useEffect(() => {
+    localStorage.setItem("lastSearchInput", input);
+  }, [input]); // Elimina `searchFilter` para evitar bucles innecesarios
+  // Función para seleccionar el paciente
+  const selectorPaciente = (idFicha) => {
+    setPacienteElegido(idFicha);
+  };
   return (
     <>
       <h3>Tu Lista de Pacientes</h3>
       <p className="text">Buscador de Pacientes:</p>
-      <label for="input"> </label>
       <label htmlFor="input"></label>
       <input
         className="input-search"
         type="text"
         id="input"
         name="input"
+        value={input || ""}
         placeholder="Ingresa Nombre, Apellido, Rut, Diagnóstico o Comorbilidad"
         onChange={(e) => setInput(e.target.value)} // Actualiza el estado de input
       />
@@ -102,17 +124,31 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
                       navigate(`/actualizar_ficha_paciente/${ficha._id}`);
                     }}
                   >
-                    Editar
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <FaEdit size={28} />
+                    </span>
                   </button>
                 </td>
                 <td>
                   <button
                     type="button"
                     onClick={() => {
-                      navigate(`/actualizar_ficha_paciente/${ficha._id}`);
+                      navigate(`/ver_atenciones/${ficha._id}`);
                     }}
                   >
-                    Atenciones
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <FaEye size={28} />
+                    </span>
                   </button>
                 </td>
               </tr>

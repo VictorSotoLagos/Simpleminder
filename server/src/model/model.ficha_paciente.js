@@ -165,6 +165,7 @@ const fichaPacienteSchema = new Schema(
     derivadoHacia: {
       type: String,
     },
+
     terapeutaAsignado: {
       type: Schema.Types.ObjectId,
       ref: "Terapeuta",

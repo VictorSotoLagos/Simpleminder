@@ -59,9 +59,23 @@ const getAtencionesByPaciente = async (req, res) => {
   }
 };
 
+const getAtencionByPacienteID = async (req, res) => {
+    try {
+        const atencionDB = await Atencion.findOne({ _id: req.params.id });
+        return res.status(200).json(atencionDB);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: 'Id de la atención incorrecto o no existe',
+            error: error.message,
+        });
+    }
+  }
+
 const createAtencion = async (req, res) => {
   const {
     id_paciente,
+    id_terapeuta,
     fecha,
     hora,
     introduccion,
@@ -81,6 +95,7 @@ const createAtencion = async (req, res) => {
 
     const nuevaAtencion = new Atencion({
       id_paciente: paciente._id,
+      id_terapeuta,
       nombre: paciente.nombre,
       apellidoUno: paciente.apellidoUno,
       apellidoDos: paciente.apellidoDos,
@@ -139,6 +154,7 @@ const deleteAtencion = async (req, res) => {
 
 export {
   getAtenciones,
+  getAtencionByPacienteID,
   createAtencion,
   updateAtencion,
   deleteAtencion,

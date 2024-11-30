@@ -5,6 +5,11 @@ const fetchAtenciones = async () => {
   return response.data;
 };
 
+const fetchAtencionID = async (id) => {
+  const response = await api.get(`/atencion/${id}`);
+  return response.data;
+};
+
 const addAtencion = async (nuevaAtencion) => {
   const response = await api.post("/atencion/add", nuevaAtencion);
   return response.data;
@@ -24,4 +29,4 @@ const putAtencion = async (id, atencionParaActualizar) => {
   return response.data;
 };
 
-export { fetchAtenciones, addAtencion, deleteAtencion, putAtencion };
+export { fetchAtenciones, fetchAtencionID, addAtencion, deleteAtencion, putAtencion };

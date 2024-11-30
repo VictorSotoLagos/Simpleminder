@@ -80,10 +80,10 @@ const NuevoTerapeuta = ({ agregarTerapeuta }) => {
   };
 
   return (
-    <div className="nuevo-usuario">
+    <div className="nuevo-terapeuta">
       <h2>Registro Terapeutas</h2>
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-      <form className="nuevo-usuario-form" onSubmit={handleSubmit}>
+      <form className="nuevo-terapeuta-form" onSubmit={handleSubmit}>
         <label htmlFor="nombre">Nombre:</label>
         <input
           type="text"

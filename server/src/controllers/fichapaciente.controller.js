@@ -31,6 +31,7 @@ const getFichaPacienteID = async (req, res) => {
   }
 };
 
+
 const createFichaPaciente = async (req, res) => {
   try {
     const { terapeutaAsignado, ...fichaData } = req.body;
@@ -64,6 +65,61 @@ const createFichaPaciente = async (req, res) => {
     });
   }
 };
+
+
+/*
+
+// Configuración de clave secreta y vector de inicialización (IV)
+const secretKey = crypto.createHash('sha256').update(process.env.SECRET_KEY).digest('base64').substr(0, 32);
+const iv = crypto.randomBytes(16); // Generar un IV único por operación
+
+// Función para encriptar
+const encryptData = (data) => {
+  const cipher = crypto.createCipheriv("aes-256-cbc", secretKey, iv);
+  let encrypted = cipher.update(JSON.stringify(data), "utf8", "hex");
+  encrypted += cipher.final("hex");
+  return { encryptedData: encrypted, iv: iv.toString("hex") };
+};
+
+const createFichaPaciente = async (req, res) => {
+  try {
+    const { terapeutaAsignado, ...fichaData } = req.body;
+
+    // Encriptar los datos sensibles de la ficha
+    const { encryptedData, iv: ivHex } = encryptData(fichaData);
+    console.log("Encrypted data:", encryptedData);
+    // Crear nueva ficha con los datos encriptados
+    const fichaClinicaPaciente = new FichaPaciente({
+      dataEncriptada: encryptedData,
+      iv: ivHex, // Guardar el IV para poder desencriptar después
+      terapeutaAsignado: terapeutaAsignado || null,
+    });
+
+    // Validar y asignar terapeuta si se proporciona
+    if (terapeutaAsignado) {
+      const terapeuta = await Terapeuta.findById(terapeutaAsignado);
+      if (!terapeuta) {
+        return res.status(404).json({
+          message: "El terapeuta asignado no existe.",
+        });
+      }
+      fichaClinicaPaciente.terapeutaAsignado = terapeuta._id;
+    }
+
+    // Guardar en la base de datos
+    await fichaClinicaPaciente.save();
+
+    res.status(201).json({
+      message: "Ficha clínica creada exitosamente.",
+      fichaClinica: fichaClinicaPaciente,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Hubo un error al crear la ficha clínica.",
+    });
+  }
+};*/
 
 const updateFichaPaciente = async (req, res) => {
   try {

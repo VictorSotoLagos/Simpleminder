@@ -36,6 +36,8 @@ import FichaPacienteForm from "./components/FichaPaciente/FichaPacienteForm";
 import AtencionList from "./components/Atencion/AtencionList";
 import AtencionForm from "./components/Atencion/AtencionForm";
 import ActualizarFichaPaciente from "./components/FichaPaciente/ActualizarFichaPaciente";
+import VerAtenciones from "./components/VerAtenciones/VerAtenciones";
+import ActualizarAtencion from "./components/Atencion/ActualizarAtencion";
 
 const App = () => {
   const { paciente, terapeuta } = useContext(UsuarioContext);
@@ -187,7 +189,7 @@ const App = () => {
           }
         />
         <Route
-          path="/ver_pacientes"
+          path="/ver_pacientes/:nombre?"
           element={
             <PrivateTerapeutaRoutes>
               {terapeuta ? (
@@ -257,6 +259,42 @@ const App = () => {
                   <div className="contenido">
                     <TopBar />
                     <AtencionForm />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivateTerapeutaRoutes>
+          }
+        />
+        <Route
+          path="/ver_atenciones/:id?"
+          element={
+            <PrivateTerapeutaRoutes>
+              {terapeuta ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <VerAtenciones />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivateTerapeutaRoutes>
+          }
+        />
+        <Route
+          path="/actualizar_atencion/:id"
+          element={
+            <PrivateTerapeutaRoutes>
+              {terapeuta ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <ActualizarAtencion />
                   </div>
                 </>
               ) : (

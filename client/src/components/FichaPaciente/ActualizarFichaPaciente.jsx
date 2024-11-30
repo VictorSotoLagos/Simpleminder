@@ -5,16 +5,29 @@ import { patchTerapeuta } from "../../api/terapeutaServices.js";
 import { patchFichaPaciente } from "../../api/fichapacienteServices.js";
 import useFichaPaciente from "../../hooks/usefichapaciente";
 import { fetchFichasPacientesID } from "../../api/fichapacienteServices.js";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./FichaPacienteFormStyle.css";
 import React from "react";
+import { IoArrowBackCircle } from "react-icons/io5";
 
 const ActualizarFichaPaciente = () => {
   const { terapeuta, setTerapeuta } = useContext(UsuarioContext);
   const [returnMessage, setReturnMessage] = useState("");
   const [formData, setFormData] = useState({});
   const { id } = useParams(); // Desestructuración del objeto que te devuelve useParams
+  const navegar = useNavigate();
   console.log("id es:", id); // Aquí accedes directamente al valor del parámetro
+  const [referrer, setReferrer] = useState("");
+
+  /*
+  useEffect(() => {
+    // Detecta la URL de referencia
+    const referrerUrl = document.referrer;
+    setReferrer(referrerUrl);
+    console.log("URL de referencia:", referrerUrl);
+    console.log("setReferrer es:", referrer);
+  }, []);
+  */
 
   const obtenerFichaPaciente = async () => {
     const fichaEncontrada = await fetchFichasPacientesID(id);
@@ -64,8 +77,18 @@ const ActualizarFichaPaciente = () => {
 
   return (
     <div className="ficha-paciente">
-      <h2>Ver / Actualizar Ficha de Paciente</h2>
+      <div className="ficha-paciente-header-container">
+        <h2>Ver / Actualizar Ficha de Paciente</h2>
+        <button
+          onClick={() => navegar("/ver_pacientes")}
+          className="ficha-paciente-back-btn"
+        >
+          <IoArrowBackCircle size={30} />
+        </button>
+      </div>
+
       {returnMessage && <p style={{ color: "red" }}>{returnMessage}</p>}
+
       <form className="ficha-paciente-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="nombre">
