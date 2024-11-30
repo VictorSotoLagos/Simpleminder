@@ -60,17 +60,17 @@ const getAtencionesByPaciente = async (req, res) => {
 };
 
 const getAtencionByPacienteID = async (req, res) => {
-    try {
-        const atencionDB = await Atencion.findOne({ _id: req.params.id });
-        return res.status(200).json(atencionDB);
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            message: 'Id de la atención incorrecto o no existe',
-            error: error.message,
-        });
-    }
+  try {
+    const atencionDB = await Atencion.findOne({ _id: req.params.id });
+    return res.status(200).json(atencionDB);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Id de la atención incorrecto o no existe",
+      error: error.message,
+    });
   }
+};
 
 const createAtencion = async (req, res) => {
   const {
@@ -126,15 +126,47 @@ const createAtencion = async (req, res) => {
 
 const updateAtencion = async (req, res) => {
   try {
-    const atencionDB = await Atencion.findByIdAndUpdate(
-      req.params.id,
-      req.body,
+    const { id } = req.params;
+    const updateData = { ...req.body };
+
+    // Parsear imágenes existentes
+    let existingImages = [];
+    try {
+      existingImages = JSON.parse(req.body.existingImages || "[]");
+    } catch (e) {
+      console.error("Error al parsear imágenes existentes:", e);
+    }
+
+    // Obtener rutas de nuevas imágenes
+    const newImages = req.files ? req.files.map((file) => file.filename) : [];
+
+    // Combinar imágenes
+    const imagenes = [...existingImages, ...newImages];
+
+    // Eliminar campos que no queremos actualizar directamente
+    delete updateData.existingImages;
+    delete updateData.imagenes;
+
+    const atencionActualizada = await Atencion.findByIdAndUpdate(
+      id,
+      {
+        ...updateData,
+        imagenes,
+      },
       { new: true }
     );
-    return res.status(200).json(atencionDB);
+
+    if (!atencionActualizada) {
+      return res.status(404).json({
+        message: "Atención no encontrada",
+      });
+    }
+
+    return res.status(200).json(atencionActualizada);
   } catch (error) {
+    console.error("Error en updateAtencion:", error);
     return res.status(500).json({
-      message: "Error al actualizar la Atencion",
+      message: "Error al actualizar la atención",
       error: error.message,
     });
   }

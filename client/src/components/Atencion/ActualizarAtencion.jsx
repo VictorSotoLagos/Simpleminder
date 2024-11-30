@@ -1,22 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
-import { addAtencion, putAtencion } from "../../api/atencion.Service.js";
+import { putAtencion, fetchAtencionID } from "../../api/atencion.Service.js";
 import { UsuarioContext } from "../../contexts/UsuarioContext.jsx";
 import { fetchFichasPacientes } from "../../api/fichapacienteServices.js";
-import { fetchAtencionID } from "../../api/atencion.Service.js";
 import { useParams, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import "./AtencionFormStyle.css";
-import { IoArrowBackCircle } from "react-icons/io5";
 
-const AtencionForm = () => {
+const ActualizarAtencion = () => {
   const { terapeuta } = useContext(UsuarioContext);
   const { id } = useParams();
-  const navegar = useNavigate();
-  const { input, pacienteElegido } = location.state || {};
-  console.log("input es:", input);
-  console.log("pacienteElegido es:", pacienteElegido);
-  console.log("terapeuta id es:", terapeuta.id);
-  console.log("id params es es:", id);
+  const navigate = useNavigate();
 
   const initialValues = {
     id_paciente: "",
@@ -33,45 +25,58 @@ const AtencionForm = () => {
 
   const [formData, setFormData] = useState(initialValues);
   const [pacientesTerapeuta, setPacientesTerapeuta] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
+  const [newImages, setNewImages] = useState([]);
 
+  // Primer useEffect para cargar las fichas de pacientes
   useEffect(() => {
     const buscarFichasPacientes = async () => {
-      const totalFichas = await fetchFichasPacientes(id); // Corregido nombre de la función
-      console.log("totalFichas", totalFichas);
+      const totalFichas = await fetchFichasPacientes();
       const pacientesTerapeuta = totalFichas
         .filter((ficha) => ficha.terapeutaAsignado === terapeuta.id)
         .sort((a, b) => a.nombre.localeCompare(b.nombre));
       setPacientesTerapeuta(pacientesTerapeuta);
     };
     buscarFichasPacientes();
-  }, [id, terapeuta.id]);
+  }, [terapeuta.id]);
 
+  // Segundo useEffect para cargar la atención y sus imágenes
   useEffect(() => {
     const buscarAtencionPorID = async () => {
-      const atencionSegunID = await fetchAtencionID(id); // Asegúrate de esperar la respuesta
-      console.log("atencionSegunID es:", atencionSegunID);
-      setFormData(atencionSegunID); // Actualiza correctamente el formData con los datos de la atención
-    };
-    console.log("id en params es:", id);
-    buscarAtencionPorID();
-  }, [id]);
+      try {
+        const atencionSegunID = await fetchAtencionID(id);
+        setFormData(atencionSegunID);
 
-  function formatDateToHTMLDate(mongoDate) {
-    if (!mongoDate) return ""; // Manejo de casos nulos o indefinidos
-    const date = new Date(mongoDate); // Convierte la cadena en un objeto Date
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Añade el 0 si es necesario
-    const day = String(date.getDate()).padStart(2, "0"); // Añade el 0 si es necesario
-    return `${year}-${month}-${day}`; // Devuelve la fecha en formato YYYY-MM-DD
-  }
+        if (atencionSegunID.imagenes && atencionSegunID.imagenes.length > 0) {
+          setExistingImages(atencionSegunID.imagenes);
+
+          const imageUrls = atencionSegunID.imagenes.map((img) => {
+            const cleanPath = img.replace(/\\/g, "/").replace(/^uploads\//, "");
+            return `${window.location.protocol}//${
+              window.location.hostname
+            }:8000/api/uploads/${encodeURIComponent(cleanPath)}`;
+          });
+          setImagePreviews(imageUrls);
+        }
+      } catch (error) {
+        console.error("Error al cargar la atención:", error);
+      }
+    };
+    if (id) buscarAtencionPorID();
+  }, [id]);
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "imagenes") {
-      setFormData({
-        ...formData,
-        [name]: files,
-      });
+      const fileArray = Array.from(files);
+      setNewImages((prev) => [...prev, ...fileArray]);
+
+      // Crear URLs para las nuevas imágenes
+      const newImagePreviews = fileArray.map((file) =>
+        URL.createObjectURL(file)
+      );
+      setImagePreviews((prev) => [...prev, ...newImagePreviews]);
     } else {
       setFormData({
         ...formData,
@@ -79,150 +84,279 @@ const AtencionForm = () => {
       });
     }
   };
+  // remueve imagenes sin borrar todo, esto ayudo a corregir un error fatal !!
+  const handleRemoveImage = (index) => {
+    if (index < existingImages.length) {
+      // Remover imagen existente
+      setExistingImages((prev) => prev.filter((_, i) => i !== index));
+      setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+    } else {
+      // Remover imagen nueva
+      const newIndex = index - existingImages.length;
+      setNewImages((prev) => prev.filter((_, i) => i !== newIndex));
+      setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formDataToSubmit = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      // Simplificado el manejo del FormData
-      if (key === "imagenes") {
-        Array.from(value).forEach((file) =>
-          formDataToSubmit.append("imagenes", file)
-        );
-      } else {
-        formDataToSubmit.append(key, value);
+
+    Object.keys(formData).forEach((key) => {
+      if (key !== "imagenes") {
+        formDataToSubmit.append(key, formData[key]);
       }
     });
 
-    console.log("formDataToSubmit es:", formDataToSubmit);
-    const response = await putAtencion(id, formDataToSubmit);
-    console.log("response es:", response);
+    // Agregar imágenes existentes que no fueron eliminadas
+    formDataToSubmit.append("existingImages", JSON.stringify(existingImages));
 
-    // Reset form
-    setFormData(response);
+    // Agregar nuevas imágenes
+    newImages.forEach((image) => {
+      formDataToSubmit.append("imagenes", image);
+    });
+
+    try {
+      await putAtencion(id, formDataToSubmit);
+
+      navigate("/ver_atenciones"); //me manda a atenciones despues de actuaslizar
+    } catch (error) {
+      console.error("Error al actualizar:", error);
+    }
+  };
+
+  function formatDateToHTMLDate(mongoDate) {
+    if (!mongoDate) return "";
+    const date = new Date(mongoDate);
+    return date.toISOString().split("T")[0];
+  }
+
+  const downloadImage = async (imageUrl, imageName) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = imageName || "imagen.jpg";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error descargando la imagen:", error);
+    }
+  };
+
+  const handlePrint = () => {
+    const selectedPatient = pacientesTerapeuta.find(
+      (paciente) => paciente._id === formData.id_paciente
+    );
+    const patientName = selectedPatient
+      ? `${selectedPatient.nombre} ${selectedPatient.apellidoUno} ${selectedPatient.apellidoDos}`
+      : "";
+
+    const printContents = `
+      <div id="print-section" style="padding: 20px; font-family: Arial, sans-serif;">
+        <style>
+          @media print {
+            body * {
+              visibility: hidden;
+            }
+            #print-section, #print-section * {
+              visibility: visible;
+            }
+            #print-section {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+            }
+          }
+        </style>
+        <h2 style="text-align: center;">Atención al Paciente</h2>
+        <hr/>
+        <div style="margin-bottom: 15px;">
+          <p><strong>Paciente:</strong> ${patientName}</p>
+          <p><strong>Fecha:</strong> ${formData.fecha}</p>
+          <p><strong>Hora:</strong> ${formData.hora}</p>
+        </div>
+        <div style="margin-bottom: 15px;">
+          <p><strong>Introducción:</strong></p>
+          <p>${formData.introduccion}</p>
+        </div>
+        <div style="margin-bottom: 15px;">
+          <p><strong>Datos de la Atención:</strong></p>
+          <p>${formData.datosAtencion}</p>
+        </div>
+        <div style="margin-bottom: 15px;">
+          <p><strong>Diagnóstico / Hipótesis:</strong></p>
+          <p>${formData.diagnosticoHipotesis}</p>
+        </div>
+        <div style="margin-bottom: 15px;">
+          <p><strong>Estado del Diagnóstico:</strong></p>
+          <p>${formData.estadoDiagnostico}</p>
+        </div>
+        <div style="margin-bottom: 15px;">
+          <p><strong>Indicaciones:</strong></p>
+          <p>${formData.indicaciones}</p>
+        </div>
+      </div>
+    `;
+
+    // Create a new window for printing
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write(printContents);
+    printWindow.document.close();
+    printWindow.focus();
+
+    // Print after images are loaded
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.close();
+    }, 500);
   };
 
   return (
-    <div className="nueva-atencion">
-      <div className="nueva-atencion-header">
-        <h3>Actualizar Atención</h3>
-        <button
-          onClick={() =>
-            navegar("/ver_atenciones", {
-              state: {
-                input, // Restaurar el valor del buscador
-                pacienteElegido, // Restaurar el paciente seleccionado
-              },
-            })
-          }
-          className="actualizar-atencion-back-button"
-        >
-          {" "}
-          <IoArrowBackCircle size={35} />
-        </button>
-      </div>
-      <div className="nueva-atencion-form-container">
-        <form
-          className="nueva-atencion-form"
-          onSubmit={handleSubmit}
-          encType="multipart/form-data"
-        >
-          <label htmlFor="id_paciente">Paciente:</label>
-          <select
-            name="id_paciente"
-            value={formData.id_paciente}
-            onChange={handleInputChange}
-            disabled
+    <div className="form-container">
+      <button className="print-button" onClick={handlePrint}>
+        🖨️ Imprimir
+      </button>
+      <div className="nueva-atencion">
+        <h3>Editar Atención</h3>
+        <div className="nueva-atencion-form-container">
+          <form
+            className="nueva-atencion-form"
+            onSubmit={handleSubmit}
+            encType="multipart/form-data"
           >
-            <option value="" disabled>
-              {" "}
-              Paciente{" "}
-            </option>
-            {pacientesTerapeuta.map((paciente) => (
-              <option
-                key={paciente._id}
-                value={paciente._id}
-                onChange={handleInputChange}
-              >
-                {paciente.nombre} {paciente.apellidoUno} {paciente.apellidoDos}{" "}
-                - {paciente.run}
+            <label htmlFor="id_paciente">Paciente:</label>
+            <select
+              name="id_paciente"
+              value={formData.id_paciente}
+              onChange={handleInputChange}
+              disabled
+            >
+              <option value="" disabled>
+                Seleccione un paciente
               </option>
-            ))}
-          </select>
+              {pacientesTerapeuta.map((paciente) => (
+                <option key={paciente._id} value={paciente._id}>
+                  {paciente.nombre} {paciente.apellidoUno}{" "}
+                  {paciente.apellidoDos} - {paciente.run}
+                </option>
+              ))}
+            </select>
 
-          <label htmlFor="fecha">Fecha:</label>
-          <input
-            type="date"
-            name="fecha"
-            value={formatDateToHTMLDate(formData.fecha)}
-            onChange={handleInputChange}
-            required
-          />
+            <label htmlFor="fecha">Fecha:</label>
+            <input
+              type="date"
+              name="fecha"
+              value={formatDateToHTMLDate(formData.fecha)}
+              onChange={handleInputChange}
+              required
+            />
 
-          <label htmlFor="hora">Hora:</label>
-          <input
-            type="time"
-            name="hora"
-            value={formData.hora}
-            onChange={handleInputChange}
-            required
-          />
+            <label htmlFor="hora">Hora:</label>
+            <input
+              type="time"
+              name="hora"
+              value={formData.hora}
+              onChange={handleInputChange}
+              required
+            />
 
-          <label htmlFor="introduccion">Introducción:</label>
-          <textarea
-            name="introduccion"
-            value={formData.introduccion}
-            onChange={handleInputChange}
-          ></textarea>
+            <label htmlFor="introduccion">Introducción:</label>
+            <textarea
+              name="introduccion"
+              value={formData.introduccion}
+              onChange={handleInputChange}
+            ></textarea>
 
-          <label htmlFor="datosAtencion">Datos de la Atención:</label>
-          <textarea
-            name="datosAtencion"
-            value={formData.datosAtencion}
-            onChange={handleInputChange}
-          ></textarea>
+            <label htmlFor="datosAtencion">Datos de la Atención:</label>
+            <textarea
+              name="datosAtencion"
+              value={formData.datosAtencion}
+              onChange={handleInputChange}
+            ></textarea>
 
-          <label htmlFor="diagnosticoHipotesis">Diagnóstico / Hipótesis:</label>
-          <select
-            name="diagnosticoHipotesis"
-            value={formData.diagnosticoHipotesis}
-            onChange={handleInputChange}
-          >
-            <option value="">Seleccione un diagnóstico / hipótesis</option>
-            <option value="Confirmado">Confirmado</option>
-            <option value="Hipotesis">Hipotesis</option>
-            <option value="De alta">De alta</option>
-            <option value="Cierre de caso">Cierre de caso</option>
-          </select>
+            <label htmlFor="diagnosticoHipotesis">
+              Diagnóstico / Hipótesis:
+            </label>
+            <select
+              name="diagnosticoHipotesis"
+              value={formData.diagnosticoHipotesis}
+              onChange={handleInputChange}
+            >
+              <option value="">Seleccione un diagnóstico / hipótesis</option>
+              <option value="Confirmado">Confirmado</option>
+              <option value="Hipotesis">Hipotesis</option>
+              <option value="De alta">De alta</option>
+              <option value="Cierre de caso">Cierre de caso</option>
+            </select>
 
-          <label htmlFor="estadoDiagnostico">Estado del Diagnóstico:</label>
-          <input
-            type="text"
-            name="estadoDiagnostico"
-            value={formData.estadoDiagnostico}
-            onChange={handleInputChange}
-          />
+            <label htmlFor="estadoDiagnostico">Estado del Diagnóstico:</label>
+            <input
+              type="text"
+              name="estadoDiagnostico"
+              value={formData.estadoDiagnostico}
+              onChange={handleInputChange}
+            />
 
-          <label htmlFor="indicaciones">Indicaciones:</label>
-          <textarea
-            name="indicaciones"
-            value={formData.indicaciones}
-            onChange={handleInputChange}
-          ></textarea>
+            <label htmlFor="indicaciones">Indicaciones:</label>
+            <textarea
+              name="indicaciones"
+              value={formData.indicaciones}
+              onChange={handleInputChange}
+            ></textarea>
 
-          <label htmlFor="imagenes">Subir Imágenes:</label>
-          <input
-            type="file"
-            name="imagenes"
-            multiple
-            onChange={handleInputChange}
-          />
+            <label htmlFor="imagenes">Subir Imágenes:</label>
+            <input
+              type="file"
+              name="imagenes"
+              multiple
+              onChange={handleInputChange}
+            />
 
-          <button type="submit">Actualizar Atención</button>
-        </form>
+            <div className="image-previews">
+              {imagePreviews.map((src, index) => (
+                <div key={index} className="image-preview">
+                  <img
+                    src={src}
+                    alt={`preview ${index}`}
+                    onClick={() =>
+                      downloadImage(src, `imagen_${index + 1}.jpg`)
+                    }
+                    onError={(e) => {
+                      console.error(`Error loading image: ${src}`);
+                      e.target.src =
+                        "https://via.placeholder.com/100?text=Error";
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      width: "100px",
+                      height: "100px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage(index)}
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button type="submit">Actualizar Atención</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
 };
 
-export default AtencionForm;
+export default ActualizarAtencion;

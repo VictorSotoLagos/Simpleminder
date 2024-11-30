@@ -21,6 +21,7 @@ const AtencionForm = () => {
   };
   const [formData, setFormData] = useState(initialValues);
   const [pacientesTerapeuta, setPacientesTerapeuta] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
 
   useEffect(() => {
     const buscarFichasPacientes = async () => {
@@ -37,10 +38,12 @@ const AtencionForm = () => {
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "imagenes") {
+      const fileArray = Array.from(files);
       setFormData({
         ...formData,
-        [name]: files,
+        [name]: fileArray,
       });
+      setImagePreviews(fileArray.map((file) => URL.createObjectURL(file)));
     } else {
       setFormData({
         ...formData,
@@ -48,6 +51,16 @@ const AtencionForm = () => {
       });
     }
     console.log("form data es:", formData);
+  };
+
+  const handleRemoveImage = (index) => {
+    const newImages = formData.imagenes.filter((_, i) => i !== index);
+    const newPreviews = imagePreviews.filter((_, i) => i !== index);
+    setFormData({
+      ...formData,
+      imagenes: newImages,
+    });
+    setImagePreviews(newPreviews);
   };
 
   const handleSubmit = async (e) => {
@@ -78,6 +91,7 @@ const AtencionForm = () => {
       indicaciones: "",
       imagenes: [],
     });
+    setImagePreviews([]);
   };
 
   return (
@@ -173,6 +187,16 @@ const AtencionForm = () => {
             multiple
             onChange={handleInputChange}
           />
+          <div className="image-previews">
+            {imagePreviews.map((src, index) => (
+              <div key={index} className="image-preview">
+                <img src={src} alt={`preview ${index}`} />
+                <button type="button" onClick={() => handleRemoveImage(index)}>
+                  Eliminar
+                </button>
+              </div>
+            ))}
+          </div>
           <button type="submit">Crear Atención</button>
         </form>
       </div>
