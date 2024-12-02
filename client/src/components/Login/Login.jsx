@@ -80,7 +80,7 @@ const LoginUser = () => {
         </button>
       </form>
       <p>¿No tienes una cuenta aún? Crea tu usuario:</p>
-      <Link to="/nuevopaciente">
+      <Link to="/nuevoterapeuta">
         <button className="register-usuario-button" type="button">
           Crear un Usuario
         </button>

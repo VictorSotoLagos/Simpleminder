@@ -14,7 +14,7 @@ const AtencionList = () => {
 
   return (
     <div>
-      <h3>Atenciones</h3>
+      <h2>Atenciones</h2>
       <ul>
         {atenciones.map((atencion) => (
           <li key={atencion._id}>

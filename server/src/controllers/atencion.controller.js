@@ -5,6 +5,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import { encrypt, decrypt } from "../utils/encryptionUtils.js";
 
 config();
 
@@ -124,11 +125,14 @@ const createAtencion = async (req, res) => {
   }
 };
 
+
+//ORIGINAL: PENULTIMA VERSION DE PEDRO
+
 const updateAtencion = async (req, res) => {
   try {
     const { id } = req.params;
     const updateData = { ...req.body };
-
+    console.log("Update Data:", updateData);
     // Parsear imágenes existentes
     let existingImages = [];
     try {
@@ -147,10 +151,33 @@ const updateAtencion = async (req, res) => {
     delete updateData.existingImages;
     delete updateData.imagenes;
 
+
+    const excludeFields = ["_id", "__v", "createdAt", "id_paciente", "id_terapeuta", "updatedAt", "nombre", "apellidoUno", "imagenes", "fecha", "hora"];
+    const encryptedData = {};
+
+    // Iterar sobre las claves de updateData y encriptar los valores
+    for (const key in updateData) {
+      if (updateData.hasOwnProperty(key) && !excludeFields.includes(key)) {
+        // Encriptar el valor solo si es una cadena o número
+        if (typeof updateData[key] === "string" || typeof updateData[key] === "number") {
+          encryptedData[key] = encrypt(updateData[key].toString()); // Encriptar y convertir a string si es necesario
+        } else {
+          encryptedData[key] = updateData[key]; // Si no es una cadena ni un número, lo dejamos tal cual
+        }
+      } else {
+        // Si el campo está en la lista de exclusión, lo dejamos tal cual
+        encryptedData[key] = updateData[key];
+      }
+    }
+
+    console.log("Encrypted Data:", encryptedData);
+
+
+
     const atencionActualizada = await Atencion.findByIdAndUpdate(
       id,
       {
-        ...updateData,
+        ...encryptedData,
         imagenes,
       },
       { new: true }
@@ -171,6 +198,73 @@ const updateAtencion = async (req, res) => {
     });
   }
 };
+
+
+
+//Versión integra encruptacion en actualizacion
+
+/*
+const updateAtencion = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = { ...req.body };
+
+    // Parsear imágenes existentes
+    let existingImages = [];
+    try {
+      existingImages = JSON.parse(req.body.existingImages || "[]");
+    } catch (e) {
+      console.error("Error al parsear imágenes existentes:", e);
+    }
+
+    // Obtener rutas de nuevas imágenes subidas
+    const newImages = req.files ? req.files.map((file) => file.filename) : [];
+
+    // Combinar imágenes (nuevas y existentes)
+    const imagenes = [...existingImages, ...newImages];
+
+    // Encriptar campos sensibles antes de actualizar
+    if (updateData.introduccion) {
+      updateData.introduccion = encrypt(updateData.introduccion);
+    }
+    if (updateData.datosAtencion) {
+      updateData.datosAtencion = encrypt(updateData.datosAtencion);
+    }
+    if (updateData.indicaciones) {
+      updateData.indicaciones = encrypt(updateData.indicaciones);
+    }
+
+    // Eliminar campos no relevantes de los datos a actualizar
+    delete updateData.existingImages;
+    delete updateData.imagenes;
+
+    // Actualizar la atención en la base de datos
+    const atencionActualizada = await Atencion.findByIdAndUpdate(
+      id,
+      {
+        ...updateData,
+        imagenes, // Guardar la combinación de imágenes
+      },
+      { new: true } // Retornar la atención actualizada
+    );
+
+    if (!atencionActualizada) {
+      return res.status(404).json({
+        message: "Atención no encontrada",
+      });
+    }
+
+    // Respuesta exitosa
+    return res.status(200).json(atencionActualizada);
+  } catch (error) {
+    console.error("Error en updateAtencion:", error);
+    return res.status(500).json({
+      message: "Error al actualizar la atención",
+      error: error.message,
+    });
+  }
+};
+*/
 
 const deleteAtencion = async (req, res) => {
   try {

@@ -69,7 +69,10 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
         atencion.diagnosticoHipotesis?.toLowerCase().includes(inputLower) ||
         atencion.estadoDiagnostico?.toLowerCase().includes(inputLower) ||
         atencion.indicaciones?.toLowerCase().includes(inputLower) ||
-        formatDateToHTMLDate(atencion.fecha)?.toLowerCase().includes(inputLower)
+        formatDateToHTMLDate(atencion.fecha)
+          ?.toLowerCase()
+          .includes(inputLower) ||
+        atencion.hora?.toLowerCase().includes(inputLower)
       );
     });
     setSearchFilter(filteredAtenciones);

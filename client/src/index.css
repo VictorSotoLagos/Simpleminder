@@ -9,6 +9,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }
 
 /*
@@ -61,6 +62,7 @@ h5,
 h6 {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
+  line-height: 1;
 }
 
 button {

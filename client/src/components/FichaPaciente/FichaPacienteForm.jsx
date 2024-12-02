@@ -2,12 +2,14 @@ import { addFichaPaciente } from "../../api/fichapacienteServices.js";
 import { useContext, useState } from "react";
 import { UsuarioContext } from "../../contexts/UsuarioContext.jsx";
 import { patchTerapeuta } from "../../api/terapeutaServices.js";
+import { validateFichaPaciente } from "../../helpers/fichapacientevalidations.js";
 import "./FichaPacienteFormStyle.css";
 import React from "react";
 
 const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
   const { terapeuta, setTerapeuta } = useContext(UsuarioContext);
-  const [returnMessage, setReturnMessage] = useState("");
+
+  const [errorMessage, setErrorMessage] = useState("");
   const initialValues = {
     nombre: "",
     nombreSocial: "",
@@ -66,7 +68,11 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const error = validateFichaPaciente(formData);
+    if (error) {
+      setErrorMessage(error);
+      return;
+    }
     try {
       // 1. Buscar al terapeuta en BBDD
 
@@ -104,12 +110,12 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
       ]);
 
       console.log("Paciente asignado exitosamente.");
-      setReturnMessage("Paciente asignado exitosamente");
+      setErrorMessage("Paciente asignado exitosamente");
     } catch (error) {
-      console.error("Error al asignar el paciente:", error);
+      setErrorMessage("Error al crear ficha paciente");
     }
 
-    setFormData(initialValues);
+    //setFormData(initialValues); No resetearemos aun hasta verificar que funcione bien
   };
 
   const calculateAge = (birthDate) => {
@@ -138,8 +144,17 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
         🖨️ Imprimir
       </button>
       <div className="ficha-paciente">
-        {returnMessage && <p>{returnMessage}</p>}
         <h3>Crear Ficha de Paciente</h3>
+        <p
+          style={{
+            color: "red",
+            fontSize: "15px",
+            marginTop: "0px",
+            marginBottom: "5px",
+          }}
+        >
+          {errorMessage ? errorMessage : "\u00A0"}
+        </p>
         <form className="ficha-paciente-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="nombre">
@@ -176,9 +191,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="apellidoDos">
-              Apellido Materno:<span style={{ color: "red" }}>*</span>
-            </label>
+            <label htmlFor="apellidoDos">Apellido Materno:</label>
             <input
               type="text"
               name="apellidoDos"
@@ -192,7 +205,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
               Email:<span style={{ color: "red" }}>*</span>
             </label>
             <input
-              type="email"
+              type="text"
               name="email"
               value={formData.email}
               onChange={handleInputChange}

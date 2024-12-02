@@ -14,8 +14,15 @@
   gap: 10px;
 }
 
+.nueva-atencion-form-title {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
 .actualizar-atencion-back-button {
   display: flex;
+  background-color: rgba(255, 255, 255, 0);
   align-items: center;
   color: #215f99;
   padding: 0px;
@@ -38,6 +45,7 @@
   max-height: 450px;
   overflow: auto;
   padding: 10px 20px;
+  margin-top: 5px;
 }
 .nueva-atencion-form {
   display: flex;
@@ -168,13 +176,17 @@
 
 .image-preview button {
   position: absolute;
-  top: 5px;
-  right: 5px;
-  background: rgba(255, 255, 255, 0.8);
-  border: none;
-  border-radius: 50%;
-  padding: 4px 8px;
+  top: 2px;
+  right: 2px;
+  left: 1px;
+  border-radius: 6px;
+  padding: 4px 2px;
   cursor: pointer;
+  opacity: 0;
+}
+
+.image-preview button:hover {
+  opacity: 1;
 }
 
 /* Add to AtencionFormStyle.css */

@@ -1,9 +1,11 @@
 #root {
   display: flex;
-  padding: 10px;
-  margin: 0;
+  padding: 20px;
+  margin: 0, auto;
   align-items: left;
   flex-direction: column;
+  max-height: 100vh;
+  overflow: auto;
 }
 
 .app {
@@ -21,7 +23,6 @@
   display: flex;
   background-color: #ffffff;
   width: 1300px;
-
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
@@ -32,6 +33,7 @@
   border-width: 3px;
   border-radius: 10px;
   box-shadow: 5px 5px 10px 2px rgba(62, 62, 62, 0.5);
+  height: 640px;
 }
 
 .main-container {

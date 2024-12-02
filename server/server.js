@@ -17,6 +17,9 @@ import { fileURLToPath } from "url";
 // Configuración de dotenv
 config();
 
+console.log(`Clave cargada: ${process.env.ENCRYPTION_KEY}`);
+console.log(`Longitud de clave: ${process.env.ENCRYPTION_KEY.length}`);
+
 // Definir __dirname usando import.meta.url
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

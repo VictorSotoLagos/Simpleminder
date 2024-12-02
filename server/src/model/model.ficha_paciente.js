@@ -15,8 +15,6 @@ const fichaPacienteSchema = new Schema(
     },
     nombreSocial: {
       type: String,
-      minlength: 3, //Limitar a un mínimo de 3 caracteres
-      maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
     apellidoUno: {
       type: String,
@@ -26,8 +24,6 @@ const fichaPacienteSchema = new Schema(
     },
     apellidoDos: {
       type: String,
-      minlength: 3, // Limitar a un mínimo de 3 caracteres
-      maxlength: 100, // Limitar a un máximo de 100 caracteres
     },
     email: {
       type: String,
@@ -48,7 +44,8 @@ const fichaPacienteSchema = new Schema(
       required: [true, "Se debe incluir un rut"],
       unique: true,
       match: [
-        /^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}\-[0-9]{1}$/,
+       // /^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}\-[0-9]{1}$/,
+       /^\d{1,2}(\.\d{3}){2}-[\dkK]$/,
         "El rut debe tener el formato xx.xxx.xxx-x, con puntos y guión incluidos",
       ],
     },

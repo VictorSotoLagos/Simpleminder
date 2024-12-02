@@ -9,10 +9,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./FichaPacienteFormStyle.css";
 import React from "react";
 import { IoArrowBackCircle } from "react-icons/io5";
+import { validateFichaPaciente } from "../../helpers/fichapacientevalidations.js";
 
 const ActualizarFichaPaciente = () => {
   const { terapeuta, setTerapeuta } = useContext(UsuarioContext);
-  const [returnMessage, setReturnMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({});
   const { id } = useParams(); // Desestructuración del objeto que te devuelve useParams
   const navegar = useNavigate();
@@ -58,7 +59,11 @@ const ActualizarFichaPaciente = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const error = validateFichaPaciente(formData);
+    if (error) {
+      setErrorMessage(error);
+      return;
+    }
     try {
       const fichaActualizada = await patchFichaPaciente(id, formData);
       console.log("ficha actualizada es: ", fichaActualizada);
@@ -68,10 +73,10 @@ const ActualizarFichaPaciente = () => {
         return;
       }
 
-      setReturnMessage("Ficha de paciente actualizada exitosamente");
+      setErrorMessage("Ficha de paciente actualizada exitosamente");
     } catch (error) {
       console.error("Error al asignar la ficha del paciente:", error);
-      setReturnMessage("Error al asignar la ficha del paciente");
+      setErrorMessage("Error al asignar la ficha del paciente");
     }
   };
 
@@ -87,7 +92,16 @@ const ActualizarFichaPaciente = () => {
         </button>
       </div>
 
-      {returnMessage && <p style={{ color: "red" }}>{returnMessage}</p>}
+      <p
+        style={{
+          color: "red",
+          fontSize: "15px",
+          marginTop: "0px",
+          marginBottom: "5px",
+        }}
+      >
+        {errorMessage ? errorMessage : "\u00A0"}
+      </p>
 
       <form className="ficha-paciente-form" onSubmit={handleSubmit}>
         <div className="form-group">

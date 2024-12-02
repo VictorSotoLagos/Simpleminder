@@ -3,7 +3,9 @@ import { putAtencion, fetchAtencionID } from "../../api/atencion.Service.js";
 import { UsuarioContext } from "../../contexts/UsuarioContext.jsx";
 import { fetchFichasPacientes } from "../../api/fichapacienteServices.js";
 import { useParams, useNavigate } from "react-router-dom";
+import { validateAtencion } from "../../helpers/atencionvalidations.js";
 import "./AtencionFormStyle.css";
+import { IoArrowBackCircle } from "react-icons/io5";
 
 const ActualizarAtencion = () => {
   const { terapeuta } = useContext(UsuarioContext);
@@ -28,6 +30,7 @@ const ActualizarAtencion = () => {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
   const [newImages, setNewImages] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Primer useEffect para cargar las fichas de pacientes
   useEffect(() => {
@@ -100,6 +103,14 @@ const ActualizarAtencion = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const errorValidacion = validateAtencion(formData);
+
+    if (errorValidacion) {
+      setErrorMessage(errorValidacion);
+      return;
+    }
+
     const formDataToSubmit = new FormData();
 
     Object.keys(formData).forEach((key) => {
@@ -118,7 +129,7 @@ const ActualizarAtencion = () => {
 
     try {
       await putAtencion(id, formDataToSubmit);
-
+      setErrorMessage("Atención Actualizada con Éxito");
       navigate("/ver_atenciones"); //me manda a atenciones despues de actuaslizar
     } catch (error) {
       console.error("Error al actualizar:", error);
@@ -223,14 +234,34 @@ const ActualizarAtencion = () => {
         🖨️ Imprimir
       </button>
       <div className="nueva-atencion">
-        <h3>Editar Atención</h3>
+        <div className="nueva-atencion-form-title">
+          <h3>Editar Atención</h3>
+
+          <button
+            onClick={() => navigate("/ver_atenciones")}
+            className="actualizar-atencion-back-button"
+          >
+            <IoArrowBackCircle size={30} />
+          </button>
+        </div>
+        <p
+          style={{
+            color: "red",
+            fontSize: "15px",
+            margin: "0px",
+          }}
+        >
+          {errorMessage ? errorMessage : "\u00A0"}
+        </p>
         <div className="nueva-atencion-form-container">
           <form
             className="nueva-atencion-form"
             onSubmit={handleSubmit}
             encType="multipart/form-data"
           >
-            <label htmlFor="id_paciente">Paciente:</label>
+            <label htmlFor="id_paciente">
+              Paciente:<span style={{ fontSize: "15px", color: "red" }}>*</span>
+            </label>
             <select
               name="id_paciente"
               value={formData.id_paciente}
@@ -248,22 +279,24 @@ const ActualizarAtencion = () => {
               ))}
             </select>
 
-            <label htmlFor="fecha">Fecha:</label>
+            <label htmlFor="fecha">
+              Fecha:<span style={{ fontSize: "15px", color: "red" }}>*</span>
+            </label>
             <input
               type="date"
               name="fecha"
               value={formatDateToHTMLDate(formData.fecha)}
               onChange={handleInputChange}
-              required
             />
 
-            <label htmlFor="hora">Hora:</label>
+            <label htmlFor="hora">
+              Hora:<span style={{ fontSize: "15px", color: "red" }}>*</span>
+            </label>
             <input
               type="time"
               name="hora"
               value={formData.hora}
               onChange={handleInputChange}
-              required
             />
 
             <label htmlFor="introduccion">Introducción:</label>
@@ -282,13 +315,17 @@ const ActualizarAtencion = () => {
 
             <label htmlFor="diagnosticoHipotesis">
               Diagnóstico / Hipótesis:
+              <span style={{ fontSize: "15px", color: "red" }}>*</span>
             </label>
             <select
               name="diagnosticoHipotesis"
               value={formData.diagnosticoHipotesis}
               onChange={handleInputChange}
             >
-              <option value="">Seleccione un diagnóstico / hipótesis</option>
+              <option value="">
+                Seleccione un diagnóstico / hipótesis
+                <span style={{ fontSize: "15px", color: "red" }}>*</span>
+              </option>
               <option value="Confirmado">Confirmado</option>
               <option value="Hipotesis">Hipotesis</option>
               <option value="De alta">De alta</option>

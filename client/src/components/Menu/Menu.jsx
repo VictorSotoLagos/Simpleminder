@@ -184,7 +184,7 @@ const Menu = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/ver_atenciones" end>
+            <NavLink to="/ver_atenciones/:id?" end>
               {({ isActive }) => (
                 <button
                   type="button"

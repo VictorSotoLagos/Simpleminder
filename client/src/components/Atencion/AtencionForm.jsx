@@ -3,9 +3,11 @@ import { addAtencion } from "../../api/atencion.Service.js";
 import { UsuarioContext } from "../../contexts/UsuarioContext.jsx";
 import { fetchFichasPacientes } from "../../api/fichapacienteServices.js";
 import "./AtencionFormStyle.css";
+import { validateAtencion } from "../../helpers/atencionvalidations.js";
 
 const AtencionForm = () => {
   const { terapeuta } = useContext(UsuarioContext);
+  const [errorMessage, setErrorMessage] = useState("");
   console.log("terapeuta id es:", terapeuta.id);
   const initialValues = {
     id_paciente: "",
@@ -75,9 +77,15 @@ const AtencionForm = () => {
         formDataToSubmit.append(key, formData[key]);
       }
     }
-    console.log("formDataToSubmit es:", formDataToSubmit);
+    console.log("formData es:", formData);
+    const error = validateAtencion(formData);
+    if (error) {
+      setErrorMessage(error);
+      return;
+    }
     const response = await addAtencion(formDataToSubmit);
     console.log("response es:", response);
+    setErrorMessage("Atención Ingresada con Éxito");
     // Reset form
     setFormData({
       id_paciente: "",
@@ -97,13 +105,25 @@ const AtencionForm = () => {
   return (
     <div className="nueva-atencion">
       <h3>Crear Atención</h3>
+      <p
+        style={{
+          color: "red",
+          fontSize: "15px",
+          marginTop: "0px",
+          marginBottom: "5px",
+        }}
+      >
+        {errorMessage ? errorMessage : "\u00A0"}
+      </p>
       <div className="nueva-atencion-form-container">
         <form
           className="nueva-atencion-form"
           onSubmit={handleSubmit}
           encType="multipart/form-data"
         >
-          <label htmlFor="fecha">Paciente:</label>
+          <label htmlFor="fecha">
+            Paciente:<span style={{ fontSize: "15px", color: "red" }}>*</span>
+          </label>
           <select
             name="id_paciente"
             value={formData.id_paciente}
@@ -121,23 +141,25 @@ const AtencionForm = () => {
             ))}
           </select>
 
-          <label htmlFor="fecha">Fecha:</label>
+          <label htmlFor="fecha">
+            Fecha:<span style={{ fontSize: "15px", color: "red" }}>*</span>
+          </label>
           <input
             type="date"
             name="fecha"
             value={formData.fecha}
             onChange={handleInputChange}
             placeholder="Fecha"
-            required
           />
-          <label htmlFor="hora">Hora:</label>
+          <label htmlFor="hora">
+            Hora:<span style={{ fontSize: "15px", color: "red" }}>*</span>
+          </label>
           <input
             type="time"
             name="hora"
             value={formData.hora}
             onChange={handleInputChange}
             placeholder="Hora"
-            required
           />
           <label htmlFor="introduccion">Introducción:</label>
           <textarea
@@ -153,7 +175,10 @@ const AtencionForm = () => {
             onChange={handleInputChange}
             placeholder="Datos de la Atención"
           ></textarea>
-          <label htmlFor="diagnosticoHipotesis">Diagnóstico / Hipótesis:</label>
+          <label htmlFor="diagnosticoHipotesis">
+            Diagnóstico / Hipótesis:
+            <span style={{ fontSize: "15px", color: "red" }}>*</span>
+          </label>
           <select
             name="diagnosticoHipotesis"
             value={formData.diagnosticoHipotesis}
