@@ -26,7 +26,7 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
       setfichasDelTerapeuta(
         fichasFilter.sort((a, b) => a.nombre.localeCompare(b.nombre))
       );
-      console.log("fichasDelTerapeuta", fichasDelTerapeuta);
+      //console.log("fichasDelTerapeuta", fichasDelTerapeuta);
     }
   }, [fichasData, terapeuta.id]);
 
