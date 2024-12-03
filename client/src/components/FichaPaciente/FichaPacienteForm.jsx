@@ -110,7 +110,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
       ]);
 
       ////console.log("Paciente asignado exitosamente.");
-      setErrorMessage("Paciente asignado exitosamente");
+      setErrorMessage("Paciente creado exitosamente");
     } catch (error) {
       setErrorMessage("Error al crear ficha paciente");
     }

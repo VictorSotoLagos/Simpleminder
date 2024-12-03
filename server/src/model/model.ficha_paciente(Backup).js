@@ -1,37 +1,6 @@
 import { model, Schema } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
-import crypto from "crypto";
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || "miclaveultrasecreta1234567890abc"
-const ALGORITHM = "aes-256-cbc"; // Algoritmo de encriptación
-
-const encrypt = (text) => {
-  const iv = crypto.randomBytes(16); // Vector de inicialización
-  const cipher = crypto.createCipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY), iv);
-  let encrypted = cipher.update(text, "utf8", "hex");
-  encrypted += cipher.final("hex");
-  return iv.toString("hex") + ":::" + encrypted; // Guardar IV junto al texto encriptado
-}
-
-const decrypt = (text) => {
-  if (!text || !text.includes(":::")) {
-    return text; // Si no tiene el formato esperado, devolver el texto tal cual (no encriptado)
-  }
-  try {
-    const [iv, encryptedText] = text.split(":::");
-
-    if (iv.length !== 32) {
-      throw new Error("Invalid initialization vector");
-    }
-    const decipher = crypto.createDecipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY), Buffer.from(iv, "hex"));
-    let decrypted = decipher.update(encryptedText, "hex", "utf8");
-    decrypted += decipher.final("utf8");
-    return decrypted;
-  } catch (error) {
-    console.error("Error desencriptando texto:", error.message);
-    return text; // En caso de error, devolver el texto tal cual
-  }
-}
-
+import bcrypt from "bcrypt";
 
 const fichaPacienteSchema = new Schema(
   {
@@ -211,68 +180,38 @@ const fichaPacienteSchema = new Schema(
   { timestamps: true }
 );
 
+// Agregar campo virtual para confirmación de clave secreta
+fichaPacienteSchema
+  .virtual("confirm_password")
+  .get(function () {
+    return this._confirmacionClaveSecreta;
+  })
+  .set(function (value) {
+    this._confirmacionClaveSecreta = value;
+  });
 
-
-fichaPacienteSchema.pre("save", function (next) {
-  const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno" ]; // Campos que no quieres encriptar
-
-  for (const key of Object.keys(this.toObject())) {
-    if (
-      !excludeFields.includes(key) && // No está en la lista de exclusión
-      this[key] !== null && this[key] !== undefined // Tiene un valor (no es null o undefined)
-    ) {
-      // Verificar y encriptar según el tipo
-      if (typeof this[key] === "string") {
-        this[key] = encrypt(this[key]); // Encriptar cadenas
-      } else if (typeof this[key] === "number") {
-        this[key] = encrypt(this[key].toString()); // Convertir números a cadena antes de encriptar
-      } else if (this[key] instanceof Date) {
-        this[key] = encrypt(this[key].toISOString()); // Convertir fechas a ISO string antes de encriptar
-      }
-    }
+// Gancho de pre-validación para verificar si las claves secretas coinciden
+fichaPacienteSchema.pre("validate", function (next) {
+  if (this.password !== this.confirm_password) {
+    this.invalidate("confirm_password", "Las claves secretas deben coincidir");
   }
-
   next();
 });
 
-fichaPacienteSchema.methods.toJSON = function () {
-  const obj = this.toObject();
-  const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno" ];
-  
-  for (const key of Object.keys(obj)) {
-    if (
-      typeof obj[key] === "string" &&
-      obj[key].includes(":::") && // Asegurarse de que tiene el formato esperado para desencriptar
-      !excludeFields.includes(key) // Asegurarse de no procesar los campos excluidos
-    ) {
-      try {
-        // Intentamos desencriptar el valor
-        const decryptedValue = decrypt(obj[key]);
-
-        // Verificar si el valor desencriptado es un número o fecha
-        if (!isNaN(decryptedValue)) {
-          obj[key] = parseFloat(decryptedValue); // Convertir a número si aplica
-        } else if (new Date(decryptedValue).toString() !== "Invalid Date") {
-          obj[key] = new Date(decryptedValue); // Convertir a fecha si aplica
-        } else {
-          obj[key] = decryptedValue; // Mantener como string si no aplica
-        }
-      } catch (error) {
-        // Loguear el error de desencriptación y dejar el valor original
-        console.error(`Error desencriptando el campo '${key}':`, error.message);
-        // Mantener el valor original si ocurre un error
-        obj[key] = obj[key];
-      }
+// Gancho de pre-guardado para hashear la clave secreta
+fichaPacienteSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      this.password = await bcrypt.hash(this.password, salt);
+      next();
+    } catch (error) {
+      next(error);
     }
+  } else {
+    next();
   }
-
-  return obj;
-};
-
-
-
-
-
+});
 
 // Exportar el esquema
 //export default mongoose.model('PerfilPaciente', fichaPacienteSchema);

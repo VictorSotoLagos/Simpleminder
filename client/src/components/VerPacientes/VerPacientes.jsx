@@ -26,7 +26,7 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
       setfichasDelTerapeuta(
         fichasFilter.sort((a, b) => a.nombre.localeCompare(b.nombre))
       );
-      ////console.log("fichasDelTerapeuta", fichasDelTerapeuta);
+      console.log("fichasDelTerapeuta", fichasDelTerapeuta);
     }
   }, [fichasData, terapeuta.id]);
 
@@ -37,23 +37,28 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
   if (error) {
     return <p>Error: {error.message}</p>;
   }
+
   useEffect(() => {
-    const filteredFichas = fichasDelTerapeuta.filter((ficha) => {
-      const nombreCompleto =
-        `${ficha.nombre} ${ficha.apellidoUno}`.toLowerCase();
-      const inputLower = input.toLowerCase();
+    try {
+      const filteredFichas = fichasDelTerapeuta.filter((ficha) => {
+        const nombreCompleto =
+          `${ficha.nombre} ${ficha.apellidoUno}`.toLowerCase();
+        const inputLower = input.toLowerCase();
 
-      return (
-        nombreCompleto.includes(inputLower) || // Búsqueda por nombre completo
-        ficha.nombre.toLowerCase().includes(inputLower) || // Búsqueda individual por nombre
-        ficha.apellidoUno.toLowerCase().includes(inputLower) || // Búsqueda individual por apellido
-        ficha.diagnosticoHipotesis.toLowerCase().includes(inputLower) || // Búsqueda en diagnóstico
-        ficha.comorbilidades.toLowerCase().includes(inputLower) || // Búsqueda en comorbilidades
-        ficha.run.toLowerCase().includes(inputLower) // Búsqueda en RUN
-      );
-    });
+        return (
+          nombreCompleto.includes(inputLower) ||
+          ficha.nombre?.toLowerCase().includes(inputLower) ||
+          ficha.apellidoUno?.toLowerCase().includes(inputLower) ||
+          ficha.diagnosticoHipotesis?.toLowerCase().includes(inputLower) ||
+          ficha.comorbilidades?.toLowerCase().includes(inputLower) ||
+          ficha.run?.toLowerCase().includes(inputLower)
+        );
+      });
 
-    setSearchFilter(filteredFichas);
+      setSearchFilter(filteredFichas);
+    } catch (error) {
+      console.error("Error en el filtrado de fichas:", error);
+    }
   }, [input, fichasDelTerapeuta]);
 
   useEffect(() => {

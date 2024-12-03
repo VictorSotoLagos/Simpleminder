@@ -1,7 +1,6 @@
 import { FichaPaciente } from "../model/model.ficha_paciente.js";
 import {Terapeuta} from "../model/model.terapeuta.js"
 import { config } from "dotenv";
-import { encrypt, decrypt } from "../utils/encryptionUtils.js";
 
 config();
 
@@ -139,33 +138,10 @@ const updateFichaPaciente = async (req, res) => {
 };
 
 const patchFichaPaciente = async (req, res) => {
-
-  const { id } = req.params;
-  const updateData = { ...req.body };
-  const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno" ]; // Campos que no quieres encriptar
-  const encryptedData = {};
-
-  // Iterar sobre las claves de updateData y encriptar los valores
-  for (const key in updateData) {
-    if (updateData.hasOwnProperty(key) && !excludeFields.includes(key)) {
-      // Encriptar el valor solo si es una cadena o número
-      if (typeof updateData[key] === "string" || typeof updateData[key] === "number") {
-        encryptedData[key] = encrypt(updateData[key].toString()); // Encriptar y convertir a string si es necesario
-      } else {
-        encryptedData[key] = updateData[key]; // Si no es una cadena ni un número, lo dejamos tal cual
-      }
-    } else {
-      // Si el campo está en la lista de exclusión, lo dejamos tal cual
-      encryptedData[key] = updateData[key];
-    }
-  }
-
-
-
   try {
     const fichaPacienteDB = await FichaPaciente.findByIdAndUpdate(
       req.params.id,
-      { $set: encryptedData }, // Solo actualiza los campos enviados
+      { $set: req.body }, // Solo actualiza los campos enviados
       { new: true }
     );
     return res.status(200).json(fichaPacienteDB);

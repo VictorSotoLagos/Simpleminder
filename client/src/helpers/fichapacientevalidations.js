@@ -21,7 +21,7 @@
     if (fichaPaciente.email.includes(".") === false) {
       return `Incluye un correo electrónico válido con un punto "." luego de la @`;
     }
-    if (fichaPaciente.telefono.trim() === "") {
+    if (!fichaPaciente.telefono || String(fichaPaciente.telefono).trim() === "") {
       return "Debes incluir un teléfono de contacto";
     }
     if (fichaPaciente.run.trim() === "") {
