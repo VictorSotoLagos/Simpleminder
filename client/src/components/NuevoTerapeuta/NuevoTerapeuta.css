@@ -3,22 +3,28 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 600px;
+  width: 650px;
+  margin: 0px;
+  gap: 10px;
 }
 
 .nuevo-terapeuta-form {
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 10px;
+  padding: 0px 20px 0px 8px;
+  max-height: 420px;
+  overflow: auto;
 }
 
 .nuevo-terapeuta-form input {
   padding: 0px 10px 0px 10px;
   width: 100%;
-  height: 36px;
+  height: 38px;
   border-radius: 5px;
   border: 2px solid #215f99;
+  margin-bottom: 15px;
+  flex-shrink: 0;
 }
 
 .nuevo-terapeuta-form button {
@@ -47,6 +53,7 @@
   width: 100%;
   height: 36px;
   border-radius: 5px;
+  margin-bottom: 10px;
   border: 2px solid #215f99;
   background-color: white;
   color: #000;
@@ -61,6 +68,7 @@
   -moz-appearance: none;
   -webkit-appearance: none;
   padding-right: 30px; /* Asegura espacio para la flecha */
+  flex-shrink: 0;
 }
 
 .nuevo-terapeuta-form select option {
@@ -81,4 +89,25 @@
 .nuevo-terapeuta-form input,
 .nuevo-terapeuta-form select {
   box-sizing: border-box;
+}
+
+.nuevo-terapeuta-form label {
+  margin-bottom: 8px;
+}
+
+.nuevo-terapeuta-form::-webkit-scrollbar {
+  width: 8px;
+}
+
+.nuevo-terapeuta-form::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.nuevo-terapeuta-form::-webkit-scrollbar-thumb {
+  background: #215f99;
+  border-radius: 10px;
+}
+
+.nuevo-terapeuta-form::-webkit-scrollbar-thumb:hover {
+  background: #df7802;
 }

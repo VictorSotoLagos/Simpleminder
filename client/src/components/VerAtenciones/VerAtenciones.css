@@ -1,0 +1,127 @@
+.table-container {
+  border: 1px solid #215f99; /* Borde del contenedor */
+  border-radius: 5px; /* Bordes redondeados */
+  max-height: 400px;
+  overflow: auto; /* Asegura que el contenido no sobresalga */
+}
+
+.table {
+  width: 100%; /* Ocupa todo el ancho del contenedor */
+  border-collapse: collapse;
+  margin: 0; /* Elimina márgenes adicionales */
+  font-size: 16px; /* Tamaño de fuente */
+  text-align: left; /* Alineación del texto */
+}
+
+.table th {
+  text-align: center;
+  padding: 12px 15px;
+}
+
+.table td {
+  font-size: 15px;
+  padding: 15px 10px;
+  text-align: center;
+  border-bottom: 1px solid #215f99;
+}
+
+.table thead {
+  background-color: #215f99; /* Color de fondo de la cabecera */
+  color: white;
+  font-weight: bold; /* Texto en negrita */
+  border-right: 1px solid #ffffff;
+}
+
+.table tr:nth-child(even) {
+  background-color: white; /* Fondo de las filas pares */
+}
+
+.table tbody tr:hover {
+  background-color: #dbeeff; /* Fondo al pasar el mouse */
+}
+
+.table button {
+  background-color: #ffffff00; /* Color del botón */
+  color: #215f99; /* Color del texto */
+  border: none; /* Sin bordes */
+  padding: 5px 2px 5px 4px;
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  border-radius: 4px; /* Bordes redondeados */
+}
+
+.table button:hover {
+  transition-property: transform;
+  transform: scale(1.2);
+}
+
+.input-search {
+  border: 2px solid #215f99;
+  width: 100%;
+  padding: 13px 10px;
+  border-radius: 5px;
+  margin-bottom: 25px;
+  box-shadow: 2px 2px 5px #969696;
+  transition-duration: 0.3s;
+  box-sizing: border-box;
+}
+
+.input-search:hover {
+  transform: scale(1.02);
+  transition-duration: 0.3s;
+}
+
+.text {
+  font-size: 15px;
+  text-align: left;
+  line-height: 0;
+}
+
+.table-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+/*Border radius (10px) mayor al contendor de la tabla es clave para que no se coma el borde*/
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #215f99;
+  border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #df7802;
+}
+
+.select {
+  border-radius: 10px;
+  border: 2px solid #215f99;
+  padding: 13px 8px;
+  border-radius: 5px;
+  margin-bottom: 25px;
+}
+
+.contenedor-atenciones {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: flex-start;
+  max-width: 100%;
+  gap: 10px;
+}
+
+.contenedor-paciente {
+  margin: 0px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.contenedor-buscador {
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}

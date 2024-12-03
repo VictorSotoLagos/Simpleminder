@@ -1,0 +1,148 @@
+.ficha-paciente {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.ficha-paciente-header-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.ficha-paciente-back-btn {
+  display: flex;
+  align-items: center;
+  color: #215f99;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  transition-duration: 0.3;
+}
+
+.ficha-paciente-back-btn:hover {
+  transform: scale(1.2);
+  transition-property: transform;
+  transition-duration: 0.3s;
+}
+
+.ficha-paciente-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 440px;
+  padding: 15px 10px;
+  border-radius: 5px;
+  background-color: white;
+  overflow: auto;
+}
+
+.ficha-paciente-form::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ficha-paciente-form::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.ficha-paciente-form::-webkit-scrollbar-thumb {
+  background: #215f99;
+  border-radius: 10px;
+}
+
+.ficha-paciente-form::-webkit-scrollbar-thumb:hover {
+  background: #df7802;
+}
+
+.ficha-paciente-form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 20px 15px 0px;
+}
+
+.ficha-paciente-form label {
+  margin-bottom: 5px;
+  font-weight: 400;
+  color: #213547;
+}
+
+.ficha-paciente-form input,
+.ficha-paciente-form select {
+  padding: 12px;
+  border: 2px solid #215f99;
+  border-radius: 5px;
+}
+
+.ficha-paciente-form button {
+  grid-column: span 2;
+  padding: 10px;
+  background-color: #215f99;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.ficha-paciente-form button:hover {
+  background-color: #df7802;
+}
+
+/* En FichaPacienteFormStyle.css */
+.form-container {
+  position: relative;
+  padding: 20px;
+}
+
+.print-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.print-button:hover {
+  background-color: #45a049;
+}
+
+@media print {
+  /* Ocultar todos los elementos excepto el formulario */
+  body * {
+    visibility: hidden;
+  }
+
+  .form-container,
+  .form-container * {
+    visibility: visible;
+  }
+
+  .form-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .print-button {
+    display: none;
+  }
+
+  /* Ocultar específicamente el menú, el texto "Vite + React", el título de la página y otros elementos de navegación */
+  nav,
+  header,
+  footer,
+  #menu,
+  .sidebar,
+  .vite-react-text,
+  .page-title {
+    display: none !important;
+  }
+}

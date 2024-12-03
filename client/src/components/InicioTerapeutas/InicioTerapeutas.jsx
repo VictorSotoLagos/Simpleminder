@@ -8,10 +8,7 @@ const InicioTerapeutas = () => {
 
   return (
     <main className="inicio-container">
-      <h3>
-        {terapeuta.genero === "Femenino" ? "Bienvenida " : "Bienvenido "}{" "}
-        {terapeuta?.nombre} al módulo de terapeutas:
-      </h3>
+      <h3>Este es el módulo de terapeutas de SimpleMinder:</h3>
       <VideoSimpleMinder />
     </main>
   );

@@ -12,10 +12,10 @@ const loginUser = async (req, res) => {
       let user; // Usuario encontrado (Paciente o Terapeuta)
       let userType = ""; // Tipo de usuario (Paciente o Terapeuta)
   
-      console.log("email recibido:", email);
+      ////console.log("email recibido:", email);
   
       // Intentamos buscar al Terapeuta primero
-      user = await Terapeuta.findOne({ email });
+      user = await Terapeuta.findOne({ email }).populate("pacientes");
       if (user) {
         userType = "Terapeuta";
       } else {
@@ -28,14 +28,14 @@ const loginUser = async (req, res) => {
   
       // Si no encontramos al usuario, devolvemos error
       if (!user) {
-        console.log("Usuario no encontrado");
+        ////console.log("Usuario no encontrado");
         return res.status(400).json({ error: "Usuario o contraseña incorrectos" });
       }
   
       // Validamos la contraseña
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
-        console.log("Contraseña incorrecta");
+        ////console.log("Contraseña incorrecta");
         return res.status(400).json({ error: "Usuario o contraseña incorrectos" });
       }
   
@@ -45,20 +45,27 @@ const loginUser = async (req, res) => {
         nombre: user.nombre,
         email: user.email,
         tipo_usuario: userType, // Agregamos el tipo de usuario
+      
       };
-  
-      const token = jwt.sign(datosToken, LLAVE_SECRETA, { expiresIn: "45m" });
-  
-      // Enviamos la respuesta con el token
-      return res.json({
-        token,
-        datosToken,
-      });
-    } catch (error) {
-      console.error("Error en loginUser:", error);
-      return res.status(500).json({ error: "Error interno del servidor" });
-    }
-  };
+      if (userType === "Terapeuta") {
+        datosToken.pacientes = user.pacientes; // Incluimos los pacientes populados
+      }
+      
+
+      const token = jwt.sign(datosToken, LLAVE_SECRETA, {expiresIn:'45m'});
+
+      res.cookie('authToken', token, { httpOnly: true, secure: true }).json(
+          {
+          token, 
+          datosToken,
+          });
+
+  } catch (error) {
+      ////console.log(error);
+      return res.status(500).json(error);
+
+  }
+}
   
   
   //Logout

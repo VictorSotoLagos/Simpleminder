@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/simpleminder-logo-01.png";
 import "./menulogin.css";
+import { RiLoginCircleFill } from "react-icons/ri";
+import { FaUserPlus } from "react-icons/fa";
 
 const MenuLogin = () => {
   return (
@@ -20,21 +22,16 @@ const MenuLogin = () => {
                       isActive ? "btn-menu btn-menu-active" : "btn-menu"
                     }
                   >
-                    Login
-                  </button>
-                )}
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/nuevopaciente" end>
-                {({ isActive }) => (
-                  <button
-                    type="button"
-                    className={
-                      isActive ? "btn-menu btn-menu-active" : "btn-menu"
-                    }
-                  >
-                    Registro Nuevos Pacientes
+                    <span
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "10px",
+                      }}
+                    >
+                      <RiLoginCircleFill size={"20px"} /> Login
+                    </span>
                   </button>
                 )}
               </NavLink>
@@ -48,7 +45,16 @@ const MenuLogin = () => {
                       isActive ? "btn-menu btn-menu-active" : "btn-menu"
                     }
                   >
-                    Registro Terapeutas
+                    <span
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "10px",
+                      }}
+                    >
+                      <FaUserPlus size={"20px"} /> Registro Terapeutas
+                    </span>
                   </button>
                 )}
               </NavLink>

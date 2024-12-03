@@ -1,0 +1,236 @@
+.nueva-atencion {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.nueva-atencion-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.nueva-atencion-form-title {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.actualizar-atencion-back-button {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0);
+  align-items: center;
+  color: #215f99;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  transition-duration: 0.3;
+}
+
+.actualizar-atencion-back-button:hover {
+  transform: scale(1.2);
+  transition-property: transform;
+  transition-duration: 0.3s;
+}
+
+.nueva-atencion-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-height: 450px;
+  overflow: auto;
+  padding: 10px 20px;
+  margin-top: 5px;
+}
+.nueva-atencion-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  font-size: 17px;
+}
+
+.nueva-atencion-form input,
+.nueva-atencion-form textarea,
+.nueva-atencion-form select {
+  padding: 0px 10px;
+  width: 100%;
+  min-height: 36px;
+  border-radius: 5px;
+  border: 2px solid #215f99;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+
+.nueva-atencion-form textarea {
+  height: 170px;
+  resize: vertical;
+  margin-bottom: 15px;
+}
+
+.nueva-atencion-form button {
+  padding: 10px;
+  width: 100%;
+  background-color: #215f99;
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.nueva-atencion-form button:hover {
+  background-color: #df7802;
+  border-color: #df7802;
+}
+
+.nueva-atencion-form label {
+  font-weight: 400;
+  color: black;
+}
+
+.nueva-atencion-form select {
+  background-color: white;
+  color: #000;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpolyline points="6 9 12 15 18 9"%3E%3C/polyline%3E%3C/svg%3E')
+    no-repeat right 10px center;
+  background-size: 12px;
+  padding-right: 30px; /* Asegura espacio para la flecha */
+}
+
+.nueva-atencion-form select option {
+  width: 100%;
+}
+
+.nueva-atencion-form select::after {
+  content: "▼"; /* Indicador de flecha invertida */
+  font-size: 12px;
+  color: #000; /* Color de la flecha */
+  position: absolute;
+  right: 10px; /* Espaciado desde el borde */
+  top: 50%; /* Centrar verticalmente */
+  transform: translateY(-50%);
+  pointer-events: none; /* Asegura que la flecha no interfiera con el clic */
+}
+
+.nueva-atencion-form input,
+.nueva-atencion-form textarea,
+.nueva-atencion-form select,
+.nueva-atencion-form button {
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.nueva-atencion-form-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.nueva-atencion-form-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.nueva-atencion-form-container::-webkit-scrollbar-thumb {
+  background: #215f99;
+  border-radius: 10px;
+}
+
+.nueva-atencion-form-container::-webkit-scrollbar-thumb:hover {
+  background: #df7802;
+}
+
+.image-previews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.image-preview {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.image-preview img:hover {
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.image-preview button {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  left: 1px;
+  border-radius: 6px;
+  padding: 4px 2px;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.image-preview button:hover {
+  opacity: 1;
+}
+
+/* Add to AtencionFormStyle.css */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #print-content,
+  #print-content * {
+    visibility: visible;
+  }
+  #print-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  .print-button,
+  .nueva-atencion-form {
+    display: none !important;
+  }
+}
+
+/* Add to AtencionFormStyle.css */
+.print-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 16px;
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.print-button:hover {
+  opacity: 0.9;
+}
+
+@media print {
+  .print-button {
+    display: none;
+  }
+}

@@ -26,17 +26,16 @@ const LoginUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage(validateLogin(logUser));
-    console.log("logUser es:", logUser);
+    ////console.log("logUser es:", logUser);
     try {
       const data = await login(logUser);
-
       // Guardar el token y datos del usuario en el contexto y localStorage
       localStorage.setItem("token", data.token);
       setToken(data.token);
 
       // Verificar el tipo de usuario
       const usuario = data.datosToken; // Asume que esto contiene los datos del usuario
-      console.log("usuario es", usuario);
+      ////console.log("usuario es", usuario);
       if (usuario.tipo_usuario === "Paciente") {
         setPaciente(usuario);
         localStorage.setItem("paciente", JSON.stringify(usuario));
@@ -50,7 +49,7 @@ const LoginUser = () => {
       }
     } catch (error) {
       setErrorMessage("Usuario o contraseña incorrectos");
-      console.log("Error en login:", error);
+      ////console.log("Error en login:", error);
     }
   };
 
@@ -81,7 +80,7 @@ const LoginUser = () => {
         </button>
       </form>
       <p>¿No tienes una cuenta aún? Crea tu usuario:</p>
-      <Link to="/nuevopaciente">
+      <Link to="/nuevoterapeuta">
         <button className="register-usuario-button" type="button">
           Crear un Usuario
         </button>

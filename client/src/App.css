@@ -1,10 +1,11 @@
 #root {
   display: flex;
-  max-width: 1300px;
-  padding: 10px;
-  margin: 0;
+  padding: 20px;
+  margin: 0, auto;
   align-items: left;
   flex-direction: column;
+  max-height: 100vh;
+  overflow: auto;
 }
 
 .app {
@@ -21,17 +22,18 @@
 .main {
   display: flex;
   background-color: #ffffff;
-  width: 1200px;
+  width: 1300px;
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
   text-align: center;
-  margin: 20px;
+  margin: 0 auto;
   padding: 30px;
   border: 1.5px solid #215f99;
   border-width: 3px;
   border-radius: 10px;
   box-shadow: 5px 5px 10px 2px rgba(62, 62, 62, 0.5);
+  height: 640px;
 }
 
 .main-container {
@@ -54,4 +56,28 @@
   display: flex;
   width: 100%;
   flex-direction: column;
+}
+
+input {
+  transition: transform 0.3s;
+}
+
+input:focus {
+  outline-color: #ff680a; /* Opcional, para quitar el borde predeterminado */
+  transform: scaleX(1.02) scaleY(1.02);
+  transition-property: transform;
+  transition-duration: 0.3s;
+}
+
+select:focus {
+  outline-color: #ff680a;
+  border-color: #ff680a; /* Cambia el color del borde */
+}
+
+textarea:focus {
+  outline-color: #ff680a;
+  border-color: #ff680a; /* Cambia el color del borde */
+  transform: scaleX(1.02) scaleY(1.02);
+  transition-property: transform;
+  transition-duration: 0.3s;
 }

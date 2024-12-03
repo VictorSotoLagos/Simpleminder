@@ -12,7 +12,7 @@ const UsuarioContextComponent = ({ children }) => {
     JSON.parse(localStorage.getItem("paciente"))
   ); //Estado inicial del contexto.
   const [token, setToken] = useState(localStorage.getItem("token"));
-  console.log("token desde context es:", token);
+  ////console.log("token desde context es:", token);
   const [terapeuta, setTerapeuta] = useState(
     JSON.parse(localStorage.getItem("terapeuta"))
   );

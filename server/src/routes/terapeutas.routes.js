@@ -13,9 +13,9 @@ const router = Router();
 
 router.post("/add", createTerapeuta);
 router.get("/", getTerapeutas);
-router.put("/:id", autenticarJWT, updateTerapeuta);
-router.patch("/:id", autenticarJWT, patchTerapeuta);
-router.get("/:id", autenticarJWT, getTerapeutaID);
-router.delete("/:id", autenticarJWT, deleteTerapeuta);
+router.put("/:id", updateTerapeuta);
+router.patch("/:id", patchTerapeuta);
+router.get("/:id", getTerapeutaID);
+router.delete("/:id", deleteTerapeuta);
 
 export default router;

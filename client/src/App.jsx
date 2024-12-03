@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import "@fontsource/poppins";
+import "@fontsource/poppins/400.css"; // Peso Regular
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/600.css"; // Peso Semi-Bold
+import "@fontsource/poppins/700.css";
+import "@fontsource/poppins/800.css";
 import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 //import FormularioDatos1 from "./components/FormularioDatos1/FormularioDatos1";
 //import ListaDatos1 from "./components/ListaDatos1/ListaDatos1";
@@ -22,7 +28,16 @@ import InicioPacientes from "./components/InicioPacientes/InicioPacientes";
 import InicioTerapeutas from "./components/InicioTerapeutas/InicioTerapeutas";
 import { Navigate } from "react-router-dom";
 import ActualizarDatosPaciente from "./components/ActualizarDatosPaciente/ActualizarDatosPaciente";
+import ActualizarDatosTerapeuta from "./components/ActualizarDatosTerapeuta/ActualizarDatosTerapeuta";
+import VerPacientes from "./components/VerPacientes/VerPacientes";
 import TopBar from "./components/TopBar/TopBar";
+import FichaPacienteList from "./components/FichaPaciente/FichaPacienteList";
+import FichaPacienteForm from "./components/FichaPaciente/FichaPacienteForm";
+import AtencionList from "./components/Atencion/AtencionList";
+import AtencionForm from "./components/Atencion/AtencionForm";
+import ActualizarFichaPaciente from "./components/FichaPaciente/ActualizarFichaPaciente";
+import VerAtenciones from "./components/VerAtenciones/VerAtenciones";
+import ActualizarAtencion from "./components/Atencion/ActualizarAtencion";
 
 const App = () => {
   const { paciente, terapeuta } = useContext(UsuarioContext);
@@ -43,13 +58,13 @@ const App = () => {
    */
   const obtenerDatosPacientes = async () => {
     const response = await fetchPacientes();
-    console.log("Pacientes desde el servidor:", response);
+    ////console.log("Pacientes desde el servidor:", response);
     setAllPacientes(response); // Actualiza el estado de AllPacientes
   };
 
   const obtenerDatosTerapeutas = async () => {
     const response = await fetchTerapeutas();
-    console.log("Terapeutas desde el servidor:", response);
+    ////console.log("Terapeutas desde el servidor:", response);
     setAllTerapeutas(response); // Actualiza el estado de AllTerapeutas
   };
 
@@ -62,12 +77,12 @@ const App = () => {
 
   const agregarPaciente = (newPaciente) => {
     setAllPacientes([...allPacientes, newPaciente]);
-    console.log("New Paciente es:", newPaciente);
+    ////console.log("New Paciente es:", newPaciente);
   };
 
   const agregarTerapeuta = (newTerapeuta) => {
-    setAllPacientes([...allTerapeutas, newTerapeuta]);
-    console.log("New Terapeuta es:", newTerapeuta);
+    setAllTerapeutas([...allTerapeutas, newTerapeuta]);
+    ////console.log("New Terapeuta es:", newTerapeuta);
   };
 
   return (
@@ -155,6 +170,143 @@ const App = () => {
             </PrivateTerapeutaRoutes>
           }
         />
+        <Route
+          path="/actualizar_datos_terapeuta"
+          element={
+            <PrivateTerapeutaRoutes>
+              {terapeuta ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <ActualizarDatosTerapeuta />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivateTerapeutaRoutes>
+          }
+        />
+        <Route
+          path="/ver_pacientes/:nombre?"
+          element={
+            <PrivateTerapeutaRoutes>
+              {terapeuta ? (
+                <>
+                  <Menu />
+
+                  <div className="contenido">
+                    <TopBar />
+                    <VerPacientes
+                      allPacientes={allPacientes}
+                      allTerapeutas={allTerapeutas}
+                    />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivateTerapeutaRoutes>
+          }
+        />
+        <Route
+          path="/crear_ficha_paciente"
+          element={
+            <PrivateTerapeutaRoutes>
+              {terapeuta ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <FichaPacienteForm
+                      allTerapeutas={allTerapeutas}
+                      setAllTerapeutas={setAllTerapeutas}
+                    />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivateTerapeutaRoutes>
+          }
+        />
+        <Route
+          path="/actualizar_ficha_paciente/:id"
+          element={
+            <PrivateTerapeutaRoutes>
+              {terapeuta ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <ActualizarFichaPaciente />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivateTerapeutaRoutes>
+          }
+        />
+        <Route
+          path="/crear_atencion"
+          element={
+            <PrivateTerapeutaRoutes>
+              {terapeuta ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <AtencionForm />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivateTerapeutaRoutes>
+          }
+        />
+        <Route
+          path="/ver_atenciones/:id?"
+          element={
+            <PrivateTerapeutaRoutes>
+              {terapeuta ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <VerAtenciones />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivateTerapeutaRoutes>
+          }
+        />
+        <Route
+          path="/actualizar_atencion/:id"
+          element={
+            <PrivateTerapeutaRoutes>
+              {terapeuta ? (
+                <>
+                  <Menu />
+                  <div className="contenido">
+                    <TopBar />
+                    <ActualizarAtencion />
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )}
+            </PrivateTerapeutaRoutes>
+          }
+        />
+
+        <Route path="/ficha_paciente" element={<FichaPacienteList />} />
+
+        <Route path="/atencion_lista" element={<AtencionList />} />
       </Routes>
     </main>
   );

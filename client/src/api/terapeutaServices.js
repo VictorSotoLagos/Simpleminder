@@ -2,7 +2,7 @@ import api from "./axiosConfig";
 
 const fetchTerapeutas = async () => {
     const response = await api.get("/terapeutas"); 
-    console.log("response.data es:", response.data)
+    //console.log("response.data es:", response.data)
     return response.data;
   };
 
@@ -23,23 +23,23 @@ return response.data;
 
   const deletePaciente = async (idTerapeutaBorrar) => {
     const response = await api.delete(`/terapeutas/${idTerapeutaBorrar}`); 
-    console.log("response.data es:", response.data)
+    //console.log("response.data es:", response.data)
     return response.data;
     };
 
   const putTerapeuta = async (id, terapeutaActualizar) => {
-    console.log("terapeutaParaActualizar._id es:", id);
-    console.log ("terapeutaParaActualizar es:", terapeutaActualizar);
+    //console.log("terapeutaParaActualizar._id es:", id);
+    //console.log ("terapeutaParaActualizar es:", terapeutaActualizar);
     const response = await api.put(`/terapeutas/${id}`, terapeutaActualizar); 
-    console.log("Terapeuta actualizado es",  response.data)
+    //console.log("Terapeuta actualizado es",  response.data)
     return response.data;
   };
 
   const patchTerapeuta = async (id, datosTerapeutaActualizar) => {
-    console.log("datosTerapeutaActualizar._id es:", id);
-    console.log ("datosTerapeutaActualizar son:", datosTerapeutaActualizar);
+    //console.log("datosTerapeutaActualizar._id es:", id);
+    //console.log ("datosTerapeutaActualizar son:", datosTerapeutaActualizar);
     const response = await api.patch(`/terapeutas/${id}`, datosTerapeutaActualizar); 
-    console.log("datos terapeuta actualizados son",  response.data)
+    //console.log("datos terapeuta actualizados son",  response.data)
     return response.data;
   };
 

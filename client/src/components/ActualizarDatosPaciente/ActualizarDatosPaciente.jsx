@@ -18,23 +18,24 @@ const ActualizarDatosPaciente = () => {
   //paciente actualizado tiene que ir a buscar al paciente en función del ID, no del token.
 
   useEffect(() => {
+    ////console.log("paciente loggeado es:", paciente);
     encontrarPaciente();
   }, []);
 
   useEffect(() => {
-    console.log("paciente actualizado es:", pacienteActualizado);
+    ////console.log("paciente actualizado es:", pacienteActualizado);
   }, [pacienteActualizado]);
   const encontrarPaciente = async () => {
     try {
       const encontrarPaciente = await fetchPacienteID(paciente.id);
-      console.log("encontrarPaciente es:", encontrarPaciente);
+      ////console.log("encontrarPaciente es:", encontrarPaciente);
       setPacienteActualizado(encontrarPaciente);
       //const { password, ...rest } = encontrarPaciente;
       //SetPacienteActualizado(rest);
-      //console.log("rest es:", rest);
-      console.log("paciente actualizado es:", pacienteActualizado);
+      //////console.log("rest es:", rest);
+      ////console.log("paciente actualizado es:", pacienteActualizado);
     } catch (error) {
-      console.log("error en encontrarPaciente es:", error);
+      ////console.log("error en encontrarPaciente es:", error);
       setErrorMessage(error);
     }
   };
@@ -48,24 +49,30 @@ const ActualizarDatosPaciente = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("datos a actualizar paciente", pacienteActualizado);
+    ////console.log("datos a actualizar paciente", pacienteActualizado);
     const response = await patchPaciente(
       pacienteActualizado._id,
       pacienteActualizado
     );
-    console.log("respuesta data + body es:", response);
+    const datosPacienteFinales = response.datos;
+    ////console.log("respuesta data + body es:", response);
     if (response.error) {
       setErrorMessage(response.error);
-      console.log("error es:", response.error);
+      ////console.log("error es:", response.error);
       return;
     } else {
       setErrorMessage("Paciente actualizado exitosamente");
-      setPaciente({
+      const pacienteActualizadoContext = {
         ...paciente,
-        nombre: pacienteActualizado.nombre,
-        apellido: pacienteActualizado.apellidoUno,
-      });
-      console.log("Paciente actualizado es:", paciente);
+        nombre: datosPacienteFinales.nombre,
+        apellido: datosPacienteFinales.apellidoUno,
+      };
+      setPaciente(pacienteActualizadoContext);
+      localStorage.setItem(
+        "paciente",
+        JSON.stringify(pacienteActualizadoContext)
+      );
+      ////console.log("Paciente actualizado es:", pacienteActualizadoContext);
     }
   };
 

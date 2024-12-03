@@ -31,7 +31,6 @@ const getPacientes = async (req, res) => {
 
 const getPacienteID = async (req, res) => {
     try {
-        const token = localStorage.getItem('token');
         const pacienteDB = await Paciente.findOne({ _id: req.params.id });
         return res.status(200).json(pacienteDB);
     } catch (error) {
@@ -136,7 +135,7 @@ const updatePaciente = async (req, res) => {
 const patchPaciente = async (req, res) => {
     const id = req.params.id;
     let camposAActualizar = { ...req.body }; // Hacemos una copia de los datos enviados
-    const token = localStorage.getItem('token');
+
     // Verifica y elimina los campos _id y password si están presentes
     if (camposAActualizar._id) {
         delete camposAActualizar._id;
