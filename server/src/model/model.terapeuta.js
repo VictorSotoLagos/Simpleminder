@@ -17,9 +17,6 @@ const terapeutaSchema = new Schema({
   },
   apellidoDos: {
     type: String,
-    required: [true, "Se debe incluir un apellido"],
-    minlength: 3,
-    maxlength: 100,
   },
   email: {
     type: String,
@@ -40,9 +37,10 @@ const terapeutaSchema = new Schema({
     required: [true, "Se debe incluir un run"],
     unique: true,
     match: [
-      /^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}\-[0-9]{1}$/,
-      "El run debe tener el formato xx.xxx.xxx-x, donde x son números",
-    ],
+      // /^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}\-[0-9]{1}$/,
+      /^\d{1,2}(\.\d{3}){2}-[\dkK]$/,
+       "El rut debe tener el formato xx.xxx.xxx-x, con puntos y guión incluidos",
+     ],
   },
   fecha_nacimiento: {
     type: Date,

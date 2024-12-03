@@ -87,7 +87,7 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
       const savedPatient = localStorage.getItem("pacienteElegido");
 
       if (savedInput) {
-        console.log("savedInput es:", savedInput);
+        ////console.log("savedInput es:", savedInput);
         setInput(savedInput);
       }
       if (savedFilter) {
@@ -123,7 +123,7 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
 
   const handleChange = (e) => {
     setInput(e.target.value);
-    console.log("Input en handleChange:", e.target.value);
+    ////console.log("Input en handleChange:", e.target.value);
   };
 
   function formatDateToHTMLDate(mongoDate) {

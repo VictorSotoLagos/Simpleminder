@@ -51,8 +51,8 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
   const buscarTerapeuta = allTerapeutas.find(
     (person) => person._id === terapeuta.id
   );
-  console.log("allTerapeutas es", allTerapeutas);
-  console.log("terapeuta ficha completa", buscarTerapeuta);
+  ////console.log("allTerapeutas es", allTerapeutas);
+  ////console.log("terapeuta ficha completa", buscarTerapeuta);
 
   if (!buscarTerapeuta) {
     console.error("Terapeuta no encontrado");
@@ -81,19 +81,19 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
         terapeutaAsignado: buscarTerapeuta._id,
       });
 
-      console.log("nueva ficha es: ", nuevaFicha);
+      ////console.log("nueva ficha es: ", nuevaFicha);
 
       if (!nuevaFicha) {
         console.error("Error al crear la ficha del paciente.");
         return;
       }
 
-      console.log("Ficha creada exitosamente:", nuevaFicha);
+      ////console.log("Ficha creada exitosamente:", nuevaFicha);
 
       // 2. Agregar ID Paciente al Terapeuta
       buscarTerapeuta.pacientes.push(nuevaFicha.ficha._id);
-      console.log("nuevaficha _id es", nuevaFicha._id);
-      console.log("buscarTerapeuta es", buscarTerapeuta);
+      ////console.log("nuevaficha _id es", nuevaFicha._id);
+      ////console.log("buscarTerapeuta es", buscarTerapeuta);
 
       await patchTerapeuta(buscarTerapeuta._id, {
         pacientes: buscarTerapeuta.pacientes,
@@ -109,7 +109,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
         buscarTerapeuta,
       ]);
 
-      console.log("Paciente asignado exitosamente.");
+      ////console.log("Paciente asignado exitosamente.");
       setErrorMessage("Paciente asignado exitosamente");
     } catch (error) {
       setErrorMessage("Error al crear ficha paciente");

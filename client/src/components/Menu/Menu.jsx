@@ -9,7 +9,9 @@ import { IoHome } from "react-icons/io5";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { FaFileMedicalAlt } from "react-icons/fa";
 import { RiPsychotherapyFill } from "react-icons/ri";
-import { IoMdRefreshCircle } from "react-icons/io";
+import { RiPsychotherapyLine } from "react-icons/ri";
+import { IoMdPeople } from "react-icons/io";
+
 import { IoRefreshCircleSharp } from "react-icons/io5";
 import { IoLogOut } from "react-icons/io5";
 
@@ -22,7 +24,7 @@ const Menu = () => {
     const checkToken = () => {
       const token = localStorage.getItem("token");
       if (isTokenExpired(token)) {
-        console.log("Token expirado:", token);
+        ////console.log("Token expirado:", token);
         handleSalir();
       }
     };
@@ -42,7 +44,7 @@ const Menu = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (isTokenExpired(token)) {
-      console.log("Token expirado:", token);
+      ////console.log("Token expirado:", token);
       handleSalir();
     }
   }, [navigate]);
@@ -56,10 +58,10 @@ const Menu = () => {
       localStorage.removeItem("terapeuta");
       setPaciente(null);
       setTerapeuta(null);
-      console.log("Sesión cerrada");
+      ////console.log("Sesión cerrada");
       navigate("/login");
     } catch (error) {
-      console.log("Error al cerrar sesión:", error);
+      ////console.log("Error al cerrar sesión:", error);
     }
   };
 
@@ -197,7 +199,7 @@ const Menu = () => {
                       gap: "10px",
                     }}
                   >
-                    <RiPsychotherapyFill size={"20px"} /> Ver Atenciones
+                    <IoMdPeople size={"20px"} /> Ver Atenciones
                   </span>
                 </button>
               )}

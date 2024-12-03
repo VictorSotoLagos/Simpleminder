@@ -15,7 +15,7 @@ function useFichaPaciente(pacienteId = null) {
             try {
                 let result;
                 if (pacienteId) {
-                    console.log("Hook: pacienteId es:", pacienteId);
+                    //console.log("Hook: pacienteId es:", pacienteId);
                     // Llama a la función que obtiene la ficha por ID
                     result = await fetchFichasPacientesID(pacienteId);
      
@@ -24,7 +24,7 @@ function useFichaPaciente(pacienteId = null) {
                     result = await fetchFichasPacientes();
                 }
                 setData(result); // Establece los datos recibidos
-                console.log("Datos recibidos desde el hook:", result);
+                //console.log("Datos recibidos desde el hook:", result);
             } catch (err) {
                 setError(err.message || "Error al cargar las fichas");
             } finally {

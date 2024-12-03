@@ -6,8 +6,8 @@ const VideoSimpleMinder = () => {
       style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
     >
       <iframe
-        width="600"
-        height="355"
+        width="700"
+        height="365"
         src="https://www.youtube.com/embed/I_gjZUL5gRM?si=47FfmqzWxmTs1Y_r"
         title="YouTube video player"
         frameBorder="0"

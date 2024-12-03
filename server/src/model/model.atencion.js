@@ -18,9 +18,9 @@ const decrypt = (text) => {
   }
   try {
     const [iv, encryptedText] = text.split(":::");
-    console.log("iv es:", iv);
-    console.log("iv.length es", iv.length);
-    console.log("encryptedText es:", encryptedText);
+    ////console.log("iv es:", iv);
+    ////console.log("iv.length es", iv.length);
+    ////console.log("encryptedText es:", encryptedText);
     // Verificar si el IV tiene longitud correcta (16 bytes = 32 caracteres hexadecimales)
     if (iv.length !== 32) {
       throw new Error("Invalid initialization vector");

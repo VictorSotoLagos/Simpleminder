@@ -39,7 +39,7 @@ const NuevoPaciente = ({ agregarPaciente }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
-    console.log("newPaciente en handleSubmit es:", newPaciente);
+    ////console.log("newPaciente en handleSubmit es:", newPaciente);
     const error = validatePaciente(newPaciente);
     if (error) {
       setErrorMessage(error);
@@ -59,9 +59,9 @@ const NuevoPaciente = ({ agregarPaciente }) => {
       const data = response.paciente;
       const tokenData = response.token;
       agregarPaciente(data);
-      console.log("data en Registro Paciente es:", data);
-      console.log("token en Registro Paciente es:", tokenData);
-      console.log("response es:", response);
+      ////console.log("data en Registro Paciente es:", data);
+      ////console.log("token en Registro Paciente es:", tokenData);
+      ////console.log("response es:", response);
 
       //YA NO VA Crear Ficha Clínica
       /*
@@ -86,7 +86,7 @@ const NuevoPaciente = ({ agregarPaciente }) => {
       setToken(tokenData);
       localStorage.setItem("paciente", JSON.stringify(dataToken));
       localStorage.setItem("token", response.token);
-      console.log("dataToken es:", dataToken);
+      ////console.log("dataToken es:", dataToken);
       setErrorMessage("El paciente ha sido creado");
       navigate("/inicio_pacientes");
     }

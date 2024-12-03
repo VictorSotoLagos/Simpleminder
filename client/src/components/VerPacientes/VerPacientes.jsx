@@ -16,7 +16,7 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
   const [input, setInput] = useState("");
   const navigate = useNavigate();
   const { nombre } = useParams();
-  console.log("nombre en params es: ", nombre);
+  ////console.log("nombre en params es: ", nombre);
 
   useEffect(() => {
     if (fichasData) {
@@ -26,7 +26,7 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
       setfichasDelTerapeuta(
         fichasFilter.sort((a, b) => a.nombre.localeCompare(b.nombre))
       );
-      console.log("fichasDelTerapeuta", fichasDelTerapeuta);
+      ////console.log("fichasDelTerapeuta", fichasDelTerapeuta);
     }
   }, [fichasData, terapeuta.id]);
 
@@ -61,7 +61,7 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
     if (nombre) {
       setInput(nombre);
     } else if (savedInput) {
-      console.log("savedInput es:", savedInput);
+      ////console.log("savedInput es:", savedInput);
       setInput(savedInput);
     }
   }, []);

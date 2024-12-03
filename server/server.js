@@ -17,8 +17,8 @@ import { fileURLToPath } from "url";
 // Configuración de dotenv
 config();
 
-console.log(`Clave cargada: ${process.env.ENCRYPTION_KEY}`);
-console.log(`Longitud de clave: ${process.env.ENCRYPTION_KEY.length}`);
+////console.log(`Clave cargada: ${process.env.ENCRYPTION_KEY}`);
+////console.log(`Longitud de clave: ${process.env.ENCRYPTION_KEY.length}`);
 
 // Definir __dirname usando import.meta.url
 const __filename = fileURLToPath(import.meta.url);
@@ -32,7 +32,7 @@ app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
@@ -88,7 +88,7 @@ app.use("/api/fichapaciente", fichaPacienteRoutes);
 app.use("/api/atencion", atencionRoutes);
 
 const server = app.listen(port, () => {
-  console.log(`El servidor está activo en el puerto: ${port}`);
+  ////console.log(`El servidor está activo en el puerto: ${port}`);
 });
 
 export { app, server };

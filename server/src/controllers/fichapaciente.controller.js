@@ -23,7 +23,7 @@ const getFichaPacienteID = async (req, res) => {
     }).populate("terapeutaAsignado", "nombre apellidoUno apellidoDos");
     return res.status(200).json(fichapacienteBD);
   } catch (error) {
-    console.log(error);
+    ////console.log(error);
     return res.status(500).json({
       message: "Id incorrecto o no existe",
       error: error.message,
@@ -87,7 +87,7 @@ const createFichaPaciente = async (req, res) => {
 
     // Encriptar los datos sensibles de la ficha
     const { encryptedData, iv: ivHex } = encryptData(fichaData);
-    console.log("Encrypted data:", encryptedData);
+    ////console.log("Encrypted data:", encryptedData);
     // Crear nueva ficha con los datos encriptados
     const fichaClinicaPaciente = new FichaPaciente({
       dataEncriptada: encryptedData,

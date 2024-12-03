@@ -57,3 +57,27 @@
   width: 100%;
   flex-direction: column;
 }
+
+input {
+  transition: transform 0.3s;
+}
+
+input:focus {
+  outline-color: #ff680a; /* Opcional, para quitar el borde predeterminado */
+  transform: scaleX(1.02) scaleY(1.02);
+  transition-property: transform;
+  transition-duration: 0.3s;
+}
+
+select:focus {
+  outline-color: #ff680a;
+  border-color: #ff680a; /* Cambia el color del borde */
+}
+
+textarea:focus {
+  outline-color: #ff680a;
+  border-color: #ff680a; /* Cambia el color del borde */
+  transform: scaleX(1.02) scaleY(1.02);
+  transition-property: transform;
+  transition-duration: 0.3s;
+}

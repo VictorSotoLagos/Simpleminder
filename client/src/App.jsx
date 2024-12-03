@@ -58,13 +58,13 @@ const App = () => {
    */
   const obtenerDatosPacientes = async () => {
     const response = await fetchPacientes();
-    console.log("Pacientes desde el servidor:", response);
+    ////console.log("Pacientes desde el servidor:", response);
     setAllPacientes(response); // Actualiza el estado de AllPacientes
   };
 
   const obtenerDatosTerapeutas = async () => {
     const response = await fetchTerapeutas();
-    console.log("Terapeutas desde el servidor:", response);
+    ////console.log("Terapeutas desde el servidor:", response);
     setAllTerapeutas(response); // Actualiza el estado de AllTerapeutas
   };
 
@@ -77,12 +77,12 @@ const App = () => {
 
   const agregarPaciente = (newPaciente) => {
     setAllPacientes([...allPacientes, newPaciente]);
-    console.log("New Paciente es:", newPaciente);
+    ////console.log("New Paciente es:", newPaciente);
   };
 
   const agregarTerapeuta = (newTerapeuta) => {
     setAllTerapeutas([...allTerapeutas, newTerapeuta]);
-    console.log("New Terapeuta es:", newTerapeuta);
+    ////console.log("New Terapeuta es:", newTerapeuta);
   };
 
   return (

@@ -36,7 +36,7 @@ const NuevoTerapeuta = ({ agregarTerapeuta }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
-    console.log("newTerapeuta en handleSubmit es:", newTerapeuta);
+    ////console.log("newTerapeuta en handleSubmit es:", newTerapeuta);
     const error = validateTerapeuta(newTerapeuta);
     if (error) {
       setErrorMessage(error);
@@ -54,12 +54,12 @@ const NuevoTerapeuta = ({ agregarTerapeuta }) => {
       return setErrorMessage(response.error);
     } else {
       const data = response.terapeuta;
-      console.log("data en Registro Terapeuta es:", data);
+      ////console.log("data en Registro Terapeuta es:", data);
       const tokenData = response.token;
       agregarTerapeuta(data);
-      console.log("data en Registro Terapeuta es:", data);
-      console.log("token en Registro Terapeuta es:", tokenData);
-      console.log("response es:", response);
+      ////console.log("data en Registro Terapeuta es:", data);
+      ////console.log("token en Registro Terapeuta es:", tokenData);
+      ////console.log("response es:", response);
 
       const dataToken = {
         nombre: data.nombre,
@@ -73,7 +73,7 @@ const NuevoTerapeuta = ({ agregarTerapeuta }) => {
       setToken(tokenData);
       localStorage.setItem("terapeuta", JSON.stringify(dataToken));
       localStorage.setItem("token", response.token);
-      console.log("dataToken es:", dataToken);
+      ////console.log("dataToken es:", dataToken);
       setErrorMessage("El terapeuta ha sido creado");
       navigate("/inicio_terapeutas");
     }

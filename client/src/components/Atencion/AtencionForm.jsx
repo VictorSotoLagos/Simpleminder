@@ -8,7 +8,7 @@ import { validateAtencion } from "../../helpers/atencionvalidations.js";
 const AtencionForm = () => {
   const { terapeuta } = useContext(UsuarioContext);
   const [errorMessage, setErrorMessage] = useState("");
-  console.log("terapeuta id es:", terapeuta.id);
+  ////console.log("terapeuta id es:", terapeuta.id);
   const initialValues = {
     id_paciente: "",
     id_terapeuta: terapeuta.id,
@@ -28,7 +28,7 @@ const AtencionForm = () => {
   useEffect(() => {
     const buscarFichasPacientes = async () => {
       const totalFichas = await fetchFichasPacientes();
-      console.log("totalFichas", totalFichas);
+      ////console.log("totalFichas", totalFichas);
       const pacientesTerapeuta = totalFichas
         .filter((ficha) => ficha.terapeutaAsignado === terapeuta.id)
         .sort((a, b) => a.nombre.localeCompare(b.nombre));
@@ -52,7 +52,7 @@ const AtencionForm = () => {
         [name]: value,
       });
     }
-    console.log("form data es:", formData);
+    ////console.log("form data es:", formData);
   };
 
   const handleRemoveImage = (index) => {
@@ -77,14 +77,14 @@ const AtencionForm = () => {
         formDataToSubmit.append(key, formData[key]);
       }
     }
-    console.log("formData es:", formData);
+    ////console.log("formData es:", formData);
     const error = validateAtencion(formData);
     if (error) {
       setErrorMessage(error);
       return;
     }
     const response = await addAtencion(formDataToSubmit);
-    console.log("response es:", response);
+    ////console.log("response es:", response);
     setErrorMessage("Atención Ingresada con Éxito");
     // Reset form
     setFormData({
@@ -121,7 +121,7 @@ const AtencionForm = () => {
           onSubmit={handleSubmit}
           encType="multipart/form-data"
         >
-          <label htmlFor="fecha">
+          <label htmlFor="paciente">
             Paciente:<span style={{ fontSize: "15px", color: "red" }}>*</span>
           </label>
           <select
@@ -208,10 +208,12 @@ const AtencionForm = () => {
           <label htmlFor="imagenes">Subir Imágenes:</label>
           <input
             type="file"
+            className="upload-files"
             name="imagenes"
             multiple
             onChange={handleInputChange}
           />
+
           <div className="image-previews">
             {imagePreviews.map((src, index) => (
               <div key={index} className="image-preview">

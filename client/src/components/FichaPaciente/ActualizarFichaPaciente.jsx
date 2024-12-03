@@ -17,7 +17,7 @@ const ActualizarFichaPaciente = () => {
   const [formData, setFormData] = useState({});
   const { id } = useParams(); // Desestructuración del objeto que te devuelve useParams
   const navegar = useNavigate();
-  console.log("id es:", id); // Aquí accedes directamente al valor del parámetro
+  ////console.log("id es:", id); // Aquí accedes directamente al valor del parámetro
   const [referrer, setReferrer] = useState("");
 
   /*
@@ -25,8 +25,8 @@ const ActualizarFichaPaciente = () => {
     // Detecta la URL de referencia
     const referrerUrl = document.referrer;
     setReferrer(referrerUrl);
-    console.log("URL de referencia:", referrerUrl);
-    console.log("setReferrer es:", referrer);
+    ////console.log("URL de referencia:", referrerUrl);
+    ////console.log("setReferrer es:", referrer);
   }, []);
   */
 
@@ -47,7 +47,7 @@ const ActualizarFichaPaciente = () => {
 
   useEffect(() => {
     obtenerFichaPaciente();
-    console.log(formData);
+    ////console.log(formData);
   }, []);
 
   const handleInputChange = (e) => {
@@ -66,7 +66,7 @@ const ActualizarFichaPaciente = () => {
     }
     try {
       const fichaActualizada = await patchFichaPaciente(id, formData);
-      console.log("ficha actualizada es: ", fichaActualizada);
+      ////console.log("ficha actualizada es: ", fichaActualizada);
 
       if (!fichaActualizada) {
         console.error("Error al actualizar la ficha del paciente.");

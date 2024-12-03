@@ -12,11 +12,7 @@ const TopBarEmoticonTest = () => {
     <div className="emoticon-test">
       <h3>¿Cómo te sientes hoy?</h3>
       {emojis.map((src, index) => (
-        <button
-          key={index}
-          className="emoji-button"
-          onClick={() => console.log(`Emoji ${index + 1} seleccionado`)}
-        >
+        <button key={index} className="emoji-button">
           <img src={src} alt={`Emoji ${index + 1}`} width="50" />
         </button>
       ))}

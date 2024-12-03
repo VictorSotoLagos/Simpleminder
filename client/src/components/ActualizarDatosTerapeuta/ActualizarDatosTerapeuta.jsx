@@ -19,24 +19,24 @@ const ActualizarDatosTerapeuta = () => {
   //paciente actualizado tiene que ir a buscar al paciente en función del ID, no del token.
 
   useEffect(() => {
-    console.log("terapeuta loggeado es:", terapeuta);
+    //console.log("terapeuta loggeado es:", terapeuta);
     encontrarTerapeuta();
   }, []);
 
   useEffect(() => {
-    console.log("terapeuta actualizado es:", terapeutaActualizado);
+    //console.log("terapeuta actualizado es:", terapeutaActualizado);
   }, [terapeutaActualizado]);
   const encontrarTerapeuta = async () => {
     try {
       const encontrarterapeuta = await fetchTerapeutaID(terapeuta.id);
-      console.log("encontrarterapeuta es:", encontrarterapeuta);
+      //console.log("encontrarterapeuta es:", encontrarterapeuta);
       setTerapeutaActualizado(encontrarterapeuta);
       //const { password, ...rest } = encontrarterapeuta;
       //setTerapeutaActualizado(rest);
       //console.log("rest es:", rest);
-      console.log("terapeuta actualizado es:", terapeutaActualizado);
+      //console.log("terapeuta actualizado es:", terapeutaActualizado);
     } catch (error) {
-      console.log("error en encontrarterapeuta es:", error);
+      //console.log("error en encontrarterapeuta es:", error);
       setErrorMessage(error);
     }
   };
@@ -50,16 +50,16 @@ const ActualizarDatosTerapeuta = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("datos a actualizar terapeuta", terapeutaActualizado);
+    //console.log("datos a actualizar terapeuta", terapeutaActualizado);
     const response = await patchTerapeuta(
       terapeutaActualizado._id,
       terapeutaActualizado
     );
     const datosterapeutaFinales = response.datos;
-    console.log("respuesta data + body es:", response);
+    //console.log("respuesta data + body es:", response);
     if (response.error) {
       setErrorMessage(response.error);
-      console.log("error es:", response.error);
+      //console.log("error es:", response.error);
       return;
     } else {
       setErrorMessage("Datos del terapeuta actualizados exitosamente");
@@ -73,7 +73,7 @@ const ActualizarDatosTerapeuta = () => {
         "terapeuta",
         JSON.stringify(terapeutaActualizadoContext)
       );
-      console.log("terapeuta actualizado es:", terapeutaActualizadoContext);
+      //console.log("terapeuta actualizado es:", terapeutaActualizadoContext);
     }
   };
 

@@ -21,19 +21,19 @@ const addAtencion = async (formData) => {
 
 const deleteAtencion = async (idAtencionBorrar) => {
   const response = await api.delete(`/atencion/${idAtencionBorrar}`);
-  console.log("response.data es:", response.data);
+  ////console.log("response.data es:", response.data);
   return response.data;
 };
 
 const putAtencion = async (id, atencionParaActualizar) => {
-  console.log("atencionParaActualizar._id es:", id);
-  console.log("atencionParaActualizar es:", atencionParaActualizar);
+  ////console.log("atencionParaActualizar._id es:", id);
+  ////console.log("atencionParaActualizar es:", atencionParaActualizar);
   const response = await api.put(`/atencion/${id}`, atencionParaActualizar, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
-  console.log("Atencion actualizada es", response.data);
+  ////console.log("Atencion actualizada es", response.data);
   return response.data;
 };
 

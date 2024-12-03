@@ -5,7 +5,7 @@ import "./TopBar.css";
 
 const TopBar = () => {
   const { paciente, terapeuta } = useContext(UsuarioContext);
-  console.log("paciente en topbar es:", paciente);
+  ////console.log("paciente en topbar es:", paciente);
   return (
     <main className="topbar">
       {/* Mostrar el nombre del paciente si existe */}

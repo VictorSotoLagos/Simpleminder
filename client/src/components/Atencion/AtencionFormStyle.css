@@ -58,13 +58,13 @@
 .nueva-atencion-form input,
 .nueva-atencion-form textarea,
 .nueva-atencion-form select {
-  padding: 0px 15px;
+  padding: 0px 10px;
   width: 100%;
   min-height: 36px;
   border-radius: 5px;
   border: 2px solid #215f99;
   box-sizing: border-box;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .nueva-atencion-form textarea {
@@ -95,7 +95,6 @@
 
 .nueva-atencion-form select {
   background-color: white;
-  font-family: inherit;
   color: #000;
   appearance: none;
   -moz-appearance: none;
@@ -126,7 +125,8 @@
 .nueva-atencion-form textarea,
 .nueva-atencion-form select,
 .nueva-atencion-form button {
-  font-size: 17px;
+  font-size: 15px;
+  font-family: inherit;
 }
 
 .nueva-atencion-form-container::-webkit-scrollbar {
@@ -150,7 +150,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 10px 0;
 }
 
 .image-preview {

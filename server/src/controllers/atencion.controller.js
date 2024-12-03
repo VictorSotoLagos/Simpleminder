@@ -65,7 +65,7 @@ const getAtencionByPacienteID = async (req, res) => {
     const atencionDB = await Atencion.findOne({ _id: req.params.id });
     return res.status(200).json(atencionDB);
   } catch (error) {
-    console.log(error);
+    ////console.log(error);
     return res.status(500).json({
       message: "Id de la atención incorrecto o no existe",
       error: error.message,
@@ -132,7 +132,7 @@ const updateAtencion = async (req, res) => {
   try {
     const { id } = req.params;
     const updateData = { ...req.body };
-    console.log("Update Data:", updateData);
+    ////console.log("Update Data:", updateData);
     // Parsear imágenes existentes
     let existingImages = [];
     try {
@@ -170,7 +170,7 @@ const updateAtencion = async (req, res) => {
       }
     }
 
-    console.log("Encrypted Data:", encryptedData);
+    ////console.log("Encrypted Data:", encryptedData);
 
 
 
