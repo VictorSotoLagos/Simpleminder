@@ -10,6 +10,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { validateAtencion } from "../../helpers/atencionvalidations.js";
 import "./AtencionFormStyle.css";
 import { IoArrowBackCircle } from "react-icons/io5";
+import { patchFichaPaciente } from "../../api/fichapacienteServices.js";
 
 const ActualizarAtencion = () => {
   const { terapeuta } = useContext(UsuarioContext);
@@ -237,7 +238,17 @@ const ActualizarAtencion = () => {
 
   const handleEliminar = async () => {
     try {
-      await deleteAtencion(id);
+      const deleteAtencionEnFicha = await patchFichaPaciente(
+        formData.id_paciente,
+        { $pull: { atenciones: id } } // Eliminar la referencia de la atención
+      );
+      const response = await deleteAtencion(id);
+      console.log("id de la atención es:", id);
+      console.log("formData.id_paciente es:", formData.id_paciente);
+
+      console.log("Atencion eliminada:", response.data);
+      console.log("Atencion eliminada:", response);
+      console.log("Respuesta de patchFichaPaciente:", deleteAtencionEnFicha);
       navigate("/ver_atenciones");
     } catch (error) {
       console.error("Error al eliminar la atencion:", error);

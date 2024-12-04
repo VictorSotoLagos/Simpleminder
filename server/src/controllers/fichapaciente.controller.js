@@ -142,6 +142,9 @@ const patchFichaPaciente = async (req, res) => {
 
   const { id } = req.params;
   const updateData = { ...req.body };
+  /*
+  const { id } = req.params;
+  const updateData = { ...req.body };
   console.log("Update Data:", updateData);
   const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno", "cantidadFamiliares" ]; // Campos que no quieres encriptar
   const encryptedData = {};
@@ -161,12 +164,12 @@ const patchFichaPaciente = async (req, res) => {
     }
   }
 
-
+*/
 
   try {
     const fichaPacienteDB = await FichaPaciente.findByIdAndUpdate(
       req.params.id,
-      { $set: encryptedData }, // Solo actualiza los campos enviados
+      { $set: updateData }, // Solo actualiza los campos enviados
       { new: true }
     );
     return res.status(200).json(fichaPacienteDB);

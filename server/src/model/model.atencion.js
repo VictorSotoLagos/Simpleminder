@@ -55,7 +55,6 @@ const atencionSchema = new Schema({
   },
   apellidoDos: {
     type: String,
-    required: [true, "Se debe incluir el segundo apellido del paciente"],
   },
   fecha: {
     type: Date,
@@ -103,6 +102,7 @@ atencionSchema.pre("save", function (next) {
     if (
       !excludeFields.includes(key) && // No está en la lista de exclusión
       this[key] !== null && this[key] !== undefined // Tiene un valor (no es null o undefined)
+      && !this[key].includes(":::") // Tiene un valor (o ya está encriptada)
     ) {
       // Verificar y encriptar según el tipo
       if (typeof this[key] === "string") {

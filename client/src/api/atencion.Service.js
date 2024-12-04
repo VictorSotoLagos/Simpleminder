@@ -11,6 +11,7 @@ const fetchAtencionID = async (id) => {
 };
 
 const addAtencion = async (formData) => {
+  console.log("formData es:", formData);  
   const response = await api.post("/atencion/add", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
