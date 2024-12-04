@@ -86,6 +86,7 @@ const NuevoTerapeuta = ({ agregarTerapeuta }) => {
       <form className="nuevo-terapeuta-form" onSubmit={handleSubmit}>
         <label htmlFor="nombre">Nombre:</label>
         <input
+          id="nombre"
           type="text"
           name="nombre"
           placeholder="Ingresa tu nombre"
@@ -94,6 +95,7 @@ const NuevoTerapeuta = ({ agregarTerapeuta }) => {
         />
         <label htmlFor="apellidoUno">Apellido Paterno:</label>
         <input
+          id="apellidoUno"
           type="text"
           name="apellidoUno"
           placeholder="Ingresa tu apellido"
@@ -102,6 +104,7 @@ const NuevoTerapeuta = ({ agregarTerapeuta }) => {
         />
         <label htmlFor="apellidoDos">Apellido Materno:</label>
         <input
+          id="apellidoDos"
           type="text"
           name="apellidoDos"
           placeholder="Ingresa tu apellido"
@@ -110,6 +113,7 @@ const NuevoTerapeuta = ({ agregarTerapeuta }) => {
         />
         <label htmlFor="email">Email:</label>
         <input
+          id="email"
           type="email"
           name="email"
           placeholder="Email"
@@ -118,6 +122,7 @@ const NuevoTerapeuta = ({ agregarTerapeuta }) => {
         />
         <label htmlFor="telefono">Teléfono:</label>
         <input
+          id="telefono"
           type="text"
           name="telefono"
           placeholder="Teléfono"
@@ -126,6 +131,7 @@ const NuevoTerapeuta = ({ agregarTerapeuta }) => {
         />
         <label htmlFor="run">Rut:</label>
         <input
+          id="run"
           type="text"
           name="run"
           placeholder="Rut"
@@ -134,6 +140,7 @@ const NuevoTerapeuta = ({ agregarTerapeuta }) => {
         />
         <label htmlFor="fecha_nacimiento">Fecha de Nacimiento:</label>
         <input
+          id="fecha_nacimiento"
           type="date"
           name="fecha_nacimiento"
           value={newTerapeuta.fecha_nacimiento}
@@ -142,6 +149,7 @@ const NuevoTerapeuta = ({ agregarTerapeuta }) => {
 
         <label htmlFor="genero">Género:</label>
         <select
+          id="genero"
           name="genero"
           value={newTerapeuta.genero}
           onChange={handleInputChange}
@@ -154,6 +162,7 @@ const NuevoTerapeuta = ({ agregarTerapeuta }) => {
 
         <label htmlFor="password">Contraseña:</label>
         <input
+          id="password"
           type="password"
           name="password"
           placeholder="Contraseña"
@@ -162,6 +171,7 @@ const NuevoTerapeuta = ({ agregarTerapeuta }) => {
         />
         <label htmlFor="confirm_password">Confirmar Contraseña:</label>
         <input
+          id="confirm_password"
           type="password"
           name="confirm_password"
           placeholder="Confirmar Contraseña"

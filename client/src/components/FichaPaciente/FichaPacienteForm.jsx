@@ -161,6 +161,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
               Nombre:<span style={{ color: "red" }}>*</span>
             </label>
             <input
+              id="nombre"
               type="text"
               name="nombre"
               value={formData.nombre}
@@ -171,6 +172,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="nombreSocial">Nombre Social:</label>
             <input
+              id="nombreSocial"
               type="text"
               name="nombreSocial"
               value={formData.nombreSocial}
@@ -183,6 +185,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
               Apellido Paterno:<span style={{ color: "red" }}>*</span>
             </label>
             <input
+              id="apellidoUno"
               type="text"
               name="apellidoUno"
               value={formData.apellidoUno}
@@ -193,6 +196,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="apellidoDos">Apellido Materno:</label>
             <input
+              id="apellidoDos"
               type="text"
               name="apellidoDos"
               value={formData.apellidoDos}
@@ -205,6 +209,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
               Email:<span style={{ color: "red" }}>*</span>
             </label>
             <input
+              id="email"
               type="text"
               name="email"
               value={formData.email}
@@ -217,6 +222,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
               Teléfono:<span style={{ color: "red" }}>*</span>
             </label>
             <input
+              id="telefono"
               type="text"
               name="telefono"
               value={formData.telefono}
@@ -229,6 +235,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
               RUN: <span style={{ color: "red" }}>*</span>
             </label>
             <input
+              id="run"
               type="text"
               name="run"
               value={formData.run}
@@ -241,6 +248,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
               Fecha de Nacimiento:<span style={{ color: "red" }}>*</span>
             </label>
             <input
+              id="fecha_nacimiento"
               type="date"
               name="fecha_nacimiento"
               value={formData.fecha_nacimiento}
@@ -252,6 +260,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="edad">Edad:</label>
             <input
+              id="edad"
               type="text"
               name="edad"
               value={
@@ -269,6 +278,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
               Género:<span style={{ color: "red" }}>*</span>
             </label>
             <select
+              id="genero"
               name="genero"
               value={formData.genero}
               onChange={handleInputChange}
@@ -282,6 +292,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="generoOtro">Género (Otro):</label>
             <input
+              id="generoOtro"
               type="text"
               name="generoOtro"
               value={formData.generoOtro}
@@ -295,6 +306,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
               Estado Civil:<span style={{ color: "red" }}>*</span>
             </label>
             <select
+              id="estado_civil"
               name="estado_civil"
               value={formData.estado_civil}
               onChange={handleInputChange}
@@ -313,6 +325,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
               Previsión:<span style={{ color: "red" }}>*</span>
             </label>
             <select
+              id="prevision"
               name="prevision"
               value={formData.prevision}
               onChange={handleInputChange}
@@ -330,6 +343,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="discapacidad">Discapacidad:</label>
             <input
+              id="discapacidad"
               type="text"
               name="discapacidad"
               value={formData.discapacidad}
@@ -340,6 +354,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="accidenteRelevante">Accidente Relevante:</label>
             <input
+              id="accidenteRelevante"
               type="text"
               name="accidenteRelevante"
               value={formData.accidenteRelevante}
@@ -350,6 +365,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="medicamentos">Medicamentos:</label>
             <input
+              id="medicamentos"
               type="text"
               name="medicamentos"
               value={formData.medicamentos}
@@ -361,6 +377,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="educacion">Nivel de estudios:</label>
             <select
+              id="educacion"
               name="educacion"
               value={formData.educacion}
               onChange={handleInputChange}
@@ -376,6 +393,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="modalidad">Modalidad Estudios:</label>
             <select
+              id="modalidad"
               name="modalidad"
               value={formData.modalidad}
               onChange={handleInputChange}
@@ -389,6 +407,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="trabajando">Trabajando:</label>
             <select
+              id="trabajando"
               name="trabajando"
               value={formData.trabajando}
               onChange={handleInputChange}
@@ -401,6 +420,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="legalizado"> Trabajo Legalizado:</label>
             <select
+              id="legalizado"
               name="legalizado"
               value={formData.legalizado}
               onChange={handleInputChange}
@@ -413,6 +433,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="tipoDeTrabajo">Tipo de Trabajo:</label>
             <select
+              id="tipoDeTrabajo"
               name="tipoDeTrabajo"
               value={formData.tipoDeTrabajo}
               onChange={handleInputChange}
@@ -429,6 +450,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
               Cantidad de Familiares que vive:
             </label>
             <input
+              id="cantidadFamiliares"
               type="number"
               name="cantidadFamiliares"
               value={formData.cantidadFamiliares}
@@ -439,6 +461,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="comparteCama">Comparte Cama:</label>
             <select
+              id="comparteCama"
               name="comparteCama"
               value={formData.comparteCama}
               onChange={handleInputChange}
@@ -453,6 +476,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
               Nivel de Educación del Padre:
             </label>
             <select
+              id="nivelEducacionPadre"
               name="nivelEducacionPadre"
               value={formData.nivelEducacionPadre}
               onChange={handleInputChange}
@@ -470,6 +494,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
               Nivel de Educación de la Madre:
             </label>
             <select
+              id="nivelEducacionMadre"
               name="nivelEducacionMadre"
               value={formData.nivelEducacionMadre}
               onChange={handleInputChange}
@@ -485,6 +510,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="ocupacionPadre">Ocupación del Padre:</label>
             <input
+              id="ocupacionPadre"
               type="text"
               name="ocupacionPadre"
               value={formData.ocupacionPadre}
@@ -495,6 +521,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="ocupacionMadre">Ocupación de la Madre:</label>
             <input
+              id="ocupacionMadre"
               type="text"
               name="ocupacionMadre"
               value={formData.ocupacionMadre}
@@ -505,6 +532,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="ocupacionPareja">Ocupación de la Pareja:</label>
             <input
+              id="ocupacionPareja"
               type="text"
               name="ocupacionPareja"
               value={formData.ocupacionPareja}
@@ -515,6 +543,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="comorbilidades">Comorbilidades:</label>
             <input
+              id="comorbilidades"
               type="text"
               name="comorbilidades"
               value={formData.comorbilidades}
@@ -525,6 +554,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="diagnosticoHipotesis">Diagnóstico/Hipótesis:</label>
             <input
+              id="diagnosticoHipotesis"
               type="text"
               name="diagnosticoHipotesis"
               value={formData.diagnosticoHipotesis}
@@ -536,6 +566,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="objetivos">Objetivos:</label>
             <input
+              id="objetivos"
               type="text"
               name="objetivos"
               value={formData.objetivos}
@@ -547,6 +578,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="motivoConsulta">Motivo de Consulta:</label>
             <input
+              id="motivoConsulta"
               type="text"
               name="motivoConsulta"
               value={formData.motivoConsulta}
@@ -557,6 +589,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="derivadoPor">Derivado Por:</label>
             <input
+              id="derivadoPor"
               type="text"
               name="derivadoPor"
               value={formData.derivadoPor}
@@ -567,6 +600,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="derivadoHacia">Derivado Hacia:</label>
             <input
+              id="derivadoHacia"
               type="text"
               name="derivadoHacia"
               value={formData.derivadoHacia}
@@ -578,6 +612,7 @@ const FichaPacienteForm = ({ allTerapeutas, setAllTerapeutas }) => {
           <div className="form-group">
             <label htmlFor="otrosPersonal">Otros (Personal):</label>
             <input
+              id="otrosPersonal"
               type="text"
               name="otrosPersonal"
               value={formData.otrosPersonal}

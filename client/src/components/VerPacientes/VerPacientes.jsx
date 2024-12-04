@@ -93,7 +93,7 @@ const BuscarPacientes = ({ allPacientes, allTerapeutas }) => {
         placeholder="Ingresa Nombre, Apellido, Rut, Diagnóstico o Comorbilidad"
         onChange={(e) => setInput(e.target.value)} // Actualiza el estado de input
       />
-      <div class="table-container">
+      <div className="table-container">
         <table className="table">
           <thead>
             <tr>

@@ -313,6 +313,7 @@ const ActualizarAtencion = () => {
               Paciente:<span style={{ fontSize: "15px", color: "red" }}>*</span>
             </label>
             <select
+              id="id_paciente"
               name="id_paciente"
               value={formData.id_paciente}
               onChange={handleInputChange}
@@ -333,6 +334,7 @@ const ActualizarAtencion = () => {
               Fecha:<span style={{ fontSize: "15px", color: "red" }}>*</span>
             </label>
             <input
+              id="fecha"
               type="date"
               name="fecha"
               value={formatDateToHTMLDate(formData.fecha)}
@@ -343,6 +345,7 @@ const ActualizarAtencion = () => {
               Hora:<span style={{ fontSize: "15px", color: "red" }}>*</span>
             </label>
             <input
+              id="hora"
               type="time"
               name="hora"
               value={formData.hora}
@@ -351,15 +354,17 @@ const ActualizarAtencion = () => {
 
             <label htmlFor="introduccion">Introducción:</label>
             <textarea
+              id="introduccion"
               name="introduccion"
-              value={formData.introduccion}
+              value={formData.introduccion || ""}
               onChange={handleInputChange}
             ></textarea>
 
             <label htmlFor="datosAtencion">Datos de la Atención:</label>
             <textarea
+              id="datosAtencion"
               name="datosAtencion"
-              value={formData.datosAtencion}
+              value={formData.datosAtencion || ""}
               onChange={handleInputChange}
             ></textarea>
 
@@ -368,14 +373,12 @@ const ActualizarAtencion = () => {
               <span style={{ fontSize: "15px", color: "red" }}>*</span>
             </label>
             <select
+              id="diagnosticoHipotesis"
               name="diagnosticoHipotesis"
               value={formData.diagnosticoHipotesis}
               onChange={handleInputChange}
             >
-              <option value="">
-                Seleccione un diagnóstico / hipótesis
-                <span style={{ fontSize: "15px", color: "red" }}>*</span>
-              </option>
+              <option value="">Seleccione un diagnóstico / hipótesis</option>
               <option value="Confirmado">Confirmado</option>
               <option value="Hipotesis">Hipotesis</option>
               <option value="De alta">De alta</option>
@@ -384,21 +387,24 @@ const ActualizarAtencion = () => {
 
             <label htmlFor="estadoDiagnostico">Estado del Diagnóstico:</label>
             <input
+              id="estadoDiagnostico"
               type="text"
               name="estadoDiagnostico"
-              value={formData.estadoDiagnostico}
+              value={formData.estadoDiagnostico || ""}
               onChange={handleInputChange}
             />
 
             <label htmlFor="indicaciones">Indicaciones:</label>
             <textarea
+              id="indicaciones"
               name="indicaciones"
-              value={formData.indicaciones}
+              value={formData.indicaciones || ""}
               onChange={handleInputChange}
             ></textarea>
 
             <label htmlFor="imagenes">Subir Imágenes:</label>
             <input
+              id="imagenes"
               type="file"
               name="imagenes"
               multiple

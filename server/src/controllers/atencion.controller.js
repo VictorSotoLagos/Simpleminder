@@ -111,13 +111,13 @@ const createAtencion = async (req, res) => {
 
   
     
-    console.log("nombreDecriptado es:", nombreDecriptado);
-    console.log("apellidoUnoDecriptado es:", apellidoUnoDecriptado);
-    console.log("apellidoDosDecriptado es:", apellidoDosDecriptado);
-    console.log("runDecriptado es:", runDecriptado);
-    console.log("género desencriptado:", generoDesencriptado);
-console.log("estado civil desencriptado:", estadoCivilDesencriptado);
-console.log("previsión desencriptada:", previsionDesencriptado);
+    //console.log("nombreDecriptado es:", nombreDecriptado);
+    //console.log("apellidoUnoDecriptado es:", apellidoUnoDecriptado);
+    //console.log("apellidoDosDecriptado es:", apellidoDosDecriptado);
+    //console.log("runDecriptado es:", runDecriptado);
+    //console.log("género desencriptado:", generoDesencriptado);
+//console.log("estado civil desencriptado:", estadoCivilDesencriptado);
+//console.log("previsión desencriptada:", previsionDesencriptado);
 
     //FIN DE-ENCRIPTACION
     const imagenes = req.files ? req.files.map((file) => file.path) : [];
