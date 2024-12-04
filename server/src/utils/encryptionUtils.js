@@ -11,16 +11,28 @@ const encrypt = (text) => {
   return iv.toString("hex") + ":::" + encrypted;
 };
 
+
 const decrypt = (text) => {
-  if (!text || !text.includes(":")) {
-    return text;
+  if (!text || !text.includes(":::")) {
+    return text; // Si no tiene el formato esperado, devolver el texto tal cual (no encriptado)
   }
-  const [iv, encryptedText] = text.split(":");
-  const decipher = crypto.createDecipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY), Buffer.from(iv, "hex"));
-  let decrypted = decipher.update(encryptedText, "hex", "utf8");
-  decrypted += decipher.final("utf8");
-  return decrypted;
-};
+  try {
+    const [iv, encryptedText] = text.split(":::");
+
+    if (iv.length !== 32) {
+      throw new Error("Invalid initialization vector");
+    }
+    const decipher = crypto.createDecipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY), Buffer.from(iv, "hex"));
+    let decrypted = decipher.update(encryptedText, "hex", "utf8");
+    decrypted += decipher.final("utf8");
+    return decrypted;
+  } catch (error) {
+    console.error("Error desencriptando texto:", error.message);
+    return text; // En caso de error, devolver el texto tal cual
+  }
+}
+
+
 
 export { encrypt, decrypt };
 

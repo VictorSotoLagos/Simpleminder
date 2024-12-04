@@ -1,16 +1,24 @@
 import React, { useState, useContext, useEffect } from "react";
-import { putAtencion, fetchAtencionID } from "../../api/atencion.Service.js";
+import {
+  putAtencion,
+  fetchAtencionID,
+  deleteAtencion,
+} from "../../api/atencion.Service.js";
 import { UsuarioContext } from "../../contexts/UsuarioContext.jsx";
 import { fetchFichasPacientes } from "../../api/fichapacienteServices.js";
 import { useParams, useNavigate } from "react-router-dom";
 import { validateAtencion } from "../../helpers/atencionvalidations.js";
 import "./AtencionFormStyle.css";
 import { IoArrowBackCircle } from "react-icons/io5";
+import { patchFichaPaciente } from "../../api/fichapacienteServices.js";
 
 const ActualizarAtencion = () => {
   const { terapeuta } = useContext(UsuarioContext);
   const { id } = useParams();
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const initialValues = {
     id_paciente: "",
@@ -228,6 +236,48 @@ const ActualizarAtencion = () => {
     }, 500);
   };
 
+  const handleEliminar = async () => {
+    try {
+      const deleteAtencionEnFicha = await patchFichaPaciente(
+        formData.id_paciente,
+        { $pull: { atenciones: id } } // Eliminar la referencia de la atención
+      );
+      const response = await deleteAtencion(id);
+      console.log("id de la atención es:", id);
+      console.log("formData.id_paciente es:", formData.id_paciente);
+
+      console.log("Atencion eliminada:", response.data);
+      console.log("Atencion eliminada:", response);
+      console.log("Respuesta de patchFichaPaciente:", deleteAtencionEnFicha);
+      navigate("/ver_atenciones");
+    } catch (error) {
+      console.error("Error al eliminar la atencion:", error);
+      setErrorMessage("Error al eliminar la atencion");
+    }
+  };
+
+  const Modal = ({ onClose }) => {
+    return (
+      <div className="modal">
+        <div className="modal-content">
+          <p>
+            ¿Deseas eliminar esta atención de {formData.nombre}{" "}
+            {formData.apellidoUno}?
+          </p>
+          <button onClick={onClose}>Cancelar</button>
+          <button
+            onClick={() => {
+              handleEliminar();
+              onClose();
+            }}
+          >
+            Sí
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="form-container">
       <button className="print-button" onClick={handlePrint}>
@@ -263,6 +313,7 @@ const ActualizarAtencion = () => {
               Paciente:<span style={{ fontSize: "15px", color: "red" }}>*</span>
             </label>
             <select
+              id="id_paciente"
               name="id_paciente"
               value={formData.id_paciente}
               onChange={handleInputChange}
@@ -283,6 +334,7 @@ const ActualizarAtencion = () => {
               Fecha:<span style={{ fontSize: "15px", color: "red" }}>*</span>
             </label>
             <input
+              id="fecha"
               type="date"
               name="fecha"
               value={formatDateToHTMLDate(formData.fecha)}
@@ -293,6 +345,7 @@ const ActualizarAtencion = () => {
               Hora:<span style={{ fontSize: "15px", color: "red" }}>*</span>
             </label>
             <input
+              id="hora"
               type="time"
               name="hora"
               value={formData.hora}
@@ -301,15 +354,17 @@ const ActualizarAtencion = () => {
 
             <label htmlFor="introduccion">Introducción:</label>
             <textarea
+              id="introduccion"
               name="introduccion"
-              value={formData.introduccion}
+              value={formData.introduccion || ""}
               onChange={handleInputChange}
             ></textarea>
 
             <label htmlFor="datosAtencion">Datos de la Atención:</label>
             <textarea
+              id="datosAtencion"
               name="datosAtencion"
-              value={formData.datosAtencion}
+              value={formData.datosAtencion || ""}
               onChange={handleInputChange}
             ></textarea>
 
@@ -318,14 +373,12 @@ const ActualizarAtencion = () => {
               <span style={{ fontSize: "15px", color: "red" }}>*</span>
             </label>
             <select
+              id="diagnosticoHipotesis"
               name="diagnosticoHipotesis"
               value={formData.diagnosticoHipotesis}
               onChange={handleInputChange}
             >
-              <option value="">
-                Seleccione un diagnóstico / hipótesis
-                <span style={{ fontSize: "15px", color: "red" }}>*</span>
-              </option>
+              <option value="">Seleccione un diagnóstico / hipótesis</option>
               <option value="Confirmado">Confirmado</option>
               <option value="Hipotesis">Hipotesis</option>
               <option value="De alta">De alta</option>
@@ -334,21 +387,24 @@ const ActualizarAtencion = () => {
 
             <label htmlFor="estadoDiagnostico">Estado del Diagnóstico:</label>
             <input
+              id="estadoDiagnostico"
               type="text"
               name="estadoDiagnostico"
-              value={formData.estadoDiagnostico}
+              value={formData.estadoDiagnostico || ""}
               onChange={handleInputChange}
             />
 
             <label htmlFor="indicaciones">Indicaciones:</label>
             <textarea
+              id="indicaciones"
               name="indicaciones"
-              value={formData.indicaciones}
+              value={formData.indicaciones || ""}
               onChange={handleInputChange}
             ></textarea>
 
             <label htmlFor="imagenes">Subir Imágenes:</label>
             <input
+              id="imagenes"
               type="file"
               name="imagenes"
               multiple
@@ -388,6 +444,11 @@ const ActualizarAtencion = () => {
 
             <div style={{ display: "flex", gap: "10px" }}>
               <button type="submit">Actualizar Atención</button>
+              <button type="button" onClick={openModal}>
+                {" "}
+                Eliminar{" "}
+              </button>
+              {isModalOpen && <Modal onClose={closeModal} />}
             </div>
           </form>
         </div>

@@ -4,6 +4,8 @@ import crypto from "crypto";
 const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || "miclaveultrasecreta1234567890abc"
 const ALGORITHM = "aes-256-cbc"; // Algoritmo de encriptación
 
+
+/*
 const encrypt = (text) => {
   const iv = crypto.randomBytes(16); // Vector de inicialización
   const cipher = crypto.createCipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY), iv);
@@ -11,6 +13,7 @@ const encrypt = (text) => {
   encrypted += cipher.final("hex");
   return iv.toString("hex") + ":::" + encrypted; // Guardar IV junto al texto encriptado
 }
+  */
 
 const decrypt = (text) => {
   if (!text || !text.includes(":::")) {
@@ -212,14 +215,16 @@ const fichaPacienteSchema = new Schema(
 );
 
 
+/*
 
 fichaPacienteSchema.pre("save", function (next) {
-  const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno" ]; // Campos que no quieres encriptar
+  const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno", "cantidadFamiliares" ]; // Campos que no quieres encriptar
 
   for (const key of Object.keys(this.toObject())) {
     if (
       !excludeFields.includes(key) && // No está en la lista de exclusión
-      this[key] !== null && this[key] !== undefined // Tiene un valor (no es null o undefined)
+      this[key] !== null && this[key] !== undefined 
+      && !this[key].includes(":::") // Tiene un valor (no es null o undefined o no está ya encriptada)
     ) {
       // Verificar y encriptar según el tipo
       if (typeof this[key] === "string") {
@@ -235,9 +240,47 @@ fichaPacienteSchema.pre("save", function (next) {
   next();
 });
 
+*/
+/*
 fichaPacienteSchema.methods.toJSON = function () {
   const obj = this.toObject();
-  const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno" ];
+  const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno", "cantidadFamiliares"];
+
+  for (const key of Object.keys(obj)) {
+    if (
+      typeof obj[key] === "string" &&
+      obj[key].includes(":::") && // Asegurarse de que tiene el formato esperado para desencriptar
+      !excludeFields.includes(key) // Asegurarse de no procesar los campos excluidos
+    ) {
+      try {
+        // Intentamos desencriptar el valor
+        const decryptedValue = decrypt(obj[key]);
+        
+        // Determinar si el valor desencriptado es numérico, una fecha, o debe quedarse como string
+       if (new Date(decryptedValue).toString() !== "Invalid Date") {
+          // Convertir valores que parecen fechas
+          obj[key] = new Date(decryptedValue);
+        } else {
+          // Mantener como string cualquier otro valor
+          obj[key] = decryptedValue;
+        }
+      } catch (error) {
+        // Loguear el error de desencriptación y dejar el valor original
+        console.error(`Error desencriptando el campo '${key}':`, error.message);
+        obj[key] = obj[key]; // No modificar si ocurre un error
+      }
+    }
+  }
+
+  return obj;
+};
+*/
+
+//ÚLTIMO DECRYPTER
+
+fichaPacienteSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno", "cantidadFamiliares" ]
   
   for (const key of Object.keys(obj)) {
     if (

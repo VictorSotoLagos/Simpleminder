@@ -8,7 +8,7 @@ import { validateAtencion } from "../../helpers/atencionvalidations.js";
 const AtencionForm = () => {
   const { terapeuta } = useContext(UsuarioContext);
   const [errorMessage, setErrorMessage] = useState("");
-  ////console.log("terapeuta id es:", terapeuta.id);
+  //console.log("terapeuta id es:", terapeuta.id);
   const initialValues = {
     id_paciente: "",
     id_terapeuta: terapeuta.id,
@@ -28,7 +28,7 @@ const AtencionForm = () => {
   useEffect(() => {
     const buscarFichasPacientes = async () => {
       const totalFichas = await fetchFichasPacientes();
-      ////console.log("totalFichas", totalFichas);
+      //console.log("totalFichas", totalFichas);
       const pacientesTerapeuta = totalFichas
         .filter((ficha) => ficha.terapeutaAsignado === terapeuta.id)
         .sort((a, b) => a.nombre.localeCompare(b.nombre));
@@ -52,7 +52,7 @@ const AtencionForm = () => {
         [name]: value,
       });
     }
-    ////console.log("form data es:", formData);
+    //console.log("form data es:", formData);
   };
 
   const handleRemoveImage = (index) => {
@@ -68,6 +68,7 @@ const AtencionForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formDataToSubmit = new FormData();
+    //console.log("formDataToSubmit es:", formDataToSubmit);
     for (const key in formData) {
       if (key === "imagenes") {
         for (let i = 0; i < formData.imagenes.length; i++) {
@@ -77,14 +78,14 @@ const AtencionForm = () => {
         formDataToSubmit.append(key, formData[key]);
       }
     }
-    ////console.log("formData es:", formData);
+    //console.log("formData previo a ValidateAtenciones es:", formData);
     const error = validateAtencion(formData);
     if (error) {
       setErrorMessage(error);
       return;
     }
     const response = await addAtencion(formDataToSubmit);
-    ////console.log("response es:", response);
+    //console.log("response en Add Atención es:", response);
     setErrorMessage("Atención Ingresada con Éxito");
     // Reset form
     setFormData({

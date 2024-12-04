@@ -11,6 +11,7 @@ const fetchAtencionID = async (id) => {
 };
 
 const addAtencion = async (formData) => {
+  //console.log("formData es:", formData);  
   const response = await api.post("/atencion/add", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -21,7 +22,7 @@ const addAtencion = async (formData) => {
 
 const deleteAtencion = async (idAtencionBorrar) => {
   const response = await api.delete(`/atencion/${idAtencionBorrar}`);
-  ////console.log("response.data es:", response.data);
+  //console.log("response.data es:", response.data);
   return response.data;
 };
 

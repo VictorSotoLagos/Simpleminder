@@ -61,6 +61,7 @@ const LoginUser = () => {
       <form className="log-usuario-form" onSubmit={handleSubmit}>
         <label htmlFor="email">Email:</label>
         <input
+          id="email"
           type="email"
           name="email"
           placeholder="Email"
@@ -69,6 +70,7 @@ const LoginUser = () => {
         />
         <label htmlFor="password">Contraseña:</label>
         <input
+          id="password"
           type="password"
           name="password"
           placeholder="Contraseña"

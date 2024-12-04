@@ -85,21 +85,49 @@ const createAtencion = async (req, res) => {
     estadoDiagnostico,
     indicaciones,
   } = req.body;
+  console.log("id_paciente es:", id_paciente);
 
+    console.log("req.body es:", req.body);
   try {
+
+    
     const paciente = await FichaPaciente.findById(id_paciente);
+    console.log("paciente es:", paciente);
     if (!paciente) {
       return res.status(404).json({ message: "Paciente no encontrado" });
     }
 
+    //INICIO DE-ENCRIPTACION
+
+    const { nombre, apellidoUno, apellidoDos, run, genero, estado_civil, prevision } = paciente;
+    const nombreDecriptado = decrypt(nombre);
+    const apellidoUnoDecriptado = decrypt(apellidoUno);
+    const apellidoDosDecriptado = decrypt(apellidoDos);
+    const runDecriptado = decrypt(run);
+    const generoDesencriptado = decrypt(genero);
+    const estadoCivilDesencriptado = decrypt(estado_civil);
+    const previsionDesencriptado = decrypt(prevision);
+
+
+  
+    
+    //console.log("nombreDecriptado es:", nombreDecriptado);
+    //console.log("apellidoUnoDecriptado es:", apellidoUnoDecriptado);
+    //console.log("apellidoDosDecriptado es:", apellidoDosDecriptado);
+    //console.log("runDecriptado es:", runDecriptado);
+    //console.log("género desencriptado:", generoDesencriptado);
+//console.log("estado civil desencriptado:", estadoCivilDesencriptado);
+//console.log("previsión desencriptada:", previsionDesencriptado);
+
+    //FIN DE-ENCRIPTACION
     const imagenes = req.files ? req.files.map((file) => file.path) : [];
 
     const nuevaAtencion = new Atencion({
       id_paciente: paciente._id,
       id_terapeuta,
-      nombre: paciente.nombre,
-      apellidoUno: paciente.apellidoUno,
-      apellidoDos: paciente.apellidoDos,
+      nombre: nombreDecriptado,
+      apellidoUno: apellidoUnoDecriptado,
+      apellidoDos: apellidoDosDecriptado,
       fecha,
       hora,
       introduccion,
@@ -152,7 +180,7 @@ const updateAtencion = async (req, res) => {
     delete updateData.imagenes;
 
 
-    const excludeFields = ["_id", "__v", "createdAt", "id_paciente", "id_terapeuta", "updatedAt", "nombre", "apellidoUno", "imagenes", "fecha", "hora"];
+    const excludeFields = ["_id", "__v", "createdAt", "id_paciente", "id_terapeuta", "updatedAt", "nombre", "apellidoUno", "imagenes", "fecha", "hora"]; 
     const encryptedData = {};
 
     // Iterar sobre las claves de updateData y encriptar los valores
