@@ -142,7 +142,8 @@ const patchFichaPaciente = async (req, res) => {
 
   const { id } = req.params;
   const updateData = { ...req.body };
-  const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno" ]; // Campos que no quieres encriptar
+  console.log("Update Data:", updateData);
+  const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno", "cantidadFamiliares" ]; // Campos que no quieres encriptar
   const encryptedData = {};
 
   // Iterar sobre las claves de updateData y encriptar los valores

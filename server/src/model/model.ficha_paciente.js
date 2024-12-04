@@ -214,7 +214,7 @@ const fichaPacienteSchema = new Schema(
 
 
 fichaPacienteSchema.pre("save", function (next) {
-  const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno" ]; // Campos que no quieres encriptar
+  const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno", "cantidadFamiliares" ]; // Campos que no quieres encriptar
 
   for (const key of Object.keys(this.toObject())) {
     if (
@@ -235,6 +235,45 @@ fichaPacienteSchema.pre("save", function (next) {
   next();
 });
 
+
+fichaPacienteSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno", "cantidadFamiliares"];
+
+  for (const key of Object.keys(obj)) {
+    if (
+      typeof obj[key] === "string" &&
+      obj[key].includes(":::") && // Asegurarse de que tiene el formato esperado para desencriptar
+      !excludeFields.includes(key) // Asegurarse de no procesar los campos excluidos
+    ) {
+      try {
+        // Intentamos desencriptar el valor
+        const decryptedValue = decrypt(obj[key]);
+
+        // Determinar si el valor desencriptado es numérico, una fecha, o debe quedarse como string
+        if (/^-?\d+(\.\d+)?$/.test(decryptedValue)) {
+          // Convertir valores numéricos en cadenas a tipo número
+          obj[key] = parseFloat(decryptedValue);
+        } else if (new Date(decryptedValue).toString() !== "Invalid Date") {
+          // Convertir valores que parecen fechas
+          obj[key] = new Date(decryptedValue);
+        } else {
+          // Mantener como string cualquier otro valor
+          obj[key] = decryptedValue;
+        }
+      } catch (error) {
+        // Loguear el error de desencriptación y dejar el valor original
+        console.error(`Error desencriptando el campo '${key}':`, error.message);
+        obj[key] = obj[key]; // No modificar si ocurre un error
+      }
+    }
+  }
+
+  return obj;
+};
+
+
+/*ÚLTIMO DECRYPTER
 fichaPacienteSchema.methods.toJSON = function () {
   const obj = this.toObject();
   const excludeFields = ["_id", "__v", "createdAt", "updatedAt", "fecha_nacimiento", "atenciones", "terapeutaAsignado", "nombre", "apellidoUno" ];
@@ -268,6 +307,7 @@ fichaPacienteSchema.methods.toJSON = function () {
 
   return obj;
 };
+*/
 
 
 

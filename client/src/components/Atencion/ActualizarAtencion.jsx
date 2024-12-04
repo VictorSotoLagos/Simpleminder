@@ -1,5 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
-import { putAtencion, fetchAtencionID } from "../../api/atencion.Service.js";
+import {
+  putAtencion,
+  fetchAtencionID,
+  deleteAtencion,
+} from "../../api/atencion.Service.js";
 import { UsuarioContext } from "../../contexts/UsuarioContext.jsx";
 import { fetchFichasPacientes } from "../../api/fichapacienteServices.js";
 import { useParams, useNavigate } from "react-router-dom";
@@ -11,6 +15,9 @@ const ActualizarAtencion = () => {
   const { terapeuta } = useContext(UsuarioContext);
   const { id } = useParams();
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const initialValues = {
     id_paciente: "",
@@ -228,6 +235,38 @@ const ActualizarAtencion = () => {
     }, 500);
   };
 
+  const handleEliminar = async () => {
+    try {
+      await deleteAtencion(id);
+      navigate("/ver_atenciones");
+    } catch (error) {
+      console.error("Error al eliminar la atencion:", error);
+      setErrorMessage("Error al eliminar la atencion");
+    }
+  };
+
+  const Modal = ({ onClose }) => {
+    return (
+      <div className="modal">
+        <div className="modal-content">
+          <p>
+            ¿Deseas eliminar esta atención de {formData.nombre}{" "}
+            {formData.apellidoUno}?
+          </p>
+          <button onClick={onClose}>Cancelar</button>
+          <button
+            onClick={() => {
+              handleEliminar();
+              onClose();
+            }}
+          >
+            Sí
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="form-container">
       <button className="print-button" onClick={handlePrint}>
@@ -388,6 +427,11 @@ const ActualizarAtencion = () => {
 
             <div style={{ display: "flex", gap: "10px" }}>
               <button type="submit">Actualizar Atención</button>
+              <button type="button" onClick={openModal}>
+                {" "}
+                Eliminar{" "}
+              </button>
+              {isModalOpen && <Modal onClose={closeModal} />}
             </div>
           </form>
         </div>
